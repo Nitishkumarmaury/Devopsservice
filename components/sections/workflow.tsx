@@ -17,7 +17,8 @@ export function WorkflowSection() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start center", "end center"] });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setActive(Math.min(workflowStages.length - 1, Math.max(0, Math.floor(latest * workflowStages.length))));
+    const nextActive = Math.min(workflowStages.length - 1, Math.max(0, Math.floor(latest * workflowStages.length)));
+    setActive((current) => (current === nextActive ? current : nextActive));
   });
 
   return (

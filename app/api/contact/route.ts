@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getSessionUserFromRequest, unauthorizedJson } from "@/lib/auth/session";
 import { contactSchema } from "@/lib/schemas";
 
 type ContactValues = ReturnType<typeof contactSchema.parse>;
@@ -293,7 +295,11 @@ async function sendReusableCampaignTestNotification(
   );
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  if (!getSessionUserFromRequest(request)) {
+    return unauthorizedJson();
+  }
+
   let payload: unknown;
 
   try {

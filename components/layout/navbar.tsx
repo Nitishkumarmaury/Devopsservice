@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CalendarCheck, ChevronDown, Menu, X } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { LogoutButton } from "@/components/auth/logout-button";
+import { AnimatedShinyButton } from "@/components/eldoraui/animated-shiny-button";
 import { ServiceIcon } from "@/components/services/service-icon";
-import { consultationHref, navItems, siteConfig } from "@/lib/constants";
+import { consultationHref, navItems } from "@/lib/constants";
 import { services } from "@/data/services";
 import { cn } from "@/lib/utils";
 
@@ -23,27 +24,48 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function Navbar() {
+export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const scrolledRef = useRef(false);
+  const loginHref = `/login?next=${encodeURIComponent(pathname || "/")}`;
+  const signupHref = `/signup?next=${encodeURIComponent(pathname || "/")}`;
 
   useEffect(() => {
+    let frame = 0;
+
     const update = () => {
+      frame = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      setScrolled(window.scrollY > 12);
-      setProgress(max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0);
+      const nextScrolled = window.scrollY > 12;
+      const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+
+      if (scrolledRef.current !== nextScrolled) {
+        scrolledRef.current = nextScrolled;
+        setScrolled(nextScrolled);
+      }
+
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${progress})`;
+      }
+    };
+
+    const scheduleUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
     };
 
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -69,16 +91,19 @@ export function Navbar() {
       )}
     >
       <div className="absolute inset-x-0 bottom-0 h-px bg-rose-100/60">
-        <div className="h-px bg-gradient-to-r from-[#d66b9a] via-[#a76fc4] to-[#7667d8]" style={{ width: `${progress}%` }} />
+        <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#d66b9a] via-[#a76fc4] to-[#7667d8] will-change-transform" />
       </div>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link href="/" className="group inline-flex items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
-          <span className="aurora-gradient grid h-10 w-10 place-items-center rounded-xl border border-white/70 text-sm font-black text-white shadow-[0_14px_34px_rgba(65,39,71,0.14)]">
+        <Link href="/" className="group inline-flex shrink-0 items-center gap-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
+          <span className="aurora-gradient grid h-9 w-9 place-items-center rounded-xl border border-white/70 text-xs font-black text-white shadow-[0_14px_34px_rgba(65,39,71,0.14)]">
             DS
           </span>
-          <span className="flex flex-col leading-none">
-            <span className="text-sm font-semibold text-[var(--text-primary)]">{siteConfig.name}</span>
-            <span className="mt-1 hidden font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)] sm:inline">
+          <span className="flex min-w-[7.25rem] flex-col leading-none">
+            <span className="text-[13px] font-semibold leading-[1.06] text-[var(--text-primary)]">
+              <span className="block">DevOps Service</span>
+              <span className="block">Studio</span>
+            </span>
+            <span className="mt-1 hidden font-mono text-[8px] uppercase tracking-[0.22em] text-[var(--text-muted)] sm:inline">
               Cloud Engineering
             </span>
           </span>
@@ -100,7 +125,7 @@ export function Navbar() {
                   onFocus={() => setServicesOpen(true)}
                   onClick={() => setServicesOpen((value) => !value)}
                   className={cn(
-                    "relative inline-flex items-center gap-1 rounded-full px-3.5 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
+                    "relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
                     isActivePath(pathname, item.href)
                       ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(214,107,154,0.12)]"
                       : "text-[var(--text-secondary)]",
@@ -117,7 +142,7 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 8 }}
                       transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="absolute left-0 top-[calc(100%+0.75rem)] w-[660px] rounded-[22px] border border-rose-100 bg-white/96 p-3 shadow-[0_28px_80px_rgba(65,39,71,0.16)] backdrop-blur-xl"
+                      className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] w-[620px] max-w-[calc(100vw-2rem)] rounded-[22px] border border-rose-100 bg-white p-3 shadow-[0_34px_90px_rgba(65,39,71,0.22)] ring-1 ring-white"
                     >
                       <div className="grid gap-2 sm:grid-cols-2">
                         {serviceLinks.map((service) => (
@@ -126,14 +151,14 @@ export function Navbar() {
                             role="menuitem"
                             href={service.href}
                             onClick={() => setServicesOpen(false)}
-                            className="group flex gap-3 rounded-2xl p-3 transition hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
+                            className="group grid min-w-0 grid-cols-[2.25rem_1fr] gap-3 rounded-2xl border border-transparent bg-white px-3 py-2.5 transition hover:border-rose-100 hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
                           >
-                            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-rose-100 text-rose-700">
+                            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-rose-100 text-rose-700">
                               <ServiceIcon icon={service.icon} />
                             </span>
-                            <span>
-                              <span className="block text-sm font-semibold text-[var(--text-primary)]">{service.title}</span>
-                              <span className="mt-1 line-clamp-2 block text-xs leading-5 text-[var(--text-muted)]">{service.description}</span>
+                            <span className="min-w-0">
+                              <span className="block truncate text-sm font-semibold text-[var(--text-primary)]">{service.title}</span>
+                              <span className="mt-0.5 block truncate text-xs leading-5 text-[var(--text-muted)]">{service.description}</span>
                             </span>
                           </Link>
                         ))}
@@ -156,7 +181,7 @@ export function Navbar() {
                 href={item.href}
                 onClick={() => setServicesOpen(false)}
                 className={cn(
-                  "relative rounded-full px-3.5 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
+                  "relative whitespace-nowrap rounded-full px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
                   isActivePath(pathname, item.href)
                     ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(214,107,154,0.12)]"
                     : "text-[var(--text-secondary)]",
@@ -168,11 +193,23 @@ export function Navbar() {
           )}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <ButtonLink href={consultationHref} className="relative">
+        <div className="hidden items-center gap-2 lg:flex">
+          {isAuthenticated ? (
+            <LogoutButton />
+          ) : (
+            <>
+              <AnimatedShinyButton url={loginHref} tone="soft" showArrow={false} className="px-3">
+                Login
+              </AnimatedShinyButton>
+              <AnimatedShinyButton url={signupHref} showArrow={false} className="px-3.5">
+                Sign up
+              </AnimatedShinyButton>
+            </>
+          )}
+          <AnimatedShinyButton url={consultationHref} showArrow={false} className="px-3.5">
             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
             Book a Consultation
-          </ButtonLink>
+          </AnimatedShinyButton>
         </div>
 
         <button
@@ -257,10 +294,22 @@ export function Navbar() {
                   </Link>
                 ),
               )}
-              <ButtonLink href={consultationHref} onClick={() => setOpen(false)} className="mt-3 w-full">
+              <AnimatedShinyButton url={consultationHref} onClick={() => setOpen(false)} className="mt-3 w-full">
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                 Book a Consultation
-              </ButtonLink>
+              </AnimatedShinyButton>
+              {isAuthenticated ? (
+                <LogoutButton className="mt-2 w-full" />
+              ) : (
+                <>
+                  <AnimatedShinyButton url={signupHref} onClick={() => setOpen(false)} showArrow={false} className="mt-2 w-full">
+                    Sign up
+                  </AnimatedShinyButton>
+                  <AnimatedShinyButton url={loginHref} onClick={() => setOpen(false)} tone="soft" showArrow={false} className="mt-2 w-full">
+                    Login
+                  </AnimatedShinyButton>
+                </>
+              )}
             </div>
           </motion.nav>
         ) : null}

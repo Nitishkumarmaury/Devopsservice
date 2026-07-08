@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { CloudAdvisorSection } from "@/components/sections/cloud-advisor";
 import { PageHero } from "@/components/ui/page-hero";
+import { requirePageSession } from "@/lib/auth/session";
 import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -11,7 +12,8 @@ export const metadata: Metadata = createPageMetadata({
   path: "/advisor",
 });
 
-export default function AdvisorPage() {
+export default async function AdvisorPage() {
+  await requirePageSession("/advisor");
   const isAiAdvisorEnabled = process.env.AI_ADVISOR_ENABLED !== "false";
 
   return (

@@ -9,6 +9,7 @@ import { buildAdvisorPrompt } from "@/lib/ai/advisor-prompt";
 import { createAdvisorInteraction, hasAdvisorProviderConfig } from "@/lib/ai/provider";
 import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
 import { advisorMessages, getProviderStatus, isAbortError } from "@/lib/ai/safe-error";
+import { getSessionUserFromRequest } from "@/lib/auth/session";
 import type { InfrastructureBlueprint } from "@/types/infrastructure-blueprint";
 
 export const runtime = "nodejs";
@@ -161,6 +162,17 @@ async function generateAndValidateBlueprint(values: AdvisorRequest, signal: Abor
 }
 
 export async function POST(request: NextRequest) {
+  if (!getSessionUserFromRequest(request)) {
+    return json(
+      {
+        success: false,
+        code: "unauthorized",
+        message: "Please log in before using the Cloud Architecture Advisor.",
+      },
+      { status: 401 },
+    );
+  }
+
   if (process.env.AI_ADVISOR_ENABLED === "false") {
     return json({ success: false, code: "disabled", message: advisorMessages.disabled }, { status: 404 });
   }

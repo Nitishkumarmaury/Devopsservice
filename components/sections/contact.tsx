@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, CheckCircle2, Loader2, Mail, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { AnimatedShinyButton } from "@/components/eldoraui/animated-shiny-button";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SectionGlow } from "@/components/ui/section-glow";
@@ -328,10 +328,10 @@ export function ContactSection() {
               </span>
             </div>
 
-            <Button type="submit" className="mt-7 w-full" disabled={isSubmitting}>
+            <AnimatedShinyButton type="submit" className="mt-7 w-full" disabled={isSubmitting} showArrow={false}>
               {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
               {isSubmitting ? "Sending inquiry" : "Send Project Inquiry"}
-            </Button>
+            </AnimatedShinyButton>
             <p className="mt-4 text-xs leading-6 text-[var(--text-muted)]">
               Your project details are used only to prepare a practical response and next-step recommendation. You can also email {siteConfig.email}.
             </p>

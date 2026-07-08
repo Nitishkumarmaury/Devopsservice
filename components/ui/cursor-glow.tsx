@@ -8,13 +8,30 @@ export function CursorGlow() {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!finePointer || reducedMotion) return;
 
+    let frame = 0;
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight * 0.2;
+
+    const updateGlow = () => {
+      frame = 0;
+      document.documentElement.style.setProperty("--cursor-x", `${x}px`);
+      document.documentElement.style.setProperty("--cursor-y", `${y}px`);
+    };
+
     const handleMove = (event: PointerEvent) => {
-      document.documentElement.style.setProperty("--cursor-x", `${event.clientX}px`);
-      document.documentElement.style.setProperty("--cursor-y", `${event.clientY}px`);
+      x = event.clientX;
+      y = event.clientY;
+
+      if (!frame) {
+        frame = window.requestAnimationFrame(updateGlow);
+      }
     };
 
     window.addEventListener("pointermove", handleMove, { passive: true });
-    return () => window.removeEventListener("pointermove", handleMove);
+    return () => {
+      window.removeEventListener("pointermove", handleMove);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (

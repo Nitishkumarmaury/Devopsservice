@@ -44,6 +44,19 @@ AI_ADVISOR_ENABLED=true
 AI_PROVIDER_API_KEY=
 ADVISOR_MODEL=
 AI_PROVIDER_PROJECT_REFERENCE=327005939382
+MONGODB_URI=
+AUTH_DB_NAME=Devopsservice
+AUTH_USERS_COLLECTION=users
+AUTH_BOOTSTRAP_USERNAME=
+AUTH_BOOTSTRAP_PASSWORD=
+AUTH_SESSION_SECRET=
+AUTH_SESSION_MAX_AGE_SECONDS=86400
+AUTH_PASSWORD_RESET_MAX_AGE_MINUTES=30
+AUTH_PASSWORD_RESET_COOLDOWN_SECONDS=60
+BREVO_PASSWORD_RESET_CAMPAIGN_FALLBACK_ENABLED=false
+BREVO_PASSWORD_RESET_TEST_CAMPAIGN_ID=
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
 ```
 
 The contact API route validates requests server-side and keeps provider credentials out of client code. `CONTACT_EMAIL_PROVIDER=brevo` sends contact inquiries through Brevo using `CONTACT_PROVIDER_API_KEY`. When `BREVO_CONTACT_LIST_IDS` is set, website leads are also added to those Brevo contact lists and saved with a CRM deal and note.
@@ -51,6 +64,25 @@ The contact API route validates requests server-side and keeps provider credenti
 If Brevo transactional SMTP is not yet activated on the account, set `BREVO_CAMPAIGN_FALLBACK_ENABLED=true` and `BREVO_NOTIFICATION_LIST_IDS` to an owner-only Brevo list. This fallback creates and sends an internal campaign notification after a lead is captured. Do not point `BREVO_NOTIFICATION_LIST_IDS` at a public lead or newsletter list, because Brevo campaigns send to every recipient in the configured list.
 
 When a Brevo account is still under validation and cannot create campaigns, `BREVO_REUSABLE_TEST_CAMPAIGN_ID` can be set to a reusable internal campaign ID. The contact route updates that campaign content and sends it as a Brevo test email to `CONTACT_EMAIL_TO`. Treat this as a temporary notification fallback until transactional SMTP is activated and the sending domain is authenticated.
+
+## Login Protection
+
+The contact request flow and Cloud Architecture Advisor are protected by a server-side session cookie. Configure `MONGODB_URI`, `AUTH_SESSION_SECRET`, and the bootstrap username/password in `.env.local`. On the first successful bootstrap login, the app stores a hashed user record in MongoDB and uses that user for later logins.
+
+Visitors can create new accounts through `/signup`. Successful signup stores a hashed password in MongoDB and immediately creates the same secure session cookie used by `/login`.
+
+Password reset links are sent through the configured Brevo email provider. Set `NEXT_PUBLIC_SITE_URL` to the real public HTTPS origin before production deploys, because reset emails are built from that value rather than request headers. `AUTH_PASSWORD_RESET_MAX_AGE_MINUTES` controls reset link expiry and `AUTH_PASSWORD_RESET_COOLDOWN_SECONDS` controls per-account resend cooldown.
+
+If Brevo transactional sending is not active yet, `BREVO_PASSWORD_RESET_CAMPAIGN_FALLBACK_ENABLED=true` can send reset emails through a reusable Brevo test campaign. Prefer a dedicated `BREVO_PASSWORD_RESET_TEST_CAMPAIGN_ID`; otherwise the app falls back to `BREVO_REUSABLE_TEST_CAMPAIGN_ID`.
+
+Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to enable shared Redis-backed forgot-password rate limiting. Without those values, the route falls back to the in-memory limiter used for local development.
+
+Protected surfaces:
+
+- `/contact`
+- `/advisor`
+- `/api/contact`
+- `/api/ai/cloud-advisor`
 
 ## Cloud Architecture Advisor
 

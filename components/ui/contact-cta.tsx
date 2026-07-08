@@ -1,5 +1,5 @@
-import { ArrowRight, CalendarCheck } from "lucide-react";
-import { ButtonLink } from "@/components/ui/button";
+import { CalendarCheck } from "lucide-react";
+import { AnimatedShinyButton } from "@/components/eldoraui/animated-shiny-button";
 import { consultationHref } from "@/lib/constants";
 
 export function ContactCta({
@@ -18,11 +18,10 @@ export function ContactCta({
           <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] sm:text-5xl">{title}</h2>
           <p className="mt-4 text-base leading-7 text-white/80">{description}</p>
         </div>
-        <ButtonLink href={consultationHref} variant="secondary" className="shrink-0 bg-white text-[#412747] hover:bg-white">
+        <AnimatedShinyButton url={consultationHref} tone="soft" className="shrink-0">
           <CalendarCheck className="h-4 w-4" aria-hidden="true" />
           Book a Consultation
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </ButtonLink>
+        </AnimatedShinyButton>
       </div>
     </section>
   );

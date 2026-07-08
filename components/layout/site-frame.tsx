@@ -1,11 +1,14 @@
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { getSessionUser } from "@/lib/auth/session";
 
-export function SiteFrame({ children }: { children: ReactNode }) {
+export async function SiteFrame({ children }: { children: ReactNode }) {
+  const user = await getSessionUser();
+
   return (
     <>
-      <Navbar />
+      <Navbar isAuthenticated={Boolean(user)} />
       <main id="main" className="page-shell relative z-10">
         {children}
       </main>
