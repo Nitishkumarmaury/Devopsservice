@@ -19,7 +19,7 @@ const useCases = [
 
 function AdvisorWorkspaceSkeleton() {
   return (
-    <div className="relative overflow-hidden rounded-lg border border-rose-100 bg-white/86 p-5 shadow-[0_30px_110px_rgba(190,24,93,0.12)]">
+    <div className="relative overflow-hidden rounded-lg border border-rose-100 bg-white/86 p-5 shadow-[0_30px_110px_rgba(15,34,48,0.12)]">
       <div className="absolute inset-0 soft-grid opacity-30" aria-hidden="true" />
       <div className="relative space-y-4">
         <div className="h-4 w-36 rounded bg-rose-100" />
@@ -39,16 +39,16 @@ export function CloudAdvisorSection() {
   return (
     <section
       id="cloud-advisor"
-      className="aurora-section relative overflow-hidden border-b border-rose-100 bg-[linear-gradient(180deg,#fff_0%,#fff3f8_100%)] section-rhythm"
+      className="aurora-section relative overflow-hidden border-b border-rose-100 bg-[linear-gradient(180deg,#fff_0%,#edf3f6_100%)] section-rhythm"
     >
-      <SectionGlow className="h-[520px] bg-[radial-gradient(ellipse_at_55%_0%,rgba(240,68,147,0.18),transparent_62%)]" />
+      <SectionGlow className="h-[520px] bg-[radial-gradient(ellipse_at_55%_0%,rgba(14,165,183,0.14),transparent_62%)]" />
       <div className="absolute inset-0 soft-grid opacity-30" aria-hidden="true" />
-      <div className="absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-white/10 via-white/42 to-[#fff3f8]" aria-hidden="true" />
+      <div className="absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-white/10 via-white/42 to-[#edf3f6]" aria-hidden="true" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/70 to-transparent" />
       <Container className="relative">
         <div className="grid gap-10 xl:grid-cols-[0.82fr_1.18fr] xl:items-start">
           <div className="xl:sticky xl:top-24">
-            <div className="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/72 px-3.5 py-2 text-sm font-semibold text-rose-700 shadow-[0_14px_34px_rgba(240,68,147,0.1)]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/72 px-3.5 py-2 text-sm font-semibold text-rose-700 shadow-[0_14px_34px_rgba(14,165,183,0.1)]">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               Infrastructure Blueprint Tool
             </div>

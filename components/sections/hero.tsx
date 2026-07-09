@@ -24,7 +24,7 @@ function HeroVisual() {
       <div className="absolute inset-y-0 right-[-14%] w-[92rem] max-w-[115vw] opacity-60">
         <Lightfall
           colors={["#A6C8FF", "#35D6ED", "#B25CFF"]}
-          backgroundColor="#fff7fb"
+          backgroundColor="#f6f8fa"
           speed={0.42}
           streakCount={3}
           streakWidth={0.75}
@@ -54,7 +54,7 @@ function HeroVisual() {
             {label}
           </div>
         ))}
-        <div className="absolute left-[34%] top-[42%] rounded-2xl border border-rose-200/70 bg-white/82 px-4 py-3 shadow-[0_20px_60px_rgba(190,24,93,0.14)]">
+        <div className="absolute left-[34%] top-[42%] rounded-2xl border border-rose-200/70 bg-white/82 px-4 py-3 shadow-[0_20px_60px_rgba(15,34,48,0.14)]">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-rose-700">Release health</p>
           <p className="mt-1 text-sm font-semibold text-[var(--text-primary)]">Pipeline stable</p>
         </div>
@@ -74,7 +74,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,250,253,0.98)_0%,rgba(255,247,251,0.94)_43%,rgba(255,247,251,0.62)_72%,rgba(255,255,255,0.9)_100%)]" />
       <Container className="relative z-10">
         <div className="max-w-[840px] pb-14 pt-8 sm:pb-20 sm:pt-12 lg:pb-20 lg:pt-14">
-          <p className="inline-flex items-center gap-2 rounded-full border border-rose-200/80 bg-white/72 px-3.5 py-2 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-rose-700 shadow-[0_14px_34px_rgba(240,68,147,0.1)]">
+          <p className="inline-flex items-center gap-2 rounded-full border border-rose-200/80 bg-white/72 px-3.5 py-2 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-rose-700 shadow-[0_14px_34px_rgba(14,165,183,0.1)]">
             <CloudCog className="h-4 w-4" aria-hidden="true" />
             DevOps and Cloud Engineering
           </p>
@@ -97,7 +97,7 @@ export function HeroSection() {
           </div>
           <div className="mt-7 flex max-w-2xl flex-wrap gap-3 text-sm text-[var(--text-secondary)]">
             {["Deployment automation", "Cloud setup", "Monitoring", "Production recovery"].map((item) => (
-              <StatusBadge key={item} className="border-rose-200/70 bg-white/70 text-[var(--text-secondary)] shadow-[0_12px_30px_rgba(190,24,93,0.08)]">
+              <StatusBadge key={item} className="border-rose-200/70 bg-white/70 text-[var(--text-secondary)] shadow-[0_12px_30px_rgba(15,34,48,0.08)]">
                 <ShieldCheck className="h-4 w-4 text-rose-600" aria-hidden="true" />
                 {item}
               </StatusBadge>

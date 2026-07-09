@@ -28,10 +28,10 @@ type Step = 0 | 1 | 2 | 3;
 
 const steps = ["Application", "Infrastructure", "Requirements", "Challenges"] as const;
 const stepAccentClass = [
-  "border-cyan-200 bg-[linear-gradient(135deg,rgba(18,169,199,0.12),rgba(255,240,247,0.9))] text-cyan-800 shadow-[0_14px_34px_rgba(18,169,199,0.1)]",
-  "border-blue-200 bg-[linear-gradient(135deg,rgba(85,104,255,0.12),rgba(255,240,247,0.9))] text-blue-800 shadow-[0_14px_34px_rgba(85,104,255,0.1)]",
-  "border-violet-200 bg-[linear-gradient(135deg,rgba(128,87,255,0.12),rgba(255,240,247,0.9))] text-violet-800 shadow-[0_14px_34px_rgba(128,87,255,0.1)]",
-  "border-rose-200 bg-[linear-gradient(135deg,rgba(240,68,147,0.14),rgba(255,240,247,0.9))] text-rose-800 shadow-[0_14px_34px_rgba(240,68,147,0.1)]",
+  "border-cyan-200 bg-[linear-gradient(135deg,rgba(18,169,199,0.12),rgba(244,249,251,0.9))] text-cyan-800 shadow-[0_14px_34px_rgba(18,169,199,0.1)]",
+  "border-blue-200 bg-[linear-gradient(135deg,rgba(85,104,255,0.12),rgba(244,249,251,0.9))] text-blue-800 shadow-[0_14px_34px_rgba(85,104,255,0.1)]",
+  "border-violet-200 bg-[linear-gradient(135deg,rgba(49,92,148,0.12),rgba(244,249,251,0.9))] text-violet-800 shadow-[0_14px_34px_rgba(49,92,148,0.1)]",
+  "border-rose-200 bg-[linear-gradient(135deg,rgba(14,165,183,0.14),rgba(244,249,251,0.9))] text-rose-800 shadow-[0_14px_34px_rgba(14,165,183,0.1)]",
 ] as const;
 
 const defaultValues: AdvisorRequest = {
@@ -65,7 +65,7 @@ const stepFields: Record<Step, Path<AdvisorRequest>[]> = {
 };
 
 const inputClass =
-  "premium-focus mt-2 block w-full rounded-xl border border-rose-200/70 !bg-white/86 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(190,24,93,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
+  "premium-focus mt-2 block w-full rounded-xl border border-rose-200/70 !bg-white/86 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(15,34,48,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
 
 const labelClass = "block text-sm font-medium text-[var(--text-primary)]";
 
@@ -91,7 +91,7 @@ function StepHeader({ step }: { step: Step }) {
             key={label}
             className={cn(
               "h-2.5 w-10 rounded-full transition",
-              index <= step ? "aurora-gradient shadow-[0_0_18px_rgba(240,68,147,0.18)]" : "bg-rose-100",
+              index <= step ? "aurora-gradient shadow-[0_0_18px_rgba(14,165,183,0.18)]" : "bg-rose-100",
             )}
           />
         ))}
@@ -350,7 +350,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: AdvisorFo
                         className={cn(
                           "flex min-h-12 items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
                           selected
-                            ? "border-violet-200 bg-violet-50 text-violet-800 shadow-[0_14px_34px_rgba(128,87,255,0.1)]"
+                            ? "border-violet-200 bg-violet-50 text-violet-800 shadow-[0_14px_34px_rgba(49,92,148,0.1)]"
                             : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
                         )}
                       >

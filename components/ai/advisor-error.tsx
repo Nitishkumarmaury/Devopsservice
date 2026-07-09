@@ -13,7 +13,7 @@ export function AdvisorError({ title = "Blueprint generation paused", message, o
   return (
     <div
       role="alert"
-      className="rounded-lg border border-amber-200 bg-amber-50 p-5 text-amber-800 shadow-[0_20px_70px_rgba(190,24,93,0.1)]"
+      className="rounded-lg border border-amber-200 bg-amber-50 p-5 text-amber-800 shadow-[0_20px_70px_rgba(15,34,48,0.1)]"
     >
       <div className="flex items-start gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-amber-200 bg-white/70">

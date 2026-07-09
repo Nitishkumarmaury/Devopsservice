@@ -44,10 +44,18 @@ export default function AboutPage() {
     },
     url: siteConfig.url,
   };
+  const profilePageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: `About ${siteConfig.founder}`,
+    url: `${siteConfig.url}/about`,
+    mainEntity: personJsonLd,
+  };
 
   return (
     <SiteFrame>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }} />
       <PageHero
         eyebrow="About"
         title="Practical DevOps and cloud engineering for production systems."

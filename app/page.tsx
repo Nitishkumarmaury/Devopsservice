@@ -1,5 +1,17 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { ArrowRight, CheckCircle2, CloudUpload, Server, ShieldCheck } from "lucide-react";
+import {
+  Activity,
+  ArrowRight,
+  CheckCircle2,
+  CloudCog,
+  GitBranch,
+  LockKeyhole,
+  Network,
+  Server,
+  ServerCog,
+  ShieldCheck,
+} from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { BrandIcon3D } from "@/components/ui/brand-icon-3d";
 import { ButtonLink } from "@/components/ui/button";
@@ -11,15 +23,17 @@ import { TechnologyTag } from "@/components/ui/technology-tag";
 import { ServiceIcon } from "@/components/services/service-icon";
 import { TechnologyStrip } from "@/components/sections/technology-strip";
 import { caseStudies } from "@/data/case-studies";
-import { services } from "@/data/services";
+import { seoArticles } from "@/data/seo-articles";
+import { seoMoneyPages } from "@/data/seo-pages";
 import { consultationHref } from "@/lib/constants";
+import { createPageMetadata } from "@/lib/route-metadata";
 
-const featuredServiceSlugs = [
-  "cloud-infrastructure",
-  "cicd-automation",
-  "application-deployment",
-  "monitoring-observability",
-] as const;
+export const metadata: Metadata = createPageMetadata({
+  title: "DevOps Consultant for Startups, SaaS and SMBs",
+  description:
+    "Freelance DevOps consultant offering CI/CD, AWS EC2 deployment, Docker, Kubernetes, monitoring and production support for startups, SaaS teams and agencies.",
+  path: "/",
+});
 
 const outcomes = [
   "Safer deployments",
@@ -37,15 +51,38 @@ const processPreview = [
   { title: "Support", text: "Review monitoring, releases, incidents, and next improvements after launch." },
 ] as const;
 
-export default function Page() {
-  const featuredServices = featuredServiceSlugs
-    .map((slug) => services.find((service) => service.slug === slug))
-    .filter(Boolean);
+const infrastructureNodes = [
+  {
+    label: "CI/CD",
+    Icon: GitBranch,
+    className: "left-6 top-[40%]",
+    accent: "border-cyan-200 bg-cyan-50 text-cyan-800",
+  },
+  {
+    label: "Security",
+    Icon: LockKeyhole,
+    className: "right-6 top-[40%]",
+    accent: "border-emerald-200 bg-emerald-50 text-emerald-800",
+  },
+  {
+    label: "Monitor",
+    Icon: Activity,
+    className: "left-8 bottom-[22%]",
+    accent: "border-blue-200 bg-blue-50 text-blue-800",
+  },
+  {
+    label: "Backup",
+    Icon: ServerCog,
+    className: "right-8 bottom-[22%]",
+    accent: "border-amber-200 bg-amber-50 text-amber-800",
+  },
+] as const;
 
+export default function Page() {
   return (
     <SiteFrame>
       <section className="relative overflow-hidden bg-[var(--background)] pt-28">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(214,107,154,0.16),transparent_32%),radial-gradient(circle_at_85%_20%,rgba(118,103,216,0.12),transparent_30%),radial-gradient(circle_at_70%_80%,rgba(66,174,181,0.08),transparent_34%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_8%,rgba(14,165,183,0.1),transparent_30%),radial-gradient(circle_at_86%_12%,rgba(38,84,124,0.08),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.78),rgba(242,247,250,0.6))]" />
         <Container className="relative z-10">
           <div className="grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.02fr_0.78fr] lg:items-center">
             <div>
@@ -53,11 +90,11 @@ export default function Page() {
                 DEVOPS • CLOUD • AUTOMATION • OBSERVABILITY
               </p>
               <h1 className="mt-5 max-w-4xl text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-[var(--text-primary)] sm:text-6xl lg:text-7xl">
-                Reliable cloud infrastructure for products <GradientText>built to grow.</GradientText>
+                DevOps Consulting for Fast, Reliable <GradientText>Production Delivery</GradientText>
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-8 text-[var(--text-secondary)] sm:text-lg">
-                We help SaaS companies, startups, and software agencies deploy applications, automate releases,
-                monitor infrastructure, and operate production systems with confidence.
+                Freelance DevOps consultant for startups, SaaS teams, SMBs, and agencies that need CI/CD, AWS EC2
+                deployment, Docker, Kubernetes, monitoring, and production support.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <AnimatedShinyButton url={consultationHref}>Book a Consultation</AnimatedShinyButton>
@@ -80,36 +117,36 @@ export default function Page() {
 
       <section className="bg-[var(--background-soft)] py-16 sm:py-24">
         <Container>
-          <SectionIntro eyebrow="Featured services" title="Focused infrastructure services without page overload.">
-            Four core services cover the most common production needs. The complete service library lives on the
-            dedicated services page.
+          <SectionIntro eyebrow="DevOps service pages" title="High-intent DevOps consulting services for buyers ready to move.">
+            Start with the service that matches your current production bottleneck, then use the contact form to get a
+            practical scope for implementation, audit, or support.
           </SectionIntro>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {featuredServices.map((service, index) =>
-              service ? (
-                <article
-                  key={service.slug}
-                  className="group rounded-[22px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)] transition duration-200 hover:-translate-y-1 hover:border-rose-200 hover:shadow-[var(--shadow-medium)]"
-                >
-                  <div className="grid h-12 w-12 place-items-center rounded-2xl bg-rose-100 text-rose-700">
-                    <ServiceIcon icon={service.icon} />
-                  </div>
-                  <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em] text-[var(--text-primary)]">
-                    {service.shortTitle}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{service.description}</p>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {service.technologies.slice(0, 3).map((tag) => (
-                      <TechnologyTag key={tag} className={index === 1 ? "bg-[var(--violet-soft)]" : undefined}>{tag}</TechnologyTag>
-                    ))}
-                  </div>
-                  <ButtonLink href={`/services/${service.slug}`} variant="ghost" className="mt-5 px-0">
-                    Explore service
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </ButtonLink>
-                </article>
-              ) : null,
-            )}
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {seoMoneyPages.map((page, index) => (
+              <article
+                key={page.slug}
+                className="group rounded-[22px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)] transition duration-200 hover:-translate-y-1 hover:border-rose-200 hover:shadow-[var(--shadow-medium)]"
+              >
+                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-rose-100 text-rose-700">
+                  <ServiceIcon icon={page.icon} />
+                </div>
+                <h3 className="mt-5 text-xl font-semibold tracking-[-0.02em] text-[var(--text-primary)]">
+                  {page.shortTitle}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{page.metaDescription}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {page.primaryKeywords.slice(0, 3).map((tag) => (
+                    <TechnologyTag key={tag} className={index % 2 === 1 ? "bg-[var(--violet-soft)]" : undefined}>
+                      {tag}
+                    </TechnologyTag>
+                  ))}
+                </div>
+                <ButtonLink href={`/${page.slug}`} variant="ghost" className="mt-5 px-0">
+                  Explore service
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </ButtonLink>
+              </article>
+            ))}
           </div>
           <div className="mt-8">
             <ButtonLink href="/services" variant="secondary">
@@ -120,8 +157,8 @@ export default function Page() {
         </Container>
       </section>
 
-      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#172033_0%,#412747_100%)] py-16 text-white sm:py-24">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(214,107,154,0.24),transparent_30%),radial-gradient(circle_at_82%_28%,rgba(66,174,181,0.16),transparent_32%)]" />
+      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#0f1f2f_0%,#123846_100%)] py-16 text-white sm:py-24">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(61,184,197,0.16),transparent_30%),radial-gradient(circle_at_82%_28%,rgba(213,166,69,0.12),transparent_32%)]" />
         <Container className="relative z-10">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
@@ -170,6 +207,30 @@ export default function Page() {
         </Container>
       </section>
 
+      <section className="bg-[var(--background-soft)] py-16 sm:py-24">
+        <Container>
+          <SectionIntro eyebrow="DevOps learning hub" title="Educational guides that support the service pages.">
+            Clear explanations for buyers researching DevOps, cloud migration, DevSecOps, and automation before they
+            choose an implementation partner.
+          </SectionIntro>
+          <div className="mt-10 grid gap-5 lg:grid-cols-4">
+            {seoArticles.map((article) => (
+              <article key={article.slug} className="rounded-[24px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">
+                  {article.eyebrow}
+                </p>
+                <h3 className="mt-4 text-xl font-semibold tracking-[-0.02em] text-[var(--text-primary)]">{article.h1}</h3>
+                <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{article.metaDescription}</p>
+                <ButtonLink href={`/${article.slug}`} variant="ghost" className="mt-5 px-0">
+                  Read guide
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </ButtonLink>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
       <section className="bg-[var(--surface-alt)] py-16 sm:py-24">
         <Container>
           <SectionIntro eyebrow="Featured case studies" title="Project patterns built for measurable production improvement.">
@@ -198,7 +259,7 @@ export default function Page() {
         </Container>
       </section>
 
-      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#172033_0%,#412747_100%)] py-16 text-white sm:py-24">
+      <section className="relative overflow-hidden bg-[linear-gradient(135deg,#0f1f2f_0%,#123846_100%)] py-16 text-white sm:py-24">
         <div className="absolute inset-0 soft-grid opacity-10" />
         <Container className="relative z-10">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1fr] lg:items-center">
@@ -240,59 +301,64 @@ function SectionIntro({ eyebrow, title, children }: { eyebrow: string; title: st
 
 function InfrastructureVisual() {
   return (
-    <div className="cloud-hero-visual relative min-h-[430px] overflow-hidden rounded-[32px] border border-[var(--border)] bg-white/78 p-5 shadow-[var(--shadow-medium)] backdrop-blur">
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_18%,rgba(66,174,181,0.2),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(118,103,216,0.2),transparent_34%),linear-gradient(135deg,#ffffff_0%,#fff0f7_48%,#eaf9fb_100%)]" />
-      <div className="absolute inset-0 z-0 soft-grid opacity-70" />
+    <div className="cloud-hero-visual relative min-h-[440px] overflow-hidden rounded-[28px] border border-[rgba(15,34,48,0.14)] bg-white p-5 shadow-[var(--shadow-medium)]">
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(135deg,#ffffff_0%,#f5f8fb_48%,#eaf3f5_100%)]" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_22%_16%,rgba(14,165,183,0.12),transparent_28%),radial-gradient(circle_at_84%_76%,rgba(213,166,69,0.1),transparent_30%)]" />
+      <div className="absolute inset-0 z-0 soft-grid opacity-55" />
 
-      <div className="cloud-hero-core absolute left-1/2 top-1/2 z-10 h-52 w-64 -translate-x-1/2 -translate-y-1/2 sm:h-60 sm:w-80">
-        <div className="absolute left-1/2 top-2 h-28 w-44 -translate-x-1/2 rounded-[999px] bg-white shadow-[0_28px_70px_rgba(66,174,181,0.18),inset_0_-24px_38px_rgba(214,107,154,0.12)] sm:h-36 sm:w-56" />
-        <div className="absolute left-5 top-16 h-28 w-32 rounded-[999px] bg-white shadow-[0_26px_60px_rgba(118,103,216,0.16),inset_0_-20px_34px_rgba(66,174,181,0.12)] sm:h-36 sm:w-40" />
-        <div className="absolute right-5 top-16 h-28 w-32 rounded-[999px] bg-white shadow-[0_26px_60px_rgba(118,103,216,0.16),inset_0_-20px_34px_rgba(66,174,181,0.12)] sm:h-36 sm:w-40" />
-        <div className="absolute bottom-7 left-1/2 h-24 w-64 -translate-x-1/2 rounded-[999px] bg-white shadow-[0_30px_75px_rgba(65,39,71,0.14),inset_0_-20px_38px_rgba(118,103,216,0.12)] sm:w-80" />
-
-        <div className="absolute bottom-4 left-1/2 w-36 -translate-x-1/2 rounded-[22px] border border-white/80 bg-[linear-gradient(145deg,#172033,#412747)] p-3 shadow-[0_28px_70px_rgba(23,32,51,0.32)]">
-          <div className="mb-2 flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full bg-rose-300" />
-            <span className="h-2 w-2 rounded-full bg-amber-300" />
-            <span className="h-2 w-2 rounded-full bg-cyan-300" />
-          </div>
-          <div className="grid gap-1.5">
-            <span className="h-2 rounded-full bg-white/22" />
-            <span className="h-2 w-4/5 rounded-full bg-cyan-200/55" />
-            <span className="h-2 w-3/5 rounded-full bg-violet-200/45" />
-          </div>
-        </div>
-
-        <div className="absolute left-1/2 top-[47%] grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl bg-[linear-gradient(145deg,#42aeb5,#7667d8)] text-white shadow-[0_22px_42px_rgba(66,174,181,0.32),inset_0_1px_0_rgba(255,255,255,0.45)]">
-          <CloudUpload className="h-8 w-8" aria-hidden="true" />
-        </div>
-      </div>
-
-      <div className="absolute left-5 top-5 z-20 hidden rounded-2xl border border-white/80 bg-white/78 px-4 py-3 shadow-[0_18px_42px_rgba(65,39,71,0.1)] sm:block">
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Cloud stack</p>
+      <div className="absolute left-5 top-5 z-20 rounded-xl border border-[var(--border)] bg-white/92 px-4 py-3 shadow-[0_12px_32px_rgba(15,34,48,0.08)]">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Cloud ops</p>
         <p className="mt-1 text-sm font-semibold text-[var(--text-primary)]">Ready for production</p>
       </div>
 
-      <div className="absolute bottom-5 right-5 z-20 hidden items-center gap-2 rounded-2xl border border-white/80 bg-white/78 px-4 py-3 shadow-[0_18px_42px_rgba(65,39,71,0.1)] sm:flex">
-        <ShieldCheck className="h-4 w-4 text-[var(--success)]" aria-hidden="true" />
+      <div className="absolute right-5 top-5 z-20 hidden rounded-xl border border-[var(--border)] bg-white/92 px-4 py-3 shadow-[0_12px_32px_rgba(15,34,48,0.08)] sm:block">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-muted)]">SLA target</p>
+        <p className="mt-1 text-sm font-semibold text-[var(--text-primary)]">99.9% uptime</p>
+      </div>
+
+      <div className="pointer-events-none absolute left-[18%] right-[18%] top-[49%] z-[1] hidden h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent sm:block" />
+      <div className="pointer-events-none absolute bottom-[20%] top-[28%] left-1/2 z-[1] hidden w-px bg-gradient-to-b from-transparent via-cyan-400/50 to-transparent sm:block" />
+      <div className="pointer-events-none absolute left-[18%] top-[28%] z-[1] hidden h-[50%] w-[64%] rounded-[28px] border border-slate-300/55 sm:block" />
+
+      <div className="absolute left-1/2 top-[49%] z-20 w-[13.25rem] -translate-x-1/2 -translate-y-1/2 rounded-[24px] border border-slate-200 bg-white/96 p-4 text-center shadow-[0_26px_70px_rgba(15,34,48,0.16)]">
+        <div className="relative mx-auto grid h-20 w-20 place-items-center rounded-[22px] border border-cyan-200/70 bg-[linear-gradient(145deg,#102437,#0f6f7d)] text-white shadow-[0_18px_38px_rgba(15,111,125,0.24),inset_0_1px_0_rgba(255,255,255,0.22)]">
+          <CloudCog className="h-9 w-9" aria-hidden="true" />
+          <span className="absolute -right-2 -top-2 grid h-7 w-7 place-items-center rounded-full border border-white bg-emerald-50 text-emerald-700 shadow-[0_8px_18px_rgba(21,128,61,0.16)]">
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+          </span>
+        </div>
+        <p className="mt-3 text-base font-semibold text-[var(--text-primary)]">Cloud operations</p>
+        <p className="mt-1 text-xs font-medium uppercase tracking-[0.16em] text-[var(--text-muted)]">Release • secure • monitor</p>
+      </div>
+
+      {infrastructureNodes.map(({ label, Icon, className, accent }) => (
+        <div
+          key={label}
+          className={`absolute z-20 hidden items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold shadow-[0_14px_34px_rgba(15,34,48,0.1)] sm:flex ${className} ${accent}`}
+        >
+          <Icon className="h-4 w-4" aria-hidden="true" />
+          {label}
+        </div>
+      ))}
+
+      <div className="absolute bottom-5 right-5 z-20 hidden items-center gap-2 rounded-xl border border-[var(--border)] bg-white/92 px-4 py-3 shadow-[0_12px_32px_rgba(15,34,48,0.08)] sm:flex">
+        <Network className="h-4 w-4 text-[var(--cyan)]" aria-hidden="true" />
         <span className="text-sm font-semibold text-[var(--text-primary)]">Secure handover</span>
       </div>
 
-      <div className="absolute bottom-6 left-6 z-20 hidden items-center gap-2 rounded-2xl border border-white/80 bg-white/78 px-3 py-2 text-sm font-semibold text-[var(--text-primary)] shadow-[0_18px_42px_rgba(65,39,71,0.1)] sm:inline-flex">
+      <div className="absolute bottom-6 left-6 z-20 hidden items-center gap-2 rounded-xl border border-[var(--border)] bg-white/92 px-3 py-2 text-sm font-semibold text-[var(--text-primary)] shadow-[0_12px_32px_rgba(15,34,48,0.08)] sm:inline-flex">
         <Server className="h-4 w-4 text-[var(--rose-dark)]" aria-hidden="true" />
         CI/CD, monitoring, backup
       </div>
 
-      <div className="absolute right-8 top-28 z-30 flex gap-3">
+      <div className="absolute right-8 top-28 z-30 hidden gap-3 sm:flex">
         <BrandIcon3D name="Google Cloud" compact iconOnly className="brand-orbit" />
         <BrandIcon3D name="AWS" compact iconOnly className="brand-orbit" style={{ animationDelay: "0.6s" }} />
       </div>
-      <BrandIcon3D name="Docker" compact iconOnly className="brand-orbit absolute left-8 top-52 z-30" style={{ animationDelay: "1.1s" }} />
-      <BrandIcon3D name="Git" compact iconOnly className="brand-orbit absolute right-8 top-52 z-30" style={{ animationDelay: "1.6s" }} />
+      <BrandIcon3D name="Docker" compact iconOnly className="brand-orbit absolute left-8 top-52 z-30 hidden sm:inline-flex" style={{ animationDelay: "1.1s" }} />
+      <BrandIcon3D name="Git" compact iconOnly className="brand-orbit absolute right-8 top-52 z-30 hidden sm:inline-flex" style={{ animationDelay: "1.6s" }} />
 
-      <div className="pointer-events-none absolute inset-x-10 top-1/2 z-[1] h-px bg-gradient-to-r from-transparent via-cyan-300/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-16 left-1/2 z-[1] w-px bg-gradient-to-b from-transparent via-rose-300/70 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t from-white/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-white/80 to-transparent" />
     </div>
   );
 }

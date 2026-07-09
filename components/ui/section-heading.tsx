@@ -13,7 +13,7 @@ export function SectionHeading({ eyebrow, title, children, align = "left", class
   return (
     <div className={cn(align === "center" && "mx-auto text-center", "max-w-3xl", className)}>
       {eyebrow ? (
-        <p className="inline-flex rounded-full border border-rose-200/80 bg-white/70 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-rose-700 shadow-[0_12px_32px_rgba(240,68,147,0.08)]">{eyebrow}</p>
+        <p className="inline-flex rounded-full border border-rose-200/80 bg-white/70 px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-rose-700 shadow-[0_12px_32px_rgba(14,165,183,0.08)]">{eyebrow}</p>
       ) : null}
       <h2 className="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-[var(--text-primary)] sm:text-5xl">{title}</h2>
       {children ? <div className="mt-5 text-base leading-7 text-[var(--text-secondary)] sm:text-lg sm:leading-8">{children}</div> : null}

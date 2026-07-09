@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
-import { sendPasswordResetEmail } from "@/lib/auth/password-reset-email";
-import { createPasswordResetToken } from "@/lib/auth/users";
+import { EmailProviderIpBlockedError, sendPasswordResetEmail } from "@/lib/auth/password-reset-email";
+import { clearPasswordResetToken, createPasswordResetToken } from "@/lib/auth/users";
 import { checkUpstashRateLimit } from "@/lib/rate-limit/upstash";
 
 const forgotPasswordSchema = z.object({
@@ -93,12 +93,17 @@ export async function POST(request: NextRequest) {
       resetUrl.searchParams.set("token", reset.token);
       const resetUrlValue = resetUrl.toString();
 
-      await sendPasswordResetEmail({
-        to: reset.email,
-        fullName: reset.fullName,
-        resetUrl: resetUrlValue,
-        expiresAt: reset.expiresAt,
-      });
+      try {
+        await sendPasswordResetEmail({
+          to: reset.email,
+          fullName: reset.fullName,
+          resetUrl: resetUrlValue,
+          expiresAt: reset.expiresAt,
+        });
+      } catch (error) {
+        await clearPasswordResetToken(reset.username);
+        throw error;
+      }
     }
 
     return NextResponse.json({
@@ -107,6 +112,17 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error(`Password reset request failed: ${error instanceof Error ? error.message : String(error)}`);
+    if (error instanceof EmailProviderIpBlockedError) {
+      const blockedIp = error.ipAddress ? ` ${error.ipAddress}` : "";
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Brevo blocked this server IP${blockedIp} from sending password reset email. Authorize it in Brevo Security > Authorized IPs, then try again.`,
+        },
+        { status: 503 },
+      );
+    }
+
     return NextResponse.json(
       { success: false, message: "Password reset email is not available right now. Please try again later." },
       { status: 503 },

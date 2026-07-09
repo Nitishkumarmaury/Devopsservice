@@ -19,7 +19,7 @@ export function PricingCard({ title, service, target, hourly, deliverables, Icon
     <article
       className={cn(
         "aurora-panel relative flex h-full flex-col overflow-hidden rounded-[22px] p-6 transition duration-200 hover:-translate-y-1",
-        featured && "border-rose-300/60 shadow-[0_24px_80px_rgba(240,68,147,0.16),0_20px_70px_rgba(190,24,93,0.1)]",
+        featured && "border-rose-300/60 shadow-[0_24px_80px_rgba(14,165,183,0.16),0_20px_70px_rgba(15,34,48,0.1)]",
       )}
     >
       {featured ? (

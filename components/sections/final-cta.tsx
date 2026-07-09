@@ -7,7 +7,7 @@ import { GradientText } from "@/components/ui/gradient-text";
 
 export function FinalCtaSection() {
   return (
-    <section className="relative overflow-hidden border-y border-rose-100 bg-[linear-gradient(180deg,#fff3f8_0%,#ffffff_100%)] section-rhythm">
+    <section className="relative overflow-hidden border-y border-rose-100 bg-[linear-gradient(180deg,#edf3f6_0%,#ffffff_100%)] section-rhythm">
       <AuroraBackground className="opacity-60" />
       <div className="soft-grid pointer-events-none absolute inset-0 opacity-30" />
       <div className="infra-beam pointer-events-none absolute left-0 right-0 top-1/2 h-px bg-rose-100" />

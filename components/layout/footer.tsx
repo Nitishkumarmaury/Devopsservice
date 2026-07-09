@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MapPin, RadioTower } from "lucide-react";
-import { services } from "@/data/services";
+import { seoArticles } from "@/data/seo-articles";
+import { seoMoneyPages } from "@/data/seo-pages";
 import { siteConfig } from "@/lib/constants";
 
 const companyLinks = [
@@ -12,6 +14,9 @@ const companyLinks = [
 
 const resourceLinks = [
   { label: "Case Studies", href: "/case-studies" },
+  { label: "Guides", href: "/blog" },
+  { label: "DevOps FAQ", href: "/faq" },
+  ...seoArticles.slice(0, 3).map((article) => ({ label: article.h1, href: `/${article.slug}` })),
   { label: "Cloud Architecture Advisor", href: "/advisor" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
@@ -22,13 +27,13 @@ export function Footer() {
 
   return (
     <footer className="relative z-10 overflow-hidden border-t border-[#26324a] bg-[var(--navy)] text-white">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/80 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(214,107,154,0.2),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(118,103,216,0.18),transparent_28%)]" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(61,184,197,0.16),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(213,166,69,0.12),transparent_28%)]" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.5fr_0.7fr_1fr_0.8fr] lg:px-8">
         <div>
           <Link href="/" className="inline-flex items-center gap-3">
-            <span className="aurora-gradient grid h-12 w-12 place-items-center rounded-2xl border border-white/20 text-sm font-black text-white shadow-[0_14px_34px_rgba(214,107,154,0.18)]">
-              DS
+            <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-xl border border-white/20 bg-white shadow-[0_14px_34px_rgba(15,111,125,0.2)]">
+              <Image src={siteConfig.logo} alt={`${siteConfig.name} logo`} width={48} height={40} className="h-10 w-11 object-contain" />
             </span>
             <span>
               <span className="block text-sm font-semibold text-white">{siteConfig.name}</span>
@@ -54,19 +59,7 @@ export function Footer() {
         <FooterColumn title="Company" links={companyLinks} />
         <FooterColumn
           title="Services"
-          links={services
-            .filter((service) =>
-              [
-                "cloud-infrastructure",
-                "cicd-automation",
-                "application-deployment",
-                "docker-containers",
-                "linux-server-security",
-                "monitoring-observability",
-                "managed-devops-support",
-              ].includes(service.slug),
-            )
-            .map((service) => ({ label: service.shortTitle, href: `/services/${service.slug}` }))}
+          links={seoMoneyPages.map((page) => ({ label: page.shortTitle, href: `/${page.slug}` }))}
         />
         <FooterColumn title="Resources" links={resourceLinks} />
 

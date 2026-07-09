@@ -96,6 +96,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
           id="new-password"
           type="password"
           autoComplete="new-password"
+          data-lpignore="true"
+          data-1p-ignore="true"
+          suppressHydrationWarning
           className={inputClass}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
@@ -111,6 +114,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
           id="confirm-password"
           type="password"
           autoComplete="new-password"
+          data-lpignore="true"
+          data-1p-ignore="true"
+          suppressHydrationWarning
           className={inputClass}
           value={confirmPassword}
           onChange={(event) => setConfirmPassword(event.target.value)}

@@ -6,15 +6,19 @@ const sameAs = Object.values(siteConfig.social).filter((url) => url.startsWith("
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | DevOps, Cloud Infrastructure and CI/CD Engineering`,
+    default: `${siteConfig.name} | DevOps Consultant for Startups and SaaS`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   alternates: {
     canonical: siteConfig.url,
+    languages: {
+      en: siteConfig.url,
+      "x-default": siteConfig.url,
+    },
   },
   openGraph: {
-    title: `${siteConfig.name} | DevOps, Cloud Infrastructure and CI/CD Engineering`,
+    title: `${siteConfig.name} | DevOps Consultant for Startups and SaaS`,
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
@@ -30,12 +34,13 @@ export const defaultMetadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} | DevOps and Cloud Engineering`,
+    title: `${siteConfig.name} | DevOps Consultant for Startups and SaaS`,
     description: siteConfig.description,
     images: ["/opengraph-image"],
   },
   icons: {
-    icon: [{ url: "/icons/favicon.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/icons/favicon.png", type: "image/png" }],
+    apple: [{ url: siteConfig.logo, type: "image/png" }],
   },
 };
 
@@ -45,7 +50,15 @@ export const jsonLd = [
     "@type": "Organization",
     name: siteConfig.legalName,
     url: siteConfig.url,
+    logo: `${siteConfig.url}${siteConfig.logo}`,
     email: siteConfig.email,
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: siteConfig.email,
+      contactType: "sales",
+      areaServed: "International",
+      availableLanguage: ["English"],
+    },
     founder: {
       "@type": "Person",
       name: siteConfig.founder,
@@ -57,13 +70,20 @@ export const jsonLd = [
     "@type": "ProfessionalService",
     name: siteConfig.name,
     url: siteConfig.url,
+    image: `${siteConfig.url}${siteConfig.logo}`,
     description: siteConfig.description,
     email: siteConfig.email,
     areaServed: "International",
     serviceType: [
+      "DevOps consulting services",
+      "Cloud consulting services",
+      "AWS consulting services",
+      "Azure DevOps consulting",
       "Cloud infrastructure architecture",
       "CI/CD pipeline development",
       "Docker and Kubernetes deployment",
+      "Kubernetes consulting",
+      "Managed cloud services",
       "Infrastructure monitoring",
       "Production troubleshooting",
     ],

@@ -1,45 +1,29 @@
 import type { Metadata } from "next";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { ContactSection } from "@/components/sections/contact";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { PageHero } from "@/components/ui/page-hero";
-import { requirePageSession } from "@/lib/auth/session";
 import { createPageMetadata } from "@/lib/route-metadata";
 
-type ContactPageProps = {
-  searchParams?: Promise<Record<string, string | string[] | undefined>>;
-};
-
 export const metadata: Metadata = createPageMetadata({
-  title: "Contact DevOps Service Studio",
+  title: "Hire a Freelance DevOps Consultant",
   description:
-    "Book a consultation or send a scoped DevOps, cloud infrastructure, CI/CD, deployment, monitoring, or production support inquiry.",
+    "Tell me your stack, deployment issue or project scope and get a clear next step for DevOps consulting, AWS support or CI/CD implementation.",
   path: "/contact",
 });
 
-function pathWithSearch(path: string, params?: Record<string, string | string[] | undefined>) {
-  const search = new URLSearchParams();
-
-  Object.entries(params ?? {}).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      value.forEach((item) => search.append(key, item));
-    } else if (value) {
-      search.set(key, value);
-    }
-  });
-
-  const query = search.toString();
-  return query ? `${path}?${query}` : path;
-}
-
-export default async function ContactPage({ searchParams }: ContactPageProps) {
-  const params = await searchParams;
-  await requirePageSession(pathWithSearch("/contact", params));
-
+export default function ContactPage() {
   return (
     <SiteFrame>
-      <PageHero eyebrow="Contact" title="Share the production problem you want solved.">
-        Use the form to describe your stack, risks, timeline, and required outcome. Suitable project types include
-        production deployment, CI/CD automation, monitoring, server setup, troubleshooting, and managed DevOps support.
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Hire a Freelance DevOps Consultant", path: "/contact" },
+        ]}
+      />
+      <PageHero eyebrow="Contact" title="Hire a Freelance DevOps Consultant">
+        Tell me your stack, deployment issue, production risk, or project scope and get a clear next step for DevOps
+        consulting, AWS support, CI/CD implementation, monitoring, or deployment work.
       </PageHero>
       <ContactSection />
     </SiteFrame>

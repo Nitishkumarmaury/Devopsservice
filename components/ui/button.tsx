@@ -6,9 +6,9 @@ type Variant = "primary" | "secondary" | "ghost";
 
 const variantClass: Record<Variant, string> = {
   primary:
-    "aurora-gradient relative overflow-hidden border border-white/50 bg-[length:160%_160%] text-white shadow-[0_18px_46px_rgba(240,68,147,0.25)] hover:-translate-y-0.5 hover:bg-[position:100%_50%] active:scale-[0.97] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.28),transparent)] before:translate-x-[-120%] before:transition before:duration-500 hover:before:translate-x-[120%] [&_svg:last-child]:transition-transform hover:[&_svg:last-child]:translate-x-0.5",
+    "aurora-gradient relative overflow-hidden border border-white/50 bg-[length:160%_160%] text-white shadow-[0_18px_46px_rgba(15,111,125,0.22)] hover:-translate-y-0.5 hover:bg-[position:100%_50%] active:scale-[0.97] before:pointer-events-none before:absolute before:inset-0 before:bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.28),transparent)] before:translate-x-[-120%] before:transition before:duration-500 hover:before:translate-x-[120%] [&_svg:last-child]:transition-transform hover:[&_svg:last-child]:translate-x-0.5",
   secondary:
-    "border border-[var(--border-soft)] bg-white/80 text-[var(--text-primary)] shadow-[0_16px_45px_rgba(190,24,93,0.1)] hover:-translate-y-0.5 hover:border-rose-300/70 hover:bg-[var(--surface-hover)] active:scale-[0.97]",
+    "border border-[var(--border-soft)] bg-white/84 text-[var(--text-primary)] shadow-[0_16px_45px_rgba(15,34,48,0.08)] hover:-translate-y-0.5 hover:border-rose-300/70 hover:bg-[var(--surface-hover)] active:scale-[0.97]",
   ghost:
     "border border-transparent bg-transparent text-[var(--text-secondary)] hover:bg-rose-50 hover:text-[var(--text-primary)] active:scale-[0.97] [&_svg:last-child]:transition-transform hover:[&_svg:last-child]:translate-x-0.5",
 };

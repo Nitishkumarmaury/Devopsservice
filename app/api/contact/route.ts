@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { getSessionUserFromRequest, unauthorizedJson } from "@/lib/auth/session";
+import { NextResponse, type NextRequest } from "next/server";
+import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
+import { checkUpstashRateLimit } from "@/lib/rate-limit/upstash";
+import { siteConfig } from "@/lib/constants";
 import { contactSchema } from "@/lib/schemas";
 
 type ContactValues = ReturnType<typeof contactSchema.parse>;
@@ -9,7 +10,23 @@ const BREVO_SEND_URL = "https://api.brevo.com/v3/smtp/email";
 const BREVO_CONTACTS_URL = "https://api.brevo.com/v3/contacts";
 const BREVO_DEALS_URL = "https://api.brevo.com/v3/crm/deals";
 const BREVO_NOTES_URL = "https://api.brevo.com/v3/crm/notes";
-const BREVO_CAMPAIGNS_URL = "https://api.brevo.com/v3/emailCampaigns";
+const limiter = createMemoryRateLimiter({
+  windowMs: 10 * 60 * 1000,
+  maxRequests: 8,
+  cooldownMs: 5 * 1000,
+});
+const rateLimitOptions = {
+  namespace: "contact",
+  windowMs: 10 * 60 * 1000,
+  maxRequests: 8,
+  cooldownMs: 5 * 1000,
+};
+
+function clientKey(request: NextRequest) {
+  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  return `contact:${forwarded || realIp || "anonymous"}`;
+}
 
 function escapeHtml(value: string) {
   return value
@@ -38,32 +55,30 @@ function buildTextEmail(values: ContactValues) {
   return formatLines(values).map(([label, value]) => `${label}: ${value}`).join("\n\n");
 }
 
+function buildContactSubject(values: ContactValues) {
+  return `New website inquiry from ${values.fullName}`;
+}
+
 function buildHtmlEmail(values: ContactValues) {
   const rows = formatLines(values)
     .map(
       ([label, value]) => `
         <tr>
-          <td style="padding:14px 18px;border-bottom:1px solid #f3dce8;color:#9f4668;font-weight:700;vertical-align:top;width:190px;">${escapeHtml(label)}</td>
-          <td style="padding:14px 18px;border-bottom:1px solid #f3dce8;color:#241327;white-space:pre-wrap;">${escapeHtml(value)}</td>
+          <td style="padding:8px 12px 8px 0;vertical-align:top;font-weight:bold;white-space:nowrap;">${escapeHtml(label)}</td>
+          <td style="padding:8px 0;vertical-align:top;white-space:pre-wrap;">${escapeHtml(value)}</td>
         </tr>
       `,
     )
     .join("");
 
   return `
-    <div style="margin:0;padding:28px;background:#fff7fb;font-family:Inter,Segoe UI,Arial,sans-serif;color:#241327;">
-      <div style="max-width:720px;margin:0 auto;background:#ffffff;border:1px solid #f3dce8;border-radius:22px;overflow:hidden;box-shadow:0 24px 70px rgba(159,70,104,0.14);">
-        <div style="padding:28px;background:linear-gradient(135deg,#ffe5f0 0%,#fff8fb 46%,#efe8ff 100%);color:#241327;border-bottom:1px solid #f3dce8;">
-          <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#b83270;font-weight:800;">Website inquiry</p>
-          <h1 style="margin:0;font-size:26px;line-height:1.2;">New DevOps project inquiry</h1>
-        </div>
-        <table style="width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;">
-          ${rows}
-        </table>
-        <div style="padding:18px 24px;color:#8d6478;font-size:12px;">
-          Sent from the DevOps Service Studio website contact form.
-        </div>
-      </div>
+    <div style="margin:0;padding:16px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;">
+      <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;font-weight:bold;">Website inquiry</p>
+      <h1 style="margin:0 0 16px;font-size:22px;line-height:1.25;">New DevOps project inquiry</h1>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-size:14px;line-height:1.5;">
+        ${rows}
+      </table>
+      <p style="margin:16px 0 0;font-size:12px;">Sent from the ${escapeHtml(siteConfig.name)} website contact form.</p>
     </div>
   `;
 }
@@ -86,7 +101,7 @@ async function sendWithBrevo(values: ContactValues, config: { to: string; from: 
         name: values.fullName,
         email: values.workEmail,
       },
-      subject: `${values.requestType}: ${values.projectType} from ${values.fullName}`,
+      subject: buildContactSubject(values),
       htmlContent: buildHtmlEmail(values),
       textContent: buildTextEmail(values),
       tags: ["website-contact"],
@@ -108,15 +123,6 @@ function parseListIds(value?: string) {
     ?.split(",")
     .map((item) => Number.parseInt(item.trim(), 10))
     .filter((item) => Number.isInteger(item) && item > 0);
-}
-
-function parseBoolean(value?: string) {
-  return ["1", "true", "yes", "on"].includes(value?.trim().toLowerCase() ?? "");
-}
-
-function parsePositiveInt(value?: string) {
-  const parsed = Number.parseInt(value?.trim() ?? "", 10);
-  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
 }
 
 function splitName(fullName: string) {
@@ -143,15 +149,6 @@ async function postBrevo<TBody extends Record<string, unknown>>(
   context: string,
 ) {
   return requestBrevo("POST", url, apiKey, body, context);
-}
-
-async function putBrevo<TBody extends Record<string, unknown>>(
-  url: string,
-  apiKey: string,
-  body: TBody,
-  context: string,
-) {
-  return requestBrevo("PUT", url, apiKey, body, context);
 }
 
 async function requestBrevo<TBody extends Record<string, unknown>>(
@@ -188,7 +185,7 @@ function buildBrevoNote(values: ContactValues) {
     .map(([label, value]) => `<p><strong>${escapeHtml(label)}:</strong><br />${escapeHtml(value)}</p>`)
     .join("");
 
-  return `<p><strong>Website lead captured from DevOps Service Studio.</strong></p>${rows}`;
+  return `<p><strong>Website lead captured from ${escapeHtml(siteConfig.name)}.</strong></p>${rows}`;
 }
 
 async function captureLeadInBrevo(values: ContactValues, config: { apiKey: string; listIds?: number[] }) {
@@ -237,67 +234,28 @@ async function captureLeadInBrevo(values: ContactValues, config: { apiKey: strin
   );
 }
 
-async function sendCampaignNotification(
-  values: ContactValues,
-  config: { from: string; fromName: string; apiKey: string; listIds: number[] },
-) {
-  const campaign = await postBrevo(
-    BREVO_CAMPAIGNS_URL,
-    config.apiKey,
-    {
-      name: `Website inquiry notification - ${values.fullName} - ${new Date().toISOString()}`,
-      subject: `${values.requestType}: ${values.projectType} from ${values.fullName}`,
-      sender: {
-        name: config.fromName,
-        email: config.from,
-      },
-      type: "classic",
-      htmlContent: buildHtmlEmail(values),
-      recipients: {
-        listIds: config.listIds,
-      },
-    },
-    "campaign notification create",
-  );
-
-  const campaignId =
-    typeof campaign.id === "number" || typeof campaign.id === "string" ? String(campaign.id) : undefined;
-
-  if (!campaignId) {
-    throw new Error("Brevo campaign notification create returned no campaign id.");
+function formatContactValidationErrors(parsed: ReturnType<typeof contactSchema.safeParse>) {
+  if (parsed.success) {
+    return {};
   }
 
-  await postBrevo(`${BREVO_CAMPAIGNS_URL}/${campaignId}/sendNow`, config.apiKey, {}, "campaign notification send");
-}
-
-async function sendReusableCampaignTestNotification(
-  values: ContactValues,
-  config: { to: string; apiKey: string; campaignId: number },
-) {
-  await putBrevo(
-    `${BREVO_CAMPAIGNS_URL}/${config.campaignId}`,
-    config.apiKey,
-    {
-      name: `Website inquiry notification - ${values.fullName}`,
-      subject: `${values.requestType}: ${values.projectType} from ${values.fullName}`,
-      htmlContent: buildHtmlEmail(values),
-    },
-    "reusable test campaign update",
-  );
-
-  await postBrevo(
-    `${BREVO_CAMPAIGNS_URL}/${config.campaignId}/sendTest`,
-    config.apiKey,
-    {
-      emailTo: [config.to],
-    },
-    "reusable test campaign send",
-  );
+  return parsed.error.flatten().fieldErrors;
 }
 
 export async function POST(request: NextRequest) {
-  if (!getSessionUserFromRequest(request)) {
-    return unauthorizedJson();
+  let limit = await checkUpstashRateLimit(clientKey(request), rateLimitOptions);
+  limit ??= limiter.check(clientKey(request));
+
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { success: false, message: "Too many contact requests. Please wait before trying again." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(limit.retryAfterMs / 1000)),
+        },
+      },
+    );
   }
 
   let payload: unknown;
@@ -320,7 +278,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         message: "Please review the highlighted fields.",
-        errors: parsed.error.flatten().fieldErrors,
+        errors: formatContactValidationErrors(parsed),
       },
       { status: 400 },
     );
@@ -335,12 +293,9 @@ export async function POST(request: NextRequest) {
   const provider = process.env.CONTACT_EMAIL_PROVIDER;
   const to = process.env.CONTACT_EMAIL_TO;
   const from = process.env.CONTACT_EMAIL_FROM;
-  const fromName = process.env.CONTACT_EMAIL_FROM_NAME || "DevOps Service Studio";
+  const fromName = siteConfig.name;
   const apiKey = process.env.CONTACT_PROVIDER_API_KEY;
   const listIds = parseListIds(process.env.BREVO_CONTACT_LIST_IDS);
-  const notificationListIds = parseListIds(process.env.BREVO_NOTIFICATION_LIST_IDS);
-  const campaignFallbackEnabled = parseBoolean(process.env.BREVO_CAMPAIGN_FALLBACK_ENABLED);
-  const reusableTestCampaignId = parsePositiveInt(process.env.BREVO_REUSABLE_TEST_CAMPAIGN_ID);
 
   if (provider && to && from && apiKey) {
     if (provider.toLowerCase() !== "brevo") {
@@ -351,51 +306,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let leadCaptured = false;
-
     try {
       await captureLeadInBrevo(values, { apiKey, listIds });
-      leadCaptured = true;
-    } catch {
-      leadCaptured = false;
+    } catch (error) {
+      console.error("Brevo lead capture failed", {
+        message: error instanceof Error ? error.message : String(error),
+      });
     }
 
     try {
       await sendWithBrevo(values, { to, from, fromName, apiKey });
-    } catch {
-      let notificationQueued = false;
-
-      if (leadCaptured && reusableTestCampaignId) {
-        try {
-          await sendReusableCampaignTestNotification(values, { apiKey, to, campaignId: reusableTestCampaignId });
-          notificationQueued = true;
-        } catch (error) {
-          console.error("Brevo reusable test campaign notification failed", {
-            message: error instanceof Error ? error.message : String(error),
-          });
-        }
-      }
-
-      if (leadCaptured && !notificationQueued && campaignFallbackEnabled && notificationListIds?.length) {
-        try {
-          await sendCampaignNotification(values, { apiKey, from, fromName, listIds: notificationListIds });
-          notificationQueued = true;
-        } catch (error) {
-          console.error("Brevo campaign notification fallback failed", {
-            message: error instanceof Error ? error.message : String(error),
-          });
-        }
-      }
-
-      if (leadCaptured) {
-        return NextResponse.json({
-          success: true,
-          message: notificationQueued
-            ? "Thanks. Your inquiry has been received and a notification has been queued."
-            : "Thanks. Your inquiry has been received and saved for review.",
-        });
-      }
-
+    } catch (error) {
+      console.error("Brevo inquiry email failed", {
+        message: error instanceof Error ? error.message : String(error),
+      });
       return NextResponse.json(
         { success: false, message: "The message could not be sent right now. Please email the project details directly." },
         { status: 502 },

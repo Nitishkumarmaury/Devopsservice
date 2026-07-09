@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, Check, Copy, Download, Edit3, RotateCcw, Send } from "lucide-react";
 import { ArchitectureDiagram } from "@/components/ai/architecture-diagram";
@@ -183,14 +184,14 @@ export function AdvisorResults({
           against your application, traffic, security requirements, budget, and existing systems.
         </p>
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <a
+          <Link
             href="/contact?requestType=Production%20Audit&projectType=Cloud%20Infrastructure"
             className={buttonClassName("primary")}
             onClick={() => trackAdvisorEvent("ai_consultation_clicked", { source: "professional_review" })}
           >
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
             Request a Professional Review
-          </a>
+          </Link>
           <Button type="button" variant="secondary" onClick={sendToContact}>
             <Send className="h-4 w-4" aria-hidden="true" />
             Send This Blueprint

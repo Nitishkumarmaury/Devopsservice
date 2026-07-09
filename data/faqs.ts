@@ -5,6 +5,21 @@ export const faqs = [
       "We handle cloud infrastructure, CI/CD, Docker and Kubernetes deployment, monitoring, migration, production troubleshooting, security hardening, and ongoing DevOps support.",
   },
   {
+    question: "How much does DevOps consulting cost?",
+    answer:
+      "Pricing depends on scope, urgency, access complexity, and the production risk involved. Small fixes, deployment setup, audits, and monthly support are scoped separately after reviewing the stack.",
+  },
+  {
+    question: "How quickly can a deployment or CI/CD project start?",
+    answer:
+      "Many projects can start with a quick scope review this week when repository, server, domain, cloud, and environment access are available. Exact timing depends on risk, credentials, and current production state.",
+  },
+  {
+    question: "Do you work with international and remote clients?",
+    answer:
+      "Yes. The service is built for remote startup, SaaS, SMB, and agency teams that need DevOps consulting, deployment support, monitoring, or production troubleshooting.",
+  },
+  {
     question: "Can you work with our existing AWS or DigitalOcean infrastructure?",
     answer:
       "Yes. We can audit existing servers, networking, deployment workflows, monitoring, access patterns, and cost signals before recommending practical changes.",
@@ -23,6 +38,11 @@ export const faqs = [
     question: "Can you investigate a live production performance issue?",
     answer:
       "Yes. We can review logs, resource pressure, reverse proxy behavior, application errors, database signals, deployment history, and monitoring gaps to define the safest recovery path.",
+  },
+  {
+    question: "Can you help with emergency production support?",
+    answer:
+      "Emergency support can be scoped when availability, access, impact, and rollback risk are clear. Urgent work focuses on stabilization, logs, service health, and practical next steps.",
   },
   {
     question: "Can you migrate our application without significant downtime?",

@@ -139,7 +139,7 @@ export function AdvisorWorkspace() {
   return (
     <div
       id="cloud-advisor-workspace"
-      className="aurora-panel relative scroll-mt-28 overflow-hidden rounded-[26px] p-4 shadow-[0_34px_120px_rgba(190,24,93,0.14),0_0_80px_rgba(240,68,147,0.08)] sm:p-6"
+      className="aurora-panel relative scroll-mt-28 overflow-hidden rounded-[26px] p-4 shadow-[0_34px_120px_rgba(15,34,48,0.14),0_0_80px_rgba(14,165,183,0.08)] sm:p-6"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-35" aria-hidden="true">
         <div style={{ width: "100%", height: "600px", position: "relative" }}>

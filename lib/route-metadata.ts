@@ -5,10 +5,12 @@ export function createPageMetadata({
   title,
   description,
   path,
+  noIndex = false,
 }: {
   title: string;
   description: string;
   path: string;
+  noIndex?: boolean;
 }): Metadata {
   const url = `${siteConfig.url}${path}`;
 
@@ -17,6 +19,10 @@ export function createPageMetadata({
     description,
     alternates: {
       canonical: url,
+      languages: {
+        en: url,
+        "x-default": url,
+      },
     },
     openGraph: {
       title,
@@ -39,5 +45,11 @@ export function createPageMetadata({
       description,
       images: ["/opengraph-image"],
     },
+    robots: noIndex
+      ? {
+          index: false,
+          follow: false,
+        }
+      : undefined,
   };
 }

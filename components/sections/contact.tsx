@@ -19,7 +19,7 @@ type ApiResponse = {
 };
 
 const inputClass =
-  "premium-focus mt-2 block w-full rounded-xl border border-rose-200/70 !bg-white/85 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(190,24,93,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
+  "premium-focus mt-2 block w-full rounded-xl border border-rose-200/70 !bg-white/85 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(15,34,48,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
@@ -196,8 +196,8 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="aurora-section border-t border-rose-100 bg-[linear-gradient(180deg,#fff_0%,#fff2f8_100%)] section-rhythm">
-      <SectionGlow className="h-[560px] bg-[radial-gradient(ellipse_at_45%_0%,rgba(240,68,147,0.18),transparent_60%)]" />
+    <section id="contact" className="aurora-section border-t border-rose-100 bg-[linear-gradient(180deg,#fff_0%,#edf3f6_100%)] section-rhythm">
+      <SectionGlow className="h-[560px] bg-[radial-gradient(ellipse_at_45%_0%,rgba(14,165,183,0.14),transparent_60%)]" />
       <Container className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <div>

@@ -28,15 +28,15 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
     <section
       className={cn(
         "relative overflow-hidden pt-28 sm:pt-32",
-        dark ? "bg-[linear-gradient(135deg,#172033_0%,#412747_100%)] text-white" : "bg-[var(--background)]",
+        dark ? "bg-[linear-gradient(135deg,#0f1f2f_0%,#123846_100%)] text-white" : "bg-[var(--background)]",
       )}
     >
       <div
         className={cn(
           "pointer-events-none absolute inset-0",
           dark
-            ? "bg-[radial-gradient(circle_at_18%_12%,rgba(214,107,154,0.28),transparent_34%),radial-gradient(circle_at_82%_16%,rgba(118,103,216,0.24),transparent_32%)]"
-            : "bg-[radial-gradient(circle_at_15%_10%,rgba(214,107,154,0.14),transparent_32%),radial-gradient(circle_at_85%_20%,rgba(118,103,216,0.12),transparent_30%),radial-gradient(circle_at_70%_80%,rgba(66,174,181,0.08),transparent_34%)]",
+            ? "bg-[radial-gradient(circle_at_18%_12%,rgba(61,184,197,0.18),transparent_34%),radial-gradient(circle_at_82%_16%,rgba(213,166,69,0.13),transparent_32%)]"
+            : "bg-[radial-gradient(circle_at_16%_10%,rgba(14,165,183,0.09),transparent_32%),radial-gradient(circle_at_86%_20%,rgba(49,92,148,0.07),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(242,247,250,0.5))]",
         )}
       />
       <Container className="relative z-10">
@@ -45,7 +45,7 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
             <p
               className={cn(
                 "font-mono text-xs font-semibold uppercase tracking-[0.22em]",
-                dark ? "text-rose-100" : "text-[var(--rose-dark)]",
+                dark ? "text-cyan-100" : "text-[var(--rose-dark)]",
               )}
             >
               {eyebrow}
@@ -59,7 +59,7 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
               {titleContent}
             </h1>
             {children ? (
-              <div className={cn("mt-6 max-w-3xl text-base leading-8 sm:text-lg", dark ? "text-rose-50/82" : "text-[var(--text-secondary)]")}>
+              <div className={cn("mt-6 max-w-3xl text-base leading-8 sm:text-lg", dark ? "text-white/76" : "text-[var(--text-secondary)]")}>
                 {children}
               </div>
             ) : null}

@@ -71,7 +71,7 @@ export function ArchitectureDiagram({ blueprint }: ArchitectureDiagramProps) {
           {approvedNodes.map(({ label, detail, Icon }, index) => (
             <div
               key={label}
-              className="advisor-node-glow relative rounded-2xl border border-rose-100 bg-white/72 p-3 shadow-[0_18px_55px_rgba(190,24,93,0.08)]"
+              className="advisor-node-glow relative rounded-2xl border border-rose-100 bg-white/72 p-3 shadow-[0_18px_55px_rgba(15,34,48,0.08)]"
               style={{ animationDelay: `${index * 160}ms` }}
             >
               <div className="flex items-start gap-3 lg:block">

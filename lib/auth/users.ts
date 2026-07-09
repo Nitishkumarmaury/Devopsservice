@@ -216,6 +216,28 @@ export async function createPasswordResetToken(emailValue: string) {
   };
 }
 
+export async function clearPasswordResetToken(usernameValue: string) {
+  const username = normalizeUsername(usernameValue);
+  if (!username) return;
+
+  const collection = await getAuthCollection();
+
+  await collection.updateOne(
+    { username },
+    {
+      $unset: {
+        passwordResetTokenHash: "",
+        passwordResetExpiresAt: "",
+        passwordResetRequestedAt: "",
+        passwordResetUsedAt: "",
+      },
+      $set: {
+        updatedAt: new Date(),
+      },
+    },
+  );
+}
+
 export async function resetPasswordWithToken(token: string, password: string) {
   await ensureIndexes();
 

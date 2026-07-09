@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -8,15 +9,15 @@ import { CalendarCheck, ChevronDown, Menu, X } from "lucide-react";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { AnimatedShinyButton } from "@/components/eldoraui/animated-shiny-button";
 import { ServiceIcon } from "@/components/services/service-icon";
-import { consultationHref, navItems } from "@/lib/constants";
-import { services } from "@/data/services";
+import { seoMoneyPages } from "@/data/seo-pages";
+import { consultationHref, navItems, siteConfig } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-const serviceLinks = services.map((service) => ({
-  title: service.shortTitle,
-  description: service.description,
-  href: `/services/${service.slug}`,
-  icon: service.icon,
+const serviceLinks = seoMoneyPages.map((page) => ({
+  title: page.shortTitle,
+  description: page.metaDescription,
+  href: `/${page.slug}`,
+  icon: page.icon,
 }));
 
 function isActivePath(pathname: string, href: string) {
@@ -34,6 +35,7 @@ export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean 
   const scrolledRef = useRef(false);
   const loginHref = `/login?next=${encodeURIComponent(pathname || "/")}`;
   const signupHref = `/signup?next=${encodeURIComponent(pathname || "/")}`;
+  const servicesActive = isActivePath(pathname, "/services") || serviceLinks.some((service) => isActivePath(pathname, service.href));
 
   useEffect(() => {
     let frame = 0;
@@ -91,17 +93,16 @@ export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean 
       )}
     >
       <div className="absolute inset-x-0 bottom-0 h-px bg-rose-100/60">
-        <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#d66b9a] via-[#a76fc4] to-[#7667d8] will-change-transform" />
+        <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#102437] via-[#0f6f7d] to-[#d5a645] will-change-transform" />
       </div>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
         <Link href="/" className="group inline-flex shrink-0 items-center gap-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
-          <span className="aurora-gradient grid h-9 w-9 place-items-center rounded-xl border border-white/70 text-xs font-black text-white shadow-[0_14px_34px_rgba(65,39,71,0.14)]">
-            DS
+          <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-lg border border-white/70 bg-white shadow-[0_12px_28px_rgba(15,34,48,0.16)] ring-1 ring-cyan-100/70">
+            <Image src={siteConfig.logo} alt={`${siteConfig.name} logo`} width={40} height={34} className="h-8 w-9 object-contain" priority />
           </span>
           <span className="flex min-w-[7.25rem] flex-col leading-none">
             <span className="text-[13px] font-semibold leading-[1.06] text-[var(--text-primary)]">
-              <span className="block">DevOps Service</span>
-              <span className="block">Studio</span>
+              <span className="block">{siteConfig.name}</span>
             </span>
             <span className="mt-1 hidden font-mono text-[8px] uppercase tracking-[0.22em] text-[var(--text-muted)] sm:inline">
               Cloud Engineering
@@ -126,8 +127,8 @@ export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean 
                   onClick={() => setServicesOpen((value) => !value)}
                   className={cn(
                     "relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
-                    isActivePath(pathname, item.href)
-                      ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(214,107,154,0.12)]"
+                    servicesActive
+                      ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(14,165,183,0.12)]"
                       : "text-[var(--text-secondary)]",
                   )}
                 >
@@ -183,7 +184,7 @@ export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean 
                 className={cn(
                   "relative whitespace-nowrap rounded-full px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
                   isActivePath(pathname, item.href)
-                    ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(214,107,154,0.12)]"
+                    ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(14,165,183,0.12)]"
                     : "text-[var(--text-secondary)]",
                 )}
               >
@@ -198,7 +199,7 @@ export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean 
             <LogoutButton />
           ) : (
             <>
-              <AnimatedShinyButton url={loginHref} tone="soft" showArrow={false} className="px-3">
+              <AnimatedShinyButton url={loginHref} tone="soft" showArrow={false} className="nav-login-button px-3">
                 Login
               </AnimatedShinyButton>
               <AnimatedShinyButton url={signupHref} showArrow={false} className="px-3.5">
@@ -305,7 +306,7 @@ export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean 
                   <AnimatedShinyButton url={signupHref} onClick={() => setOpen(false)} showArrow={false} className="mt-2 w-full">
                     Sign up
                   </AnimatedShinyButton>
-                  <AnimatedShinyButton url={loginHref} onClick={() => setOpen(false)} tone="soft" showArrow={false} className="mt-2 w-full">
+                  <AnimatedShinyButton url={loginHref} onClick={() => setOpen(false)} tone="soft" showArrow={false} className="nav-login-button mt-2 w-full">
                     Login
                   </AnimatedShinyButton>
                 </>

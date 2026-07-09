@@ -26,7 +26,7 @@ type ClickSparkProps = {
 };
 
 export function ClickSpark({
-  sparkColor = "#d66b9a",
+  sparkColor = "#0ea5b7",
   sparkSize = 10,
   sparkRadius = 18,
   sparkCount = 8,

@@ -1,4 +1,4 @@
-# DevOps Service Studio
+# Torvique
 
 Premium DevOps and cloud engineering landing page built with Next.js App Router, TypeScript, Tailwind CSS, Motion for React, Lucide icons, React Hook Form, and Zod.
 
@@ -34,12 +34,8 @@ NEXT_PUBLIC_SITE_URL=https://example.com
 CONTACT_EMAIL_PROVIDER=brevo
 CONTACT_EMAIL_TO=nitish.henceforth@gmail.com
 CONTACT_EMAIL_FROM=nitish.henceforth@gmail.com
-CONTACT_EMAIL_FROM_NAME=DevOps Service Studio
 CONTACT_PROVIDER_API_KEY=
 BREVO_CONTACT_LIST_IDS=
-BREVO_CAMPAIGN_FALLBACK_ENABLED=false
-BREVO_NOTIFICATION_LIST_IDS=
-BREVO_REUSABLE_TEST_CAMPAIGN_ID=
 AI_ADVISOR_ENABLED=true
 AI_PROVIDER_API_KEY=
 ADVISOR_MODEL=
@@ -53,35 +49,27 @@ AUTH_SESSION_SECRET=
 AUTH_SESSION_MAX_AGE_SECONDS=86400
 AUTH_PASSWORD_RESET_MAX_AGE_MINUTES=30
 AUTH_PASSWORD_RESET_COOLDOWN_SECONDS=60
-BREVO_PASSWORD_RESET_CAMPAIGN_FALLBACK_ENABLED=false
-BREVO_PASSWORD_RESET_TEST_CAMPAIGN_ID=
 UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 ```
 
-The contact API route validates requests server-side and keeps provider credentials out of client code. `CONTACT_EMAIL_PROVIDER=brevo` sends contact inquiries through Brevo using `CONTACT_PROVIDER_API_KEY`. When `BREVO_CONTACT_LIST_IDS` is set, website leads are also added to those Brevo contact lists and saved with a CRM deal and note.
+The contact API route validates requests server-side and keeps provider credentials out of client code. `CONTACT_EMAIL_PROVIDER=brevo` sends contact inquiries through Brevo transactional email using `CONTACT_PROVIDER_API_KEY`. When `BREVO_CONTACT_LIST_IDS` is set, website leads are also added to those Brevo contact lists and saved with a CRM deal and note.
 
-If Brevo transactional SMTP is not yet activated on the account, set `BREVO_CAMPAIGN_FALLBACK_ENABLED=true` and `BREVO_NOTIFICATION_LIST_IDS` to an owner-only Brevo list. This fallback creates and sends an internal campaign notification after a lead is captured. Do not point `BREVO_NOTIFICATION_LIST_IDS` at a public lead or newsletter list, because Brevo campaigns send to every recipient in the configured list.
+Use Brevo transactional SMTP for production contact and password reset emails. Campaign and test-campaign sends are intentionally not used, because Brevo can add unsubscribe UI or a test subject prefix to those messages.
 
-When a Brevo account is still under validation and cannot create campaigns, `BREVO_REUSABLE_TEST_CAMPAIGN_ID` can be set to a reusable internal campaign ID. The contact route updates that campaign content and sends it as a Brevo test email to `CONTACT_EMAIL_TO`. Treat this as a temporary notification fallback until transactional SMTP is activated and the sending domain is authenticated.
+## Login and Public Lead Capture
 
-## Login Protection
-
-The contact request flow and Cloud Architecture Advisor are protected by a server-side session cookie. Configure `MONGODB_URI`, `AUTH_SESSION_SECRET`, and the bootstrap username/password in `.env.local`. On the first successful bootstrap login, the app stores a hashed user record in MongoDB and uses that user for later logins.
+The public contact request flow is open for lead capture and protected by server-side validation, a honeypot field, and rate limiting. The Cloud Architecture Advisor is protected by a server-side session cookie. Configure `MONGODB_URI`, `AUTH_SESSION_SECRET`, and the bootstrap username/password in `.env.local`. On the first successful bootstrap login, the app stores a hashed user record in MongoDB and uses that user for later logins.
 
 Visitors can create new accounts through `/signup`. Successful signup stores a hashed password in MongoDB and immediately creates the same secure session cookie used by `/login`.
 
 Password reset links are sent through the configured Brevo email provider. Set `NEXT_PUBLIC_SITE_URL` to the real public HTTPS origin before production deploys, because reset emails are built from that value rather than request headers. `AUTH_PASSWORD_RESET_MAX_AGE_MINUTES` controls reset link expiry and `AUTH_PASSWORD_RESET_COOLDOWN_SECONDS` controls per-account resend cooldown.
 
-If Brevo transactional sending is not active yet, `BREVO_PASSWORD_RESET_CAMPAIGN_FALLBACK_ENABLED=true` can send reset emails through a reusable Brevo test campaign. Prefer a dedicated `BREVO_PASSWORD_RESET_TEST_CAMPAIGN_ID`; otherwise the app falls back to `BREVO_REUSABLE_TEST_CAMPAIGN_ID`.
-
 Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to enable shared Redis-backed forgot-password rate limiting. Without those values, the route falls back to the in-memory limiter used for local development.
 
 Protected surfaces:
 
-- `/contact`
 - `/advisor`
-- `/api/contact`
 - `/api/ai/cloud-advisor`
 
 ## Cloud Architecture Advisor

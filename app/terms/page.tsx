@@ -6,7 +6,7 @@ import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Terms",
-  description: "Terms for DevOps Service Studio website information, consultation scope, delivery, support, and service agreements.",
+  description: "Terms for Torvique website information, consultation scope, delivery, support, and service agreements.",
   path: "/terms",
 });
 

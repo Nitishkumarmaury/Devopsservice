@@ -43,7 +43,7 @@ export function PricingSection() {
           ))}
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-[22px] border border-rose-100 bg-white/80 shadow-[0_20px_70px_rgba(190,24,93,0.1)]">
+        <div className="mt-10 overflow-hidden rounded-[22px] border border-rose-100 bg-white/80 shadow-[0_20px_70px_rgba(15,34,48,0.1)]">
           <div className="border-b border-rose-100 px-5 py-4">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-rose-700">Detailed comparison</p>
           </div>

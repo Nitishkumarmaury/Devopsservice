@@ -148,8 +148,8 @@ export function BrandIcon3D({
   const brand = key ? brandMap[key] : undefined;
   const Icon = brand?.icon;
   const displayLabel = label ?? brand?.shortLabel ?? brand?.label ?? name;
-  const color = brand?.color ?? "#d66b9a";
-  const glow = brand?.glow ?? "rgba(214,107,154,0.2)";
+  const color = brand?.color ?? "#0f7f91";
+  const glow = brand?.glow ?? "rgba(15,127,145,0.18)";
   const mergedStyle = { "--brand-color": color, "--brand-glow": glow, ...style } as CSSProperties;
   const hasPositionClass =
     typeof className === "string" && /\b(?:absolute|fixed|relative|sticky)\b/.test(className);
@@ -157,22 +157,22 @@ export function BrandIcon3D({
   return (
     <span
       className={cn(
-        "brand-icon-3d inline-flex items-center gap-2 rounded-2xl border border-white/80 bg-white/82 px-3 py-2 text-sm font-semibold text-[var(--text-primary)] shadow-[0_18px_42px_rgba(65,39,71,0.12)] backdrop-blur",
+        "brand-icon-3d inline-flex items-center gap-2 rounded-xl border border-slate-200/80 bg-white/92 px-3 py-2 text-sm font-semibold text-[var(--text-primary)] shadow-[0_14px_34px_rgba(15,34,48,0.1)]",
         !hasPositionClass && "relative",
         compact && "gap-1.5 rounded-xl px-2.5 py-1.5 text-xs",
-        iconOnly && "h-12 w-12 justify-center gap-0 rounded-2xl p-0",
+        iconOnly && "brand-icon-3d--icon-only h-12 w-12 justify-center gap-0 rounded-full p-0",
         className,
       )}
       style={mergedStyle}
       aria-label={iconOnly ? brand?.label ?? name : undefined}
     >
-      <span className={cn("brand-icon-3d__mark", compact && "h-7 w-7 rounded-lg")}>
+      <span className={cn("brand-icon-3d__mark", compact && !iconOnly && "h-7 w-7 rounded-lg", iconOnly && "h-full w-full rounded-full")}>
         {Icon ? (
-          <Icon className={cn("h-5 w-5", compact && "h-4 w-4")} aria-hidden="true" />
+          <Icon className={cn("h-5 w-5", compact && "h-4 w-4", iconOnly && "h-5 w-5")} aria-hidden="true" />
         ) : brand?.kind === "server" ? (
-          <Server className={cn("h-5 w-5", compact && "h-4 w-4")} aria-hidden="true" />
+          <Server className={cn("h-5 w-5", compact && "h-4 w-4", iconOnly && "h-5 w-5")} aria-hidden="true" />
         ) : (
-          <Cloud className={cn("h-5 w-5", compact && "h-4 w-4")} aria-hidden="true" />
+          <Cloud className={cn("h-5 w-5", compact && "h-4 w-4", iconOnly && "h-5 w-5")} aria-hidden="true" />
         )}
       </span>
       {iconOnly ? null : <span>{displayLabel}</span>}
