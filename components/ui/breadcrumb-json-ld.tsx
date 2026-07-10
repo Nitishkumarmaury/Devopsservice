@@ -1,6 +1,6 @@
 import { siteConfig } from "@/lib/constants";
 
-export function BreadcrumbJsonLd({ items }: { items: Array<{ name: string; path: string }> }) {
+export function BreadcrumbJsonLd({ items }: Readonly<{ items: Array<{ name: string; path: string }> }>) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

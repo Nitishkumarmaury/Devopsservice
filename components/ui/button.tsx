@@ -27,7 +27,7 @@ type ButtonLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
 };
 
-export function ButtonLink({ href, variant = "primary", className, children, ...props }: ButtonLinkProps) {
+export function ButtonLink({ href, variant = "primary", className, children, ...props }: Readonly<ButtonLinkProps>) {
   return (
     <Link href={href} className={buttonClassName(variant, className)} {...props}>
       {children}
@@ -39,7 +39,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: Variant;
 };
 
-export function Button({ variant = "primary", className, children, ...props }: ButtonProps) {
+export function Button({ variant = "primary", className, children, ...props }: Readonly<ButtonProps>) {
   return (
     <button className={buttonClassName(variant, className)} {...props}>
       {children}

@@ -22,7 +22,7 @@ export function generateStaticParams() {
   return [...seoMoneyPages.map((page) => ({ slug: page.slug })), ...seoArticles.map((article) => ({ slug: article.slug }))];
 }
 
-export async function generateMetadata({ params }: SeoPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Readonly<SeoPageProps>): Promise<Metadata> {
   const { slug } = await params;
   const page = getSeoLandingPageBySlug(slug);
   if (page) {
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: SeoPageProps): Promise<Metada
   return {};
 }
 
-export default async function SeoLandingPage({ params }: SeoPageProps) {
+export default async function SeoLandingPage({ params }: Readonly<SeoPageProps>) {
   const { slug } = await params;
   const page = getSeoLandingPageBySlug(slug);
   if (page) {
@@ -60,7 +60,7 @@ export default async function SeoLandingPage({ params }: SeoPageProps) {
   notFound();
 }
 
-function ServiceLandingPage({ page }: { page: SeoLandingPage }) {
+function ServiceLandingPage({ page }: Readonly<{ page: SeoLandingPage }>) {
   const contactHref = buildContactHref(page);
   const serviceJsonLd = {
     "@context": "https://schema.org",
@@ -219,7 +219,7 @@ function ServiceLandingPage({ page }: { page: SeoLandingPage }) {
   );
 }
 
-function ArticlePage({ article }: { article: SeoArticle }) {
+function ArticlePage({ article }: Readonly<{ article: SeoArticle }>) {
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -344,7 +344,7 @@ function buildContactHref(page: SeoLandingPage) {
   return `/contact?${params.toString()}`;
 }
 
-function LandingPageVisual({ page }: { page: SeoLandingPage }) {
+function LandingPageVisual({ page }: Readonly<{ page: SeoLandingPage }>) {
   return (
     <div className="rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-medium)]">
       <div className="grid h-16 w-16 place-items-center rounded-2xl bg-rose-100 text-rose-700">
@@ -372,7 +372,7 @@ function LandingPageVisual({ page }: { page: SeoLandingPage }) {
   );
 }
 
-function ArticleVisual({ article }: { article: SeoArticle }) {
+function ArticleVisual({ article }: Readonly<{ article: SeoArticle }>) {
   return (
     <div className="rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-medium)]">
       <div className="grid h-16 w-16 place-items-center rounded-2xl bg-rose-100 text-rose-700">
@@ -399,7 +399,7 @@ function ArticleVisual({ article }: { article: SeoArticle }) {
   );
 }
 
-function InfoPanel({ title, items, featured = false }: { title: string; items: readonly string[]; featured?: boolean }) {
+function InfoPanel({ title, items, featured = false }: Readonly<{ title: string; items: readonly string[]; featured?: boolean }>) {
   return (
     <div className={featured ? "rounded-[28px] border border-rose-200 bg-rose-50 p-6" : "rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6"}>
       <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{title}</h2>

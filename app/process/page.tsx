@@ -104,7 +104,7 @@ export default function ProcessPage() {
   );
 }
 
-function Detail({ title, text }: { title: string; text: string }) {
+function Detail({ title, text }: Readonly<{ title: string; text: string }>) {
   return (
     <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
       <p className="text-sm font-semibold text-[var(--text-primary)]">{title}</p>

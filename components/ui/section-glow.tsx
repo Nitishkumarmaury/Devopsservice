@@ -4,7 +4,7 @@ type SectionGlowProps = {
   className?: string;
 };
 
-export function SectionGlow({ className }: SectionGlowProps) {
+export function SectionGlow({ className }: Readonly<SectionGlowProps>) {
   return (
     <div
       aria-hidden="true"

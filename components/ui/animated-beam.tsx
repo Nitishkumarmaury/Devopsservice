@@ -4,7 +4,7 @@ type AnimatedBeamProps = {
   className?: string;
 };
 
-export function AnimatedBeam({ className }: AnimatedBeamProps) {
+export function AnimatedBeam({ className }: Readonly<AnimatedBeamProps>) {
   return (
     <svg className={cn("pointer-events-none absolute inset-0 h-full w-full", className)} aria-hidden="true" viewBox="0 0 600 240" preserveAspectRatio="none">
       <path

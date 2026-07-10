@@ -20,7 +20,7 @@ const accentClass = {
   emerald: "from-emerald-300/[0.16] to-cyan-300/10 border-emerald-300/25 text-emerald-100",
 };
 
-export function ServiceCard({ title, description, visual, details, Icon, accent, children }: ServiceCardProps) {
+export function ServiceCard({ title, description, visual, details, Icon, accent, children }: Readonly<ServiceCardProps>) {
   return (
     <article className="aurora-panel group relative h-full overflow-hidden rounded-[22px] p-6 transition duration-200 hover:-translate-y-1 hover:border-rose-300/50">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/80 to-transparent opacity-0 transition group-hover:opacity-100" />

@@ -22,7 +22,7 @@ export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
 }
 
-export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Readonly<ServicePageProps>): Promise<Metadata> {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) return {};
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   });
 }
 
-export default async function ServiceDetailPage({ params }: ServicePageProps) {
+export default async function ServiceDetailPage({ params }: Readonly<ServicePageProps>) {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) notFound();
@@ -211,7 +211,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   );
 }
 
-function InfoPanel({ title, items, featured = false }: { title: string; items: readonly string[]; featured?: boolean }) {
+function InfoPanel({ title, items, featured = false }: Readonly<{ title: string; items: readonly string[]; featured?: boolean }>) {
   return (
     <div className={featured ? "rounded-[28px] border border-rose-200 bg-rose-50 p-6" : "rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6"}>
       <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{title}</h2>

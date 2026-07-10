@@ -14,7 +14,7 @@ type PricingCardProps = {
   featured?: boolean;
 };
 
-export function PricingCard({ title, service, target, hourly, deliverables, Icon, featured }: PricingCardProps) {
+export function PricingCard({ title, service, target, hourly, deliverables, Icon, featured }: Readonly<PricingCardProps>) {
   return (
     <article
       className={cn(

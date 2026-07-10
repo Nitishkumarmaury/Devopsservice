@@ -69,7 +69,7 @@ const inputClass =
 
 const labelClass = "block text-sm font-medium text-[var(--text-primary)]";
 
-function FieldError({ id, message }: { id: string; message?: string }) {
+function FieldError({ id, message }: Readonly<{ id: string; message?: string }>) {
   if (!message) return null;
   return (
     <p id={id} className="mt-2 text-sm text-amber-700">
@@ -78,7 +78,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   );
 }
 
-function StepHeader({ step }: { step: Step }) {
+function StepHeader({ step }: Readonly<{ step: Step }>) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
@@ -100,7 +100,7 @@ function StepHeader({ step }: { step: Step }) {
   );
 }
 
-export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: AdvisorFormProps) {
+export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<AdvisorFormProps>) {
   const [step, setStep] = useState<Step>(0);
   const [direction, setDirection] = useState(1);
   const formDefaults = useMemo(() => initialValues ?? defaultValues, [initialValues]);

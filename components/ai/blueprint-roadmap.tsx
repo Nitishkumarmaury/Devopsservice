@@ -4,7 +4,7 @@ type BlueprintRoadmapProps = {
   phases: InfrastructureBlueprint["implementationPhases"];
 };
 
-export function BlueprintRoadmap({ phases }: BlueprintRoadmapProps) {
+export function BlueprintRoadmap({ phases }: Readonly<BlueprintRoadmapProps>) {
   return (
     <div className="rounded-2xl border border-rose-100 bg-white/72 p-4 sm:p-5">
       <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-rose-700">Implementation Roadmap</p>

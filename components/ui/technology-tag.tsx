@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-export function TechnologyTag({ children, className }: { children: ReactNode; className?: string }) {
+export function TechnologyTag({ children, className }: Readonly<{ children: ReactNode; className?: string }>) {
   return (
     <span
       className={cn(

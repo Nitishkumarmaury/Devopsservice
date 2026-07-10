@@ -11,7 +11,7 @@ type FadeInProps = {
   as?: "div" | "section" | "article";
 };
 
-export function FadeIn({ children, className, delay = 0, as = "div" }: FadeInProps) {
+export function FadeIn({ children, className, delay = 0, as = "div" }: Readonly<FadeInProps>) {
   const Component = motion[as];
   const reduceMotion = useReducedMotion();
 

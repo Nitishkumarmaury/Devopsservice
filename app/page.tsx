@@ -289,7 +289,7 @@ export default function Page() {
   );
 }
 
-function SectionIntro({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) {
+function SectionIntro({ eyebrow, title, children }: Readonly<{ eyebrow: string; title: string; children: ReactNode }>) {
   return (
     <div className="max-w-3xl">
       <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[var(--rose-dark)]">{eyebrow}</p>

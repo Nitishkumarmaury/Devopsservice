@@ -6,7 +6,7 @@ type StatusBadgeProps = {
   className?: string;
 };
 
-export function StatusBadge({ children, className }: StatusBadgeProps) {
+export function StatusBadge({ children, className }: Readonly<StatusBadgeProps>) {
   return (
     <span
       className={cn(

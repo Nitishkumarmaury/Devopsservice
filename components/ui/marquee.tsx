@@ -14,7 +14,7 @@ type MarqueeProps = {
   className?: string;
 };
 
-export function Marquee({ items, className }: MarqueeProps) {
+export function Marquee({ items, className }: Readonly<MarqueeProps>) {
   const loop = [...items, ...items];
 
   return (

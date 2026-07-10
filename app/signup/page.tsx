@@ -22,7 +22,7 @@ function safeNextPath(value: string | string[] | undefined) {
   return next;
 }
 
-export default async function SignupPage({ searchParams }: SignupPageProps) {
+export default async function SignupPage({ searchParams }: Readonly<SignupPageProps>) {
   const params = await searchParams;
   const nextPath = safeNextPath(params?.next);
   const user = await getSessionUser();

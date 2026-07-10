@@ -9,7 +9,7 @@ type AdvisorErrorProps = {
   onRetry?: () => void;
 };
 
-export function AdvisorError({ title = "Blueprint generation paused", message, onRetry }: AdvisorErrorProps) {
+export function AdvisorError({ title = "Blueprint generation paused", message, onRetry }: Readonly<AdvisorErrorProps>) {
   return (
     <div
       role="alert"

@@ -139,7 +139,7 @@ export default function AboutPage() {
   );
 }
 
-function Panel({ title, items }: { title: string; items: readonly string[] }) {
+function Panel({ title, items }: Readonly<{ title: string; items: readonly string[] }>) {
   return (
     <article className="rounded-[24px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
       <h2 className="text-xl font-semibold text-[var(--text-primary)]">{title}</h2>

@@ -6,6 +6,6 @@ type GradientTextProps = {
   className?: string;
 };
 
-export function GradientText({ children, className }: GradientTextProps) {
+export function GradientText({ children, className }: Readonly<GradientTextProps>) {
   return <span className={cn("aurora-text", className)}>{children}</span>;
 }

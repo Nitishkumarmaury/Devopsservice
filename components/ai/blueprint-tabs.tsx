@@ -11,7 +11,7 @@ type BlueprintTabsProps = {
 const tabs = ["Architecture", "Deployment", "Monitoring", "Security", "Scaling", "Implementation"] as const;
 type BlueprintTab = (typeof tabs)[number];
 
-function ListBlock({ title, items }: { title: string; items: string[] }) {
+function ListBlock({ title, items }: Readonly<{ title: string; items: string[] }>) {
   return (
     <div>
       <h4 className="text-sm font-semibold text-[var(--text-primary)]">{title}</h4>
@@ -24,7 +24,7 @@ function ListBlock({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-export function BlueprintTabs({ blueprint }: BlueprintTabsProps) {
+export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
   const [active, setActive] = useState<BlueprintTab>("Architecture");
   const id = useId();
 

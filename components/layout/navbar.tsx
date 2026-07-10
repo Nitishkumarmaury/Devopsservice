@@ -25,7 +25,7 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean }) {
+export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?: boolean }>) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

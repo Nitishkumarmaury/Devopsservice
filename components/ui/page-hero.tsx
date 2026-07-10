@@ -13,7 +13,7 @@ type PageHeroProps = {
   dark?: boolean;
 };
 
-export function PageHero({ eyebrow, title, highlight, children, actions, visual, dark = false }: PageHeroProps) {
+export function PageHero({ eyebrow, title, highlight, children, actions, visual, dark = false }: Readonly<PageHeroProps>) {
   const titleContent = highlight && title.includes(highlight) ? (
     <>
       {title.split(highlight)[0]}

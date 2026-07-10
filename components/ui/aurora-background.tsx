@@ -4,7 +4,7 @@ type AuroraBackgroundProps = {
   className?: string;
 };
 
-export function AuroraBackground({ className }: AuroraBackgroundProps) {
+export function AuroraBackground({ className }: Readonly<AuroraBackgroundProps>) {
   return (
     <div
       aria-hidden="true"

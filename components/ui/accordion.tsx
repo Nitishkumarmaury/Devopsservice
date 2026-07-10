@@ -14,7 +14,7 @@ type AccordionProps = {
   items: readonly AccordionItem[];
 };
 
-export function Accordion({ items }: AccordionProps) {
+export function Accordion({ items }: Readonly<AccordionProps>) {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (

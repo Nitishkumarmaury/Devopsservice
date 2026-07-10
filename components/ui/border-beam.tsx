@@ -4,7 +4,7 @@ type BorderBeamProps = {
   className?: string;
 };
 
-export function BorderBeam({ className }: BorderBeamProps) {
+export function BorderBeam({ className }: Readonly<BorderBeamProps>) {
   return (
     <span
       aria-hidden="true"

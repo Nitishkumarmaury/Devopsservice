@@ -38,7 +38,7 @@ const approvedNodes = [
   },
 ] as const;
 
-export function ArchitectureDiagram({ blueprint }: ArchitectureDiagramProps) {
+export function ArchitectureDiagram({ blueprint }: Readonly<ArchitectureDiagramProps>) {
   const componentPreview = blueprint.recommendedArchitecture.components.slice(0, 4).join(" / ");
   const flowText = approvedNodes.map((node) => node.label).join(" to ");
 

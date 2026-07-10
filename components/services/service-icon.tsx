@@ -21,7 +21,7 @@ const iconMap = {
   migration: ServerCog,
 };
 
-export function ServiceIcon({ icon }: { icon: Service["icon"] }) {
+export function ServiceIcon({ icon }: Readonly<{ icon: Service["icon"] }>) {
   const Icon = iconMap[icon];
   return <Icon className="h-5 w-5" aria-hidden="true" />;
 }

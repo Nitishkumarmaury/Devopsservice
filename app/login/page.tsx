@@ -22,7 +22,7 @@ function safeNextPath(value: string | string[] | undefined) {
   return next;
 }
 
-export default async function LoginPage({ searchParams }: LoginPageProps) {
+export default async function LoginPage({ searchParams }: Readonly<LoginPageProps>) {
   const params = await searchParams;
   const nextPath = safeNextPath(params?.next);
   const resetValue = Array.isArray(params?.reset) ? params?.reset[0] : params?.reset;

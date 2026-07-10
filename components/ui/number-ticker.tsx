@@ -10,7 +10,7 @@ type NumberTickerProps = {
   suffix?: string;
 };
 
-export function NumberTicker({ value, numericValue, suffix = "+" }: NumberTickerProps) {
+export function NumberTicker({ value, numericValue, suffix = "+" }: Readonly<NumberTickerProps>) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [current, setCurrent] = useState(0);

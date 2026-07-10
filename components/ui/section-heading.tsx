@@ -9,7 +9,7 @@ type SectionHeadingProps = {
   className?: string;
 };
 
-export function SectionHeading({ eyebrow, title, children, align = "left", className }: SectionHeadingProps) {
+export function SectionHeading({ eyebrow, title, children, align = "left", className }: Readonly<SectionHeadingProps>) {
   return (
     <div className={cn(align === "center" && "mx-auto text-center", "max-w-3xl", className)}>
       {eyebrow ? (

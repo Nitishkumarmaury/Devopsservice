@@ -4,7 +4,7 @@ import { useState } from "react";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function LogoutButton({ className }: { className?: string }) {
+export function LogoutButton({ className }: Readonly<{ className?: string }>) {
   const [submitting, setSubmitting] = useState(false);
 
   const logout = async () => {

@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-export function GlowCard({ className, children, ...props }: HTMLAttributes<HTMLElement>) {
+export function GlowCard({ className, children, ...props }: Readonly<HTMLAttributes<HTMLElement>>) {
   return (
     <article
       className={cn(
