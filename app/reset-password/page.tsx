@@ -14,7 +14,7 @@ export const metadata: Metadata = createPageMetadata({
   noIndex: true,
 });
 
-export default async function ResetPasswordPage({ searchParams }: Readonly<ResetPasswordPageProps>) {
+export default async function ResetPasswordPage({ searchParams }: ResetPasswordPageProps) {
   const params = await searchParams;
   const tokenValue = Array.isArray(params?.token) ? params?.token[0] : params?.token;
 

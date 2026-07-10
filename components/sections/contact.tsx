@@ -21,7 +21,7 @@ type ApiResponse = {
 const inputClass =
   "premium-focus mt-2 block w-full rounded-xl border border-rose-200/70 !bg-white/85 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(15,34,48,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
 
-function FieldError({ message }: Readonly<{ message?: string }>) {
+function FieldError({ message }: { message?: string }) {
   if (!message) return null;
   return <p className="mt-2 text-sm text-amber-200">{message}</p>;
 }

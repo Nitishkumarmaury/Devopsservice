@@ -22,7 +22,7 @@ export function generateStaticParams() {
   return [...seoMoneyPages.map((page) => ({ slug: page.slug })), ...seoArticles.map((article) => ({ slug: article.slug }))];
 }
 
-export async function generateMetadata({ params }: Readonly<SeoPageProps>): Promise<Metadata> {
+export async function generateMetadata({ params }: SeoPageProps): Promise<Metadata> {
   const { slug } = await params;
   const page = getSeoLandingPageBySlug(slug);
   if (page) {
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Readonly<SeoPageProps>): Prom
   return {};
 }
 
-export default async function SeoLandingPage({ params }: Readonly<SeoPageProps>) {
+export default async function SeoLandingPage({ params }: SeoPageProps) {
   const { slug } = await params;
   const page = getSeoLandingPageBySlug(slug);
   if (page) {

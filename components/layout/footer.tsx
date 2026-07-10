@@ -77,7 +77,7 @@ export function Footer() {
   );
 }
 
-function FooterColumn({ title, links }: Readonly<{ title: string; links: Array<{ label: string; href: string }> }>) {
+function FooterColumn({ title, links }: { title: string; links: Array<{ label: string; href: string }> }) {
   return (
     <div>
       <p className="text-sm font-semibold text-white">{title}</p>

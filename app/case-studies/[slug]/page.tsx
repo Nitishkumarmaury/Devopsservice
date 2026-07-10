@@ -20,7 +20,7 @@ export function generateStaticParams() {
   return caseStudies.map((study) => ({ slug: study.slug }));
 }
 
-export async function generateMetadata({ params }: Readonly<CaseStudyPageProps>): Promise<Metadata> {
+export async function generateMetadata({ params }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudyBySlug(slug);
   if (!study) return {};
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Readonly<CaseStudyPageProps>)
   });
 }
 
-export default async function CaseStudyDetailPage({ params }: Readonly<CaseStudyPageProps>) {
+export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
   const study = getCaseStudyBySlug(slug);
   if (!study) notFound();

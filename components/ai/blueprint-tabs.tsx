@@ -11,7 +11,7 @@ type BlueprintTabsProps = {
 const tabs = ["Architecture", "Deployment", "Monitoring", "Security", "Scaling", "Implementation"] as const;
 type BlueprintTab = (typeof tabs)[number];
 
-function ListBlock({ title, items }: Readonly<{ title: string; items: string[] }>) {
+function ListBlock({ title, items }: { title: string; items: string[] }) {
   return (
     <div>
       <h4 className="text-sm font-semibold text-[var(--text-primary)]">{title}</h4>
@@ -33,7 +33,7 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
       <div
         role="tablist"
         aria-label="Blueprint recommendations"
-        className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6"
+        className="grid grid-cols-[repeat(auto-fit,minmax(8.75rem,1fr))] gap-2"
       >
         {tabs.map((tab) => (
           <button
@@ -45,7 +45,7 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
             aria-controls={`${id}-${tab}-panel`}
             onClick={() => setActive(tab)}
             className={cn(
-              "min-h-10 rounded-xl border px-3 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+              "min-h-10 min-w-0 whitespace-nowrap rounded-xl border px-3 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
               active === tab
                 ? "border-rose-200 bg-rose-50 text-rose-800 shadow-[0_14px_34px_rgba(14,165,183,0.1)]"
                 : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
