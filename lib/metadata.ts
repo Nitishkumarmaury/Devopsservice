@@ -40,11 +40,10 @@ export const defaultMetadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icons/favicon.png", sizes: "256x256", type: "image/png" },
       { url: "/icons/favicon.svg", type: "image/svg+xml" },
+      { url: "/icons/favicon.png", sizes: "256x256", type: "image/png" },
     ],
-    shortcut: [{ url: "/favicon.ico" }],
+    shortcut: [{ url: "/icons/favicon.svg" }],
     apple: [{ url: siteConfig.logo, sizes: "180x180", type: "image/png" }],
   },
 };
