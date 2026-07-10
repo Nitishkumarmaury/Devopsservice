@@ -228,8 +228,8 @@ function ArticlePage({ article }: { article: SeoArticle }) {
     datePublished: article.publishedAt,
     dateModified: article.updatedAt,
     author: {
-      "@type": "Person",
-      name: siteConfig.founder,
+      "@type": "Organization",
+      name: siteConfig.name,
     },
     publisher: {
       "@type": "Organization",

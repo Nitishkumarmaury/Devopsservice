@@ -29,9 +29,9 @@ import { consultationHref } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "DevOps Consultant for Startups, SaaS and SMBs",
+  title: "DevOps and Cloud Engineering Services for Startups, SaaS and SMBs",
   description:
-    "Freelance DevOps consultant offering CI/CD, AWS EC2 deployment, Docker, Kubernetes, monitoring and production support for startups, SaaS teams and agencies.",
+    "Service-based DevOps and cloud engineering company offering CI/CD, AWS EC2 deployment, Docker, Kubernetes, monitoring and production support for startups, SaaS teams and agencies.",
   path: "/",
 });
 
@@ -93,8 +93,8 @@ export default function Page() {
                 DevOps Consulting for Fast, Reliable <GradientText>Production Delivery</GradientText>
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-8 text-[var(--text-secondary)] sm:text-lg">
-                Freelance DevOps consultant for startups, SaaS teams, SMBs, and agencies that need CI/CD, AWS EC2
-                deployment, Docker, Kubernetes, monitoring, and production support.
+                Service-based DevOps and cloud engineering support for startups, SaaS teams, SMBs, and agencies that
+                need CI/CD, AWS EC2 deployment, Docker, Kubernetes, monitoring, and production support.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <AnimatedShinyButton url={consultationHref}>Book a Consultation</AnimatedShinyButton>

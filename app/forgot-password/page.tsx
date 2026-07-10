@@ -7,7 +7,7 @@ import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Forgot Password",
-  description: "Request a secure password reset link for your Torvique account.",
+  description: "Request a secure password reset link for your CloudOpsync account.",
   path: "/forgot-password",
   noIndex: true,
 });

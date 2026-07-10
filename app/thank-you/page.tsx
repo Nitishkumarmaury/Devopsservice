@@ -5,7 +5,7 @@ import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Thank You",
-  description: "Thank you page for Torvique project inquiries.",
+  description: "Thank you page for CloudOpsync project inquiries.",
   path: "/thank-you",
   noIndex: true,
 });

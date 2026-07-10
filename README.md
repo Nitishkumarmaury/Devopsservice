@@ -1,4 +1,4 @@
-# Torvique
+# CloudOpsync
 
 Premium DevOps and cloud engineering landing page built with Next.js App Router, TypeScript, Tailwind CSS, Motion for React, Lucide icons, React Hook Form, and Zod.
 

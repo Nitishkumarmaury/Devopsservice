@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Download, FileCheck2, Mail, MapPin, ShieldCheck } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -14,21 +15,22 @@ export function AboutSection() {
             <div className="relative mx-auto flex aspect-[4/5] w-full max-w-sm items-center justify-center rounded-lg border border-white/10 bg-white/[0.035] shadow-glow">
               <div className="absolute inset-4 rounded-lg border border-dashed border-white/12" />
               <div className="text-center">
-                <div className="mx-auto grid h-24 w-24 place-items-center rounded-lg border border-cyan-300/25 bg-cyan-300/[0.08] text-3xl font-semibold text-cyan-100">
-                  NM
+                <div className="mx-auto grid h-24 w-24 place-items-center overflow-hidden rounded-lg border border-cyan-300/25 bg-white text-3xl font-semibold text-cyan-100 shadow-[0_18px_45px_rgba(14,165,183,0.14)]">
+                  <Image src={siteConfig.logo} alt="" width={527} height={323} className="h-16 w-20 object-contain" />
                 </div>
-                <p className="mt-5 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">DevOps and Cloud Engineer</p>
+                <p className="mt-5 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">Founded by {siteConfig.founder}</p>
+                <p className="mt-2 text-sm text-slate-400">{siteConfig.type}</p>
               </div>
             </div>
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            <SectionHeading title="Led by Nitish Maurya." eyebrow="About">
+            <SectionHeading title="Service-based DevOps and cloud engineering." eyebrow="About CloudOpsync">
               <p>
-                Led by Nitish Maurya, a DevOps and Cloud Engineer experienced in deploying, maintaining, monitoring, and troubleshooting modern web applications and production infrastructure.
+                CloudOpsync helps startups, SaaS teams, SMBs, and agencies deploy, maintain, monitor, and troubleshoot modern web applications and production infrastructure.
               </p>
               <p>
-                His work covers Linux server administration, cloud deployments, CI/CD automation, reverse proxy configuration, SSL, process management, infrastructure monitoring, performance investigation, and production incident resolution.
+                Founded by {siteConfig.founder}, the company brings hands-on DevOps experience across Linux server administration, cloud deployments, CI/CD automation, reverse proxy configuration, SSL, process management, infrastructure monitoring, performance investigation, and production incident resolution.
               </p>
               <p>
                 The focus is straightforward: build infrastructure that is understandable, reliable, secure, and easier for development teams to operate.

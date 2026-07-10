@@ -9,7 +9,7 @@ type ResetPasswordPageProps = {
 
 export const metadata: Metadata = createPageMetadata({
   title: "Reset Password",
-  description: "Set a new password for your Torvique account.",
+  description: "Set a new password for your CloudOpsync account.",
   path: "/reset-password",
   noIndex: true,
 });

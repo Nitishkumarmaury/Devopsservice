@@ -6,7 +6,7 @@ import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Privacy Policy",
-  description: "Privacy policy for Torvique website inquiries and project consultation data.",
+  description: "Privacy policy for CloudOpsync website inquiries and project consultation data.",
   path: "/privacy",
 });
 

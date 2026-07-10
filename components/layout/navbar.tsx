@@ -96,17 +96,12 @@ export function Navbar({ isAuthenticated = false }: { isAuthenticated?: boolean 
         <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#102437] via-[#0f6f7d] to-[#d5a645] will-change-transform" />
       </div>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link href="/" className="group inline-flex shrink-0 items-center gap-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
-          <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-lg border border-white/70 bg-white shadow-[0_12px_28px_rgba(15,34,48,0.16)] ring-1 ring-cyan-100/70">
-            <Image src={siteConfig.logo} alt={`${siteConfig.name} logo`} width={40} height={34} className="h-8 w-9 object-contain" priority />
+        <Link href="/" aria-label={siteConfig.name} className="group inline-flex shrink-0 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
+          <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-lg border border-white/70 bg-white shadow-[0_12px_28px_rgba(15,34,48,0.14)] ring-1 ring-cyan-100/70">
+            <Image src={siteConfig.logo} alt="" width={527} height={323} className="h-8 w-10 object-contain" priority />
           </span>
-          <span className="flex min-w-[7.25rem] flex-col leading-none">
-            <span className="text-[13px] font-semibold leading-[1.06] text-[var(--text-primary)]">
-              <span className="block">{siteConfig.name}</span>
-            </span>
-            <span className="mt-1 hidden font-mono text-[8px] uppercase tracking-[0.22em] text-[var(--text-muted)] sm:inline">
-              Cloud Engineering
-            </span>
+          <span className="hidden h-11 w-[152px] items-center overflow-hidden rounded-lg border border-white/70 bg-white px-2 shadow-[0_12px_28px_rgba(15,34,48,0.1)] ring-1 ring-cyan-100/60 min-[520px]:inline-flex sm:w-[172px]">
+            <Image src={siteConfig.logoWordmark} alt={`${siteConfig.name} logo`} width={1012} height={185} className="h-auto w-full object-contain" priority />
           </span>
         </Link>
 

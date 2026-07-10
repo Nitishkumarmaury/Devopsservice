@@ -31,14 +31,11 @@ export function Footer() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(61,184,197,0.16),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(213,166,69,0.12),transparent_28%)]" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.5fr_0.7fr_1fr_0.8fr] lg:px-8">
         <div>
-          <Link href="/" className="inline-flex items-center gap-3">
-            <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-xl border border-white/20 bg-white shadow-[0_14px_34px_rgba(15,111,125,0.2)]">
-              <Image src={siteConfig.logo} alt={`${siteConfig.name} logo`} width={48} height={40} className="h-10 w-11 object-contain" />
+          <Link href="/" className="inline-flex flex-col gap-3">
+            <span className="inline-flex h-14 w-[238px] items-center overflow-hidden rounded-xl border border-white/20 bg-white px-3 shadow-[0_14px_34px_rgba(15,111,125,0.24)]">
+              <Image src={siteConfig.logoFull} alt={`${siteConfig.name} logo`} width={1578} height={323} className="h-auto w-full object-contain" />
             </span>
-            <span>
-              <span className="block text-sm font-semibold text-white">{siteConfig.name}</span>
-              <span className="mt-1 block text-sm text-white/64">{siteConfig.tagline}</span>
-            </span>
+            <span className="text-sm text-white/64">{siteConfig.tagline}</span>
           </Link>
           <p className="mt-5 max-w-md text-sm leading-6 text-white/68">
             Production deployment and managed DevOps support for Node.js, Next.js and NestJS applications on AWS and DigitalOcean.

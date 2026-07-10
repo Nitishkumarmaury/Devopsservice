@@ -6,7 +6,7 @@ const sameAs = Object.values(siteConfig.social).filter((url) => url.startsWith("
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | DevOps Consultant for Startups and SaaS`,
+    default: `${siteConfig.name} | DevOps and Cloud Engineering Services`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -18,7 +18,7 @@ export const defaultMetadata: Metadata = {
     },
   },
   openGraph: {
-    title: `${siteConfig.name} | DevOps Consultant for Startups and SaaS`,
+    title: `${siteConfig.name} | DevOps and Cloud Engineering Services`,
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
@@ -34,13 +34,18 @@ export const defaultMetadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} | DevOps Consultant for Startups and SaaS`,
+    title: `${siteConfig.name} | DevOps and Cloud Engineering Services`,
     description: siteConfig.description,
     images: ["/opengraph-image"],
   },
   icons: {
-    icon: [{ url: "/icons/favicon.png", type: "image/png" }],
-    apple: [{ url: siteConfig.logo, type: "image/png" }],
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/favicon.png", sizes: "256x256", type: "image/png" },
+      { url: "/icons/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: [{ url: "/favicon.ico" }],
+    apple: [{ url: siteConfig.logo, sizes: "180x180", type: "image/png" }],
   },
 };
 
@@ -92,18 +97,6 @@ export const jsonLd = [
       name: siteConfig.founder,
     },
     priceRange: "$$",
-    sameAs,
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: siteConfig.founder,
-    jobTitle: "DevOps and Cloud Engineer",
-    worksFor: {
-      "@type": "Organization",
-      name: siteConfig.name,
-    },
-    url: siteConfig.url,
     sameAs,
   },
 ];

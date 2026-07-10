@@ -26,36 +26,37 @@ const clients = [
 ] as const;
 
 export const metadata: Metadata = createPageMetadata({
-  title: "About Nitish Maurya",
+  title: "About CloudOpsync",
   description:
-    "About Nitish Maurya, a DevOps and Cloud Engineer focused on Linux, AWS, DigitalOcean, CI/CD, deployment, monitoring, and production troubleshooting.",
+    "About CloudOpsync, a service-based DevOps and cloud engineering company focused on reliable deployments, CI/CD, monitoring, cloud infrastructure, and production support.",
   path: "/about",
 });
 
 export default function AboutPage() {
-  const personJsonLd = {
+  const organizationJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: siteConfig.founder,
-    jobTitle: "DevOps and Cloud Engineer",
-    worksFor: {
-      "@type": "Organization",
-      name: siteConfig.name,
-    },
+    "@type": "Organization",
+    name: siteConfig.legalName,
     url: siteConfig.url,
+    logo: `${siteConfig.url}${siteConfig.logo}`,
+    description: siteConfig.description,
+    founder: {
+      "@type": "Person",
+      name: siteConfig.founder,
+    },
   };
-  const profilePageJsonLd = {
+  const aboutPageJsonLd = {
     "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    name: `About ${siteConfig.founder}`,
+    "@type": "AboutPage",
+    name: `About ${siteConfig.name}`,
     url: `${siteConfig.url}/about`,
-    mainEntity: personJsonLd,
+    mainEntity: organizationJsonLd,
   };
 
   return (
     <SiteFrame>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageJsonLd) }} />
       <PageHero
         eyebrow="About"
         title="Practical DevOps and cloud engineering for production systems."
@@ -66,22 +67,23 @@ export default function AboutPage() {
           </ButtonLink>
         }
       >
-        Nitish Maurya is a DevOps and Cloud Engineer focused on deploying, maintaining, monitoring, and troubleshooting
-        modern web applications and production infrastructure.
+        CloudOpsync is a service-based DevOps and cloud engineering company focused on deploying, maintaining,
+        monitoring, and troubleshooting modern web applications and production infrastructure. Founded by{" "}
+        {siteConfig.founder}, the company is built for teams that need reliable delivery without infrastructure guesswork.
       </PageHero>
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
-              <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)]">Professional focus</h2>
+              <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)]">Company focus</h2>
               <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
-                His practical work includes Linux server administration, AWS and DigitalOcean deployments, CI/CD
+                Our practical work includes Linux server administration, AWS and DigitalOcean deployments, CI/CD
                 automation, reverse proxy configuration, SSL, PM2, Docker, infrastructure monitoring, performance
                 investigation, and production incident resolution.
               </p>
               <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
-                The working style is direct and implementation-oriented: understand the production risk, choose a
+                The delivery style is direct and implementation-oriented: understand the production risk, choose a
                 practical path, validate the outcome, and leave behind clear handover notes.
               </p>
             </div>

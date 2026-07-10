@@ -1,16 +1,17 @@
 export const siteConfig = {
-  name: "Torvique",
-  legalName: "Torvique",
+  name: "CloudOpsync",
+  legalName: "CloudOpsync",
   founder: "Nitish Maurya",
   type: "DevOps and Cloud Engineering Services",
   tagline: "DevOps and Cloud Engineering",
-  logo: "/brand/torvique-mark.png",
-  logoFull: "/brand/torvique-logo.png",
+  logo: "/brand/cloudopsync-mark.png",
+  logoWordmark: "/brand/cloudopsync-wordmark.png",
+  logoFull: "/brand/cloudopsync-logo.png",
   url: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://example.com",
   email: "nitish.henceforth@gmail.com",
   location: "Remote - India / International",
   description:
-    "Freelance DevOps consultant offering CI/CD, AWS EC2 deployment, Docker, Kubernetes, monitoring, and production support for startups, SaaS teams, SMBs, and agencies.",
+    "Service-based DevOps and cloud engineering company offering CI/CD, AWS EC2 deployment, Docker, Kubernetes, monitoring, and production support for startups, SaaS teams, SMBs, and agencies.",
   social: {
     linkedin: "",
     github: "",
