@@ -5,7 +5,7 @@ type ArchitectureDiagramProps = {
   blueprint: InfrastructureBlueprint;
 };
 
-const approvedNodes = [
+const baseNodes = [
   {
     label: "Users",
     detail: "Visitor and application traffic",
@@ -39,6 +39,28 @@ const approvedNodes = [
 ] as const;
 
 export function ArchitectureDiagram({ blueprint }: Readonly<ArchitectureDiagramProps>) {
+  const coveredRequirements = blueprint.requirementCoverage.map((item) => item.requirement.toLowerCase());
+  const includesLoadBalancing = coveredRequirements.includes("load balancing");
+  const includesKubernetes = coveredRequirements.includes("kubernetes");
+  const approvedNodes = baseNodes.map((node) => {
+    if (node.label === "CDN / Reverse Proxy" && includesLoadBalancing) {
+      return {
+        ...node,
+        label: "Load Balancer / Edge Proxy",
+        detail: "TLS, routing, health checks, and traffic distribution",
+      };
+    }
+
+    if (node.label === "Application Services" && includesKubernetes) {
+      return {
+        ...node,
+        label: "Container Platform",
+        detail: "Pods, services, workers, probes, and autoscaling",
+      };
+    }
+
+    return node;
+  });
   const componentPreview = blueprint.recommendedArchitecture.components.slice(0, 4).join(" / ");
   const flowText = approvedNodes.map((node) => node.label).join(" to ");
 

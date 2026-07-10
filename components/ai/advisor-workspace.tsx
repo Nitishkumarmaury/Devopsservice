@@ -14,7 +14,7 @@ import type { InfrastructureBlueprint } from "@/types/infrastructure-blueprint";
 import Strands from "@/components/visuals/strands";
 
 type ViewState = "form" | "loading" | "result" | "error";
-const CLIENT_TIMEOUT_MS = 22000;
+const CLIENT_TIMEOUT_MS = 38000;
 
 type AdvisorApiResponse =
   | {

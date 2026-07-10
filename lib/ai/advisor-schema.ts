@@ -91,6 +91,21 @@ const stringList = (minItems = 1, maxItems = 8, maxLength = 180) =>
 
 export const infrastructureBlueprintSchema: z.ZodType<InfrastructureBlueprint> = z.object({
   executiveSummary: boundedString(30, 1100),
+  inputAnalysis: z.object({
+    workloadProfile: boundedString(30, 600),
+    architectureDrivers: stringList(2, 8, 260),
+    riskSignals: stringList(1, 8, 320),
+  }),
+  requirementCoverage: z
+    .array(
+      z.object({
+        requirement: boundedString(2, 80),
+        recommendation: boundedString(20, 360),
+        implementationStep: boundedString(20, 360),
+      }),
+    )
+    .min(1)
+    .max(requirementOptions.length),
   recommendedArchitecture: z.object({
     title: boundedString(4, 140),
     description: boundedString(30, 1100),
@@ -114,7 +129,11 @@ export const infrastructureBlueprintSchema: z.ZodType<InfrastructureBlueprint> =
       z.object({
         phase: boundedString(2, 40),
         title: boundedString(4, 120),
+        duration: boundedString(3, 80),
+        objective: boundedString(20, 420),
         actions: stringList(2, 6, 220),
+        deliverables: stringList(1, 6, 220),
+        validation: stringList(1, 6, 220),
       }),
     )
     .min(2)

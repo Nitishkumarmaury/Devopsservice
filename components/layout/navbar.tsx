@@ -189,7 +189,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
           )}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-1.5 lg:flex">
           {isAuthenticated ? (
             <LogoutButton />
           ) : (
@@ -202,9 +202,9 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
               </AnimatedShinyButton>
             </>
           )}
-          <AnimatedShinyButton url={consultationHref} showArrow={false} className="px-3.5">
+          <AnimatedShinyButton url={consultationHref} showArrow={false} className="px-3">
             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-            Book a Consultation
+            Consultation
           </AnimatedShinyButton>
         </div>
 

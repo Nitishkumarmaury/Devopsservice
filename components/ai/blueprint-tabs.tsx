@@ -108,13 +108,23 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
           <div className="space-y-4">
             {blueprint.implementationPhases.map((phase) => (
               <div key={`${phase.phase}-${phase.title}`} className="rounded-xl border border-rose-100 bg-white/76 p-4">
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-rose-700">{phase.phase}</p>
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-rose-700">{phase.phase}</p>
+                  <span className="w-fit rounded-lg border border-rose-100 bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800">
+                    {phase.duration}
+                  </span>
+                </div>
                 <h4 className="mt-2 text-sm font-semibold text-[var(--text-primary)]">{phase.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{phase.objective}</p>
                 <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)]">
                   {phase.actions.map((action) => (
                     <li key={action}>- {action}</li>
                   ))}
                 </ul>
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  <ListBlock title="Deliverables" items={phase.deliverables} />
+                  <ListBlock title="Validation" items={phase.validation} />
+                </div>
               </div>
             ))}
           </div>

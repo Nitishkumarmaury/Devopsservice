@@ -5,6 +5,7 @@ import {
   type AdvisorRequest,
 } from "@/lib/ai/advisor-schema";
 import { createFallbackBlueprint } from "@/lib/ai/blueprint-fallback";
+import { buildInputAnalysis, enrichBlueprintForRequest, mergeRequirementCoverage } from "@/lib/ai/blueprint-enrichment";
 import { buildAdvisorPrompt } from "@/lib/ai/advisor-prompt";
 import { createAdvisorInteraction, hasAdvisorProviderConfig } from "@/lib/ai/provider";
 import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
@@ -16,7 +17,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const BODY_LIMIT_BYTES = 14000;
-const REQUEST_TIMEOUT_MS = 16000;
+const REQUEST_TIMEOUT_MS = 35000;
 
 const limiter = createMemoryRateLimiter({
   windowMs: 10 * 60 * 1000,
@@ -95,17 +96,77 @@ function normalizeList(value: unknown, maxItems: number, maxLength: number) {
   return value.slice(0, maxItems).map((item) => trimText(item, maxLength));
 }
 
-function normalizeBlueprintCandidate(candidate: unknown) {
+function textOrFallback(value: unknown, maxLength: number, fallback: string) {
+  const trimmed = trimText(value, maxLength);
+  return typeof trimmed === "string" && trimmed.trim() ? trimmed : fallback;
+}
+
+function listOrFallback(value: unknown, maxItems: number, maxLength: number, fallback: string[], minItems = 1) {
+  const normalized = normalizeList(value, maxItems, maxLength);
+  return Array.isArray(normalized) && normalized.length >= minItems ? normalized : fallback;
+}
+
+function normalizePhaseCandidate(phase: unknown, index: number) {
+  const item = (phase ?? {}) as Record<string, unknown>;
+  const title = typeof item.title === "string" && item.title.trim() ? item.title.trim() : `Implementation phase ${index + 1}`;
+  const actions = Array.isArray(item.actions) ? item.actions : [];
+  const deliverableFallback = actions.length
+    ? actions.slice(0, 2).map((action) => `${String(action)} completed`)
+    : ["Implementation deliverables documented"];
+
+  return {
+    ...item,
+    phase: textOrFallback(item.phase, 30, `Phase ${index + 1}`),
+    title: textOrFallback(title, 100, `Implementation phase ${index + 1}`),
+    duration: textOrFallback(item.duration, 80, index === 0 ? "1-2 weeks" : "2-3 weeks"),
+    objective: textOrFallback(
+      item.objective,
+      360,
+      `Complete ${title.toLowerCase()} with documented ownership, release checks, and production validation.`,
+    ),
+    actions: listOrFallback(actions, 4, 180, [
+      "Complete the planned implementation tasks",
+      "Document ownership, rollback notes, and production impact",
+    ], 2),
+    deliverables: listOrFallback(
+      item.deliverables,
+      4,
+      180,
+      deliverableFallback,
+    ),
+    validation: listOrFallback(item.validation, 4, 180, [
+      "Implementation reviewed against the submitted requirements",
+      "Production impact and rollback path are documented",
+    ]),
+  };
+}
+
+function normalizeBlueprintCandidate(candidate: unknown, values: AdvisorRequest) {
   if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) return candidate;
 
   const source = candidate as Record<string, unknown>;
+  const inputAnalysis = (source.inputAnalysis ?? {}) as Record<string, unknown>;
   const architecture = (source.recommendedArchitecture ?? {}) as Record<string, unknown>;
   const deployment = (source.deploymentStrategy ?? {}) as Record<string, unknown>;
   const observability = (source.observabilityPlan ?? {}) as Record<string, unknown>;
+  const fallbackAnalysis = buildInputAnalysis(values);
 
-  return {
+  const normalized = {
     ...source,
     executiveSummary: trimText(source.executiveSummary, 900),
+    inputAnalysis: {
+      ...inputAnalysis,
+      workloadProfile: textOrFallback(inputAnalysis.workloadProfile, 600, fallbackAnalysis.workloadProfile),
+      architectureDrivers: listOrFallback(
+        inputAnalysis.architectureDrivers,
+        6,
+        240,
+        fallbackAnalysis.architectureDrivers,
+        2,
+      ),
+      riskSignals: listOrFallback(inputAnalysis.riskSignals, 6, 300, fallbackAnalysis.riskSignals),
+    },
+    requirementCoverage: mergeRequirementCoverage(source as Partial<InfrastructureBlueprint>, values),
     recommendedArchitecture: {
       ...architecture,
       title: trimText(architecture.title, 120),
@@ -128,34 +189,28 @@ function normalizeBlueprintCandidate(candidate: unknown) {
     scalingPlan: normalizeList(source.scalingPlan, 5, 180),
     costConsiderations: normalizeList(source.costConsiderations, 5, 180),
     implementationPhases: Array.isArray(source.implementationPhases)
-      ? source.implementationPhases.slice(0, 4).map((phase) => {
-          const item = (phase ?? {}) as Record<string, unknown>;
-          return {
-            ...item,
-            phase: trimText(item.phase, 30),
-            title: trimText(item.title, 100),
-            actions: normalizeList(item.actions, 4, 180),
-          };
-        })
+      ? source.implementationPhases.slice(0, 5).map((phase, index) => normalizePhaseCandidate(phase, index))
       : source.implementationPhases,
     assumptions: normalizeList(source.assumptions, 6, 180),
     questionsForDiscoveryCall: normalizeList(source.questionsForDiscoveryCall, 6, 180),
   };
+
+  return normalized;
 }
 
-function parseBlueprint(rawOutput: string) {
+function parseBlueprint(rawOutput: string, values: AdvisorRequest) {
   const jsonObject = extractJsonObject(rawOutput);
   const parsed = infrastructureBlueprintSchema.safeParse(jsonObject);
   if (parsed.success) return parsed;
-  return infrastructureBlueprintSchema.safeParse(normalizeBlueprintCandidate(jsonObject));
+  return infrastructureBlueprintSchema.safeParse(normalizeBlueprintCandidate(jsonObject, values));
 }
 
 async function generateAndValidateBlueprint(values: AdvisorRequest, signal: AbortSignal) {
   const firstOutput = await createAdvisorInteraction(buildAdvisorPrompt(values), signal);
-  const firstParse = parseBlueprint(firstOutput);
+  const firstParse = parseBlueprint(firstOutput, values);
 
   if (firstParse.success) {
-    return firstParse.data;
+    return enrichBlueprintForRequest(firstParse.data, values);
   }
 
   return createFallbackBlueprint(values);

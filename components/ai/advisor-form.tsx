@@ -165,7 +165,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
       <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" {...register("website")} />
 
       <div className="rounded-2xl border border-rose-100 bg-white/68 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-        <div role="tablist" aria-label="Advisor steps" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <div role="tablist" aria-label="Advisor steps" className="grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-2">
           {steps.map((label, index) => (
             <button
               key={label}
@@ -175,7 +175,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
               aria-controls={`advisor-step-${index}`}
               onClick={() => goToStep(index as Step)}
               className={cn(
-                "min-h-11 rounded-xl border px-3 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+                "min-h-11 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
                 step === index
                   ? stepAccentClass[index]
                   : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",

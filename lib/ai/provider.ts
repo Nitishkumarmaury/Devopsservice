@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 import { ADVISOR_SYSTEM_INSTRUCTION } from "@/lib/ai/advisor-prompt";
 
 const DEFAULT_ADVISOR_MODEL = "gemini-2.5-flash";
-const REQUEST_TIMEOUT_MS = 14000;
+const REQUEST_TIMEOUT_MS = 32000;
 
 export function getAdvisorModel() {
   return process.env.ADVISOR_MODEL || process.env.AI_PROVIDER_MODEL || process.env.GEMINI_MODEL || DEFAULT_ADVISOR_MODEL;
@@ -37,7 +37,7 @@ export async function createAdvisorInteraction(input: string, signal: AbortSigna
       generation_config: {
         temperature: 0.18,
         thinking_level: "minimal",
-        max_output_tokens: 2600,
+        max_output_tokens: 4200,
       },
     },
     {

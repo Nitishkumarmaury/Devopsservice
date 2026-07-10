@@ -1,5 +1,15 @@
 export type InfrastructureBlueprint = {
   executiveSummary: string;
+  inputAnalysis: {
+    workloadProfile: string;
+    architectureDrivers: string[];
+    riskSignals: string[];
+  };
+  requirementCoverage: Array<{
+    requirement: string;
+    recommendation: string;
+    implementationStep: string;
+  }>;
   recommendedArchitecture: {
     title: string;
     description: string;
@@ -21,7 +31,11 @@ export type InfrastructureBlueprint = {
   implementationPhases: Array<{
     phase: string;
     title: string;
+    duration: string;
+    objective: string;
     actions: string[];
+    deliverables: string[];
+    validation: string[];
   }>;
   assumptions: string[];
   questionsForDiscoveryCall: string[];

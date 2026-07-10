@@ -22,6 +22,18 @@ Return only valid JSON matching the required schema.`;
 
 const blueprintShape = {
   executiveSummary: "string",
+  inputAnalysis: {
+    workloadProfile: "string",
+    architectureDrivers: ["string"],
+    riskSignals: ["string"],
+  },
+  requirementCoverage: [
+    {
+      requirement: "string",
+      recommendation: "string",
+      implementationStep: "string",
+    },
+  ],
   recommendedArchitecture: {
     title: "string",
     description: "string",
@@ -44,7 +56,11 @@ const blueprintShape = {
     {
       phase: "string",
       title: "string",
+      duration: "string",
+      objective: "string",
       actions: ["string"],
+      deliverables: ["string"],
+      validation: ["string"],
     },
   ],
   assumptions: ["string"],
@@ -77,11 +93,14 @@ ${JSON.stringify(blueprintShape, null, 2)}
 
 Output constraints:
 - Return a single JSON object only.
+- Analyze the exact selected requirements. The requirementCoverage array must include one item for every selected requirement, using the same requirement text.
+- If the user selects load balancing, high availability, Kubernetes, backups, monitoring, security, cost, or any other service, include a concrete recommendation and implementation step for that selected service.
+- Make the architecture and roadmap respond to traffic, current hosting, server configuration, environments, cloud preference, stack, database, requirements, and challenges.
 - Keep the response concise, professional, and implementation-oriented.
 - Prefer short phrases over paragraphs inside arrays.
 - Keep summaries under 70 words.
 - Include 3 to 6 architecture components.
-- Include 2 to 4 implementation phases.
+- Include 3 to 5 implementation phases with duration, objective, actions, deliverables, and validation checks.
 - Include assumptions and questions for a professional discovery call.
 - Mention when a professional infrastructure audit is still required.
 - Do not include Markdown fences, prose outside JSON, or executable commands.`;
