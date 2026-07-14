@@ -40,11 +40,11 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
         )}
       />
       <Container className="relative z-10">
-        <div className={cn("grid gap-10 py-16 sm:py-20", visual ? "lg:grid-cols-[1fr_0.8fr] lg:items-center" : "")}>
-          <div className="max-w-4xl">
+        <div className={cn("grid min-w-0 gap-10 py-12 sm:py-20", visual ? "lg:grid-cols-[1fr_0.8fr] lg:items-center" : "")}>
+          <div className="min-w-0 max-w-4xl [overflow-wrap:anywhere]">
             <p
               className={cn(
-                "font-mono text-xs font-semibold uppercase tracking-[0.22em]",
+                "font-mono text-xs font-semibold uppercase leading-6 tracking-[0.14em] sm:tracking-[0.22em]",
                 dark ? "text-cyan-100" : "text-[var(--rose-dark)]",
               )}
             >
@@ -52,7 +52,7 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
             </p>
             <h1
               className={cn(
-                "mt-5 text-5xl font-semibold leading-[1.02] tracking-[-0.035em] sm:text-6xl lg:text-7xl",
+                "mt-5 text-4xl font-semibold leading-[1.04] tracking-[-0.02em] sm:text-6xl sm:tracking-[-0.035em] lg:text-7xl",
                 dark ? "text-white" : "text-[var(--text-primary)]",
               )}
             >
@@ -63,9 +63,9 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
                 {children}
               </div>
             ) : null}
-            {actions ? <div className="mt-8 flex flex-col gap-3 sm:flex-row">{actions}</div> : null}
+            {actions ? <div className="mt-8 flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap">{actions}</div> : null}
           </div>
-          {visual ? <div className="relative">{visual}</div> : null}
+          {visual ? <div className="relative min-w-0">{visual}</div> : null}
         </div>
       </Container>
     </section>

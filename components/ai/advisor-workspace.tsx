@@ -139,50 +139,52 @@ export function AdvisorWorkspace() {
   return (
     <div
       id="cloud-advisor-workspace"
-      className="aurora-panel relative scroll-mt-28 overflow-hidden rounded-[26px] p-4 shadow-[0_34px_120px_rgba(15,34,48,0.14),0_0_80px_rgba(14,165,183,0.08)] sm:p-6"
+      className="aurora-panel relative min-w-0 scroll-mt-28 overflow-hidden rounded-[20px] p-3 shadow-[0_34px_120px_rgba(15,34,48,0.14),0_0_80px_rgba(14,165,183,0.08)] [overflow-wrap:anywhere] sm:rounded-[26px] sm:p-6"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] opacity-35" aria-hidden="true">
-        <div style={{ width: "100%", height: "600px", position: "relative" }}>
-          <Strands
-            colors={["#F04493", "#8057FF", "#12A9C7"]}
-            count={3}
-            speed={0.5}
-            amplitude={1}
-            waviness={1}
-            thickness={0.7}
-            glow={2.6}
-            taper={3}
-            spread={1}
-            intensity={0.6}
-            saturation={2}
-            opacity={1}
-            scale={1.5}
-            glass={false}
-            refraction={1}
-            dispersion={1}
-            glassSize={1}
-            hueShift={0}
-          />
-        </div>
+      <div
+        className="pointer-events-none absolute left-1/2 top-[-1rem] h-[560px] w-[148%] max-w-[56rem] -translate-x-1/2 opacity-45 sm:top-[-2rem] sm:h-[620px] sm:w-[130%] sm:opacity-35 xl:w-[115%]"
+        aria-hidden="true"
+      >
+        <Strands
+          className="h-full w-full"
+          colors={["#0EA5B7", "#7C5CFF", "#F04493", "#D5A645"]}
+          count={4}
+          speed={0.44}
+          amplitude={0.95}
+          waviness={0.96}
+          thickness={0.68}
+          glow={2.45}
+          taper={3}
+          spread={0.95}
+          intensity={0.58}
+          saturation={1.8}
+          opacity={0.9}
+          scale={1.35}
+          glass={false}
+          refraction={1}
+          dispersion={1}
+          glassSize={1}
+          hueShift={0.08}
+        />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/78 to-white/96" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/34 via-white/72 to-white/96 sm:from-white/40 sm:via-white/78" aria-hidden="true" />
       <div className="absolute inset-0 soft-grid opacity-35" aria-hidden="true" />
       <div className="relative">
-        <div className="mb-6 flex flex-col gap-4 border-b border-rose-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-rose-700">Secure Planning Workspace</p>
-            <h3 className="mt-2 text-3xl font-semibold leading-tight tracking-[-0.025em] text-[var(--text-primary)]">Cloud Architecture Advisor</h3>
+        <div className="mb-6 flex min-w-0 flex-col gap-4 border-b border-rose-100 pb-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <p className="font-mono text-xs uppercase leading-6 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Secure Planning Workspace</p>
+            <h3 className="mt-2 text-2xl font-semibold leading-tight tracking-[-0.02em] text-[var(--text-primary)] sm:text-3xl sm:tracking-[-0.025em]">Cloud Architecture Advisor</h3>
           </div>
-          <div className="flex flex-wrap gap-2 text-xs text-[var(--text-secondary)]">
-            <span className="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-3 py-2 text-rose-700">
+          <div className="flex min-w-0 flex-wrap gap-2 text-xs text-[var(--text-secondary)]">
+            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-3 py-2 leading-snug text-rose-700">
               <Activity className="h-3.5 w-3.5 text-rose-600" aria-hidden="true" />
               Actionable brief
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 text-violet-700">
+            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 leading-snug text-violet-700">
               <ShieldCheck className="h-3.5 w-3.5 text-violet-600" aria-hidden="true" />
               Private by design
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-blue-700">
+            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 leading-snug text-blue-700">
               <Cpu className="h-3.5 w-3.5 text-blue-600" aria-hidden="true" />
               Implementation-ready
             </span>

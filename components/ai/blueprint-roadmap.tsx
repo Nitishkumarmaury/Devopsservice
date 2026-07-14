@@ -11,16 +11,16 @@ type BlueprintRoadmapProps = {
 
 function PhaseList({ title, items, Icon }: { title: string; items: string[]; Icon: typeof CheckCircle2 }) {
   return (
-    <div className="rounded-xl border border-rose-100 bg-white/72 p-4">
-      <div className="flex items-center gap-2">
+    <div className="min-w-0 rounded-xl border border-rose-100 bg-white/72 p-4 [overflow-wrap:anywhere]">
+      <div className="flex min-w-0 items-center gap-2">
         <Icon className="h-4 w-4 text-rose-700" aria-hidden="true" />
         <h5 className="text-sm font-semibold text-[var(--text-primary)]">{title}</h5>
       </div>
       <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)]">
         {items.map((item) => (
-          <li key={item} className="flex gap-2">
+          <li key={item} className="flex min-w-0 gap-2">
             <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--success)]" aria-hidden="true" />
-            <span>{item}</span>
+            <span className="min-w-0">{item}</span>
           </li>
         ))}
       </ul>
@@ -36,14 +36,14 @@ export function BlueprintRoadmap({ phases }: Readonly<BlueprintRoadmapProps>) {
   if (!activePhase) return null;
 
   return (
-    <div className="aurora-panel overflow-hidden rounded-2xl p-4 sm:p-5">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-rose-700">Implementation Roadmap</p>
+    <div className="aurora-panel min-w-0 overflow-hidden rounded-2xl p-4 [overflow-wrap:anywhere] sm:p-5">
+      <div className="flex min-w-0 flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="min-w-0">
+          <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Implementation Roadmap</p>
           <h4 className="mt-2 text-lg font-semibold text-[var(--text-primary)]">{activePhase.title}</h4>
           <p className="mt-2 max-w-3xl text-sm leading-7 text-[var(--text-secondary)]">{activePhase.objective}</p>
         </div>
-        <div className="inline-flex w-fit items-center gap-2 rounded-xl border border-rose-100 bg-white/72 px-3 py-2 text-sm font-semibold text-rose-800">
+        <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-xl border border-rose-100 bg-white/72 px-3 py-2 text-sm font-semibold text-rose-800">
           <Clock3 className="h-4 w-4" aria-hidden="true" />
           {activePhase.duration}
         </div>
@@ -54,7 +54,7 @@ export function BlueprintRoadmap({ phases }: Readonly<BlueprintRoadmapProps>) {
           <div className="h-full rounded-full aurora-gradient transition-all duration-300" style={{ width: `${progress}%` }} />
         </div>
         <div
-          className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] gap-2"
+          className="mt-3 grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]"
           role="tablist"
           aria-label="Implementation phases"
         >
@@ -69,13 +69,13 @@ export function BlueprintRoadmap({ phases }: Readonly<BlueprintRoadmapProps>) {
                 aria-selected={selected}
                 onClick={() => setActiveIndex(index)}
                 className={cn(
-                  "min-h-24 min-w-0 rounded-xl border p-3 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+                  "min-h-24 min-w-0 rounded-xl border p-3 text-left transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
                   selected
                     ? "border-rose-200 bg-rose-50 text-rose-900 shadow-[0_16px_40px_rgba(14,165,183,0.12)]"
                     : "border-rose-100 bg-white/72 text-[var(--text-secondary)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
                 )}
               >
-                <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em]">
+                <span className="flex min-w-0 items-center gap-2 text-xs font-semibold uppercase leading-5 tracking-[0.1em] sm:tracking-[0.12em]">
                   {selected ? <PlayCircle className="h-4 w-4" aria-hidden="true" /> : <Milestone className="h-4 w-4" aria-hidden="true" />}
                   {phase.phase}
                 </span>
@@ -87,7 +87,7 @@ export function BlueprintRoadmap({ phases }: Readonly<BlueprintRoadmapProps>) {
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4 xl:grid-cols-3">
+      <div className="mt-5 grid min-w-0 gap-4 xl:grid-cols-3">
         <PhaseList title="Actions" items={activePhase.actions} Icon={Milestone} />
         <PhaseList title="Deliverables" items={activePhase.deliverables} Icon={ClipboardCheck} />
         <PhaseList title="Validation" items={activePhase.validation} Icon={ShieldCheck} />

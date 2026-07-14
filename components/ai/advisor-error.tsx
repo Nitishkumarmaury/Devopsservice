@@ -13,13 +13,13 @@ export function AdvisorError({ title = "Blueprint generation paused", message, o
   return (
     <div
       role="alert"
-      className="rounded-lg border border-amber-200 bg-amber-50 p-5 text-amber-800 shadow-[0_20px_70px_rgba(15,34,48,0.1)]"
+      className="min-w-0 rounded-lg border border-amber-200 bg-amber-50 p-4 text-amber-800 shadow-[0_20px_70px_rgba(15,34,48,0.1)] [overflow-wrap:anywhere] sm:p-5"
     >
-      <div className="flex items-start gap-3">
+      <div className="flex min-w-0 items-start gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-amber-200 bg-white/70">
           <AlertTriangle className="h-5 w-5" aria-hidden="true" />
         </span>
-        <div>
+        <div className="min-w-0">
           <h3 className="text-base font-semibold text-amber-950">{title}</h3>
           <p className="mt-2 text-sm leading-6 text-amber-800">{message}</p>
           {onRetry ? (

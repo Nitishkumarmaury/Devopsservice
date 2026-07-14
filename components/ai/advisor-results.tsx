@@ -131,9 +131,9 @@ function InputAnalysisPanel({ blueprint, requestValues }: { blueprint: Infrastru
   ];
 
   return (
-    <div className="rounded-2xl border border-rose-100 bg-white/72 p-4 sm:p-5">
+    <div className="min-w-0 rounded-2xl border border-rose-100 bg-white/72 p-4 [overflow-wrap:anywhere] sm:p-5">
       <div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-rose-700">Input Analysis</p>
+        <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Input Analysis</p>
         <h4 className="mt-2 text-lg font-semibold text-[var(--text-primary)]">What the advisor understood</h4>
         <p className="mt-3 max-w-4xl text-sm leading-7 text-[var(--text-secondary)]">{blueprint.inputAnalysis.workloadProfile}</p>
         <div className="mt-5 grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -147,23 +147,23 @@ function InputAnalysisPanel({ blueprint, requestValues }: { blueprint: Infrastru
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-2">
-        <div className="rounded-xl border border-rose-100 bg-white/72 p-4">
+        <div className="min-w-0 rounded-xl border border-rose-100 bg-white/72 p-4">
           <div className="flex items-center gap-2">
             <Activity className="h-4 w-4 text-rose-700" aria-hidden="true" />
             <h5 className="text-sm font-semibold text-[var(--text-primary)]">Architecture drivers</h5>
           </div>
-          <ul className="mt-3 space-y-2 break-words text-sm leading-6 text-[var(--text-secondary)]">
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)] [overflow-wrap:anywhere]">
             {blueprint.inputAnalysis.architectureDrivers.map((item) => (
               <li key={item}>- {item}</li>
             ))}
           </ul>
         </div>
-        <div className="rounded-xl border border-rose-100 bg-white/72 p-4">
+        <div className="min-w-0 rounded-xl border border-rose-100 bg-white/72 p-4">
           <div className="flex items-center gap-2">
             <Radar className="h-4 w-4 text-rose-700" aria-hidden="true" />
             <h5 className="text-sm font-semibold text-[var(--text-primary)]">Risk signals</h5>
           </div>
-          <ul className="mt-3 space-y-2 break-words text-sm leading-6 text-[var(--text-secondary)]">
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)] [overflow-wrap:anywhere]">
             {blueprint.inputAnalysis.riskSignals.map((item) => (
               <li key={item}>- {item}</li>
             ))}
@@ -176,10 +176,10 @@ function InputAnalysisPanel({ blueprint, requestValues }: { blueprint: Infrastru
 
 function RequirementCoveragePanel({ coverage }: { coverage: InfrastructureBlueprint["requirementCoverage"] }) {
   return (
-    <div className="rounded-2xl border border-rose-100 bg-white/72 p-4 sm:p-5">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-rose-700">Requirement Coverage</p>
+    <div className="min-w-0 rounded-2xl border border-rose-100 bg-white/72 p-4 [overflow-wrap:anywhere] sm:p-5">
+      <div className="flex min-w-0 flex-col items-start justify-between gap-4 sm:flex-row">
+        <div className="min-w-0">
+          <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Requirement Coverage</p>
           <h4 className="mt-2 text-lg font-semibold text-[var(--text-primary)]">Selected services mapped to implementation</h4>
         </div>
         <div className="hidden rounded-xl border border-rose-100 bg-white/78 px-3 py-2 text-sm font-semibold text-rose-800 sm:inline-flex">
@@ -189,22 +189,22 @@ function RequirementCoveragePanel({ coverage }: { coverage: InfrastructureBluepr
 
       <div className="mt-5 grid gap-3 xl:grid-cols-2">
         {coverage.map((item) => (
-          <article key={item.requirement} className="min-w-0 rounded-xl border border-rose-100 bg-white/76 p-4 shadow-[0_16px_42px_rgba(15,34,48,0.06)]">
+          <article key={item.requirement} className="min-w-0 rounded-xl border border-rose-100 bg-white/76 p-4 shadow-[0_16px_42px_rgba(15,34,48,0.06)] [overflow-wrap:anywhere]">
             <div className="flex items-start gap-3">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-rose-200 bg-rose-50 text-rose-700">
                 <BadgeCheck className="h-4 w-4" aria-hidden="true" />
               </span>
               <div className="min-w-0">
                 <h5 className="text-sm font-semibold text-[var(--text-primary)]">{item.requirement}</h5>
-                <p className="mt-2 break-words text-sm leading-6 text-[var(--text-secondary)]">{item.recommendation}</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.recommendation}</p>
               </div>
             </div>
-            <div className="mt-4 rounded-lg border border-rose-100 bg-rose-50/70 p-3">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-rose-800">
+            <div className="mt-4 min-w-0 rounded-lg border border-rose-100 bg-rose-50/70 p-3">
+              <div className="flex min-w-0 items-center gap-2 text-xs font-semibold uppercase leading-5 tracking-[0.1em] text-rose-800 sm:tracking-[0.12em]">
                 <ListChecks className="h-4 w-4" aria-hidden="true" />
                 Implementation step
               </div>
-              <p className="mt-2 break-words text-sm leading-6 text-[var(--text-secondary)]">{item.implementationStep}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.implementationStep}</p>
             </div>
           </article>
         ))}
@@ -267,20 +267,20 @@ export function AdvisorResults({
   };
 
   return (
-    <div className="space-y-5">
-      <div className="aurora-panel rounded-2xl p-5">
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-rose-700">Executive Summary</p>
+    <div className="min-w-0 space-y-5 [overflow-wrap:anywhere]">
+      <div className="aurora-panel min-w-0 rounded-2xl p-4 sm:p-5">
+        <div className="flex min-w-0 flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+          <div className="min-w-0">
+            <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Executive Summary</p>
             <h3 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">Preliminary cloud blueprint</h3>
             <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{blueprint.executiveSummary}</p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="secondary" onClick={copyBlueprint}>
+          <div className="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
+            <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={copyBlueprint}>
               {copyState === "copied" ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
               {copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy"}
             </Button>
-            <Button type="button" variant="secondary" onClick={downloadBlueprint}>
+            <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={downloadBlueprint}>
               <Download className="h-4 w-4" aria-hidden="true" />
               Download
             </Button>
@@ -294,8 +294,8 @@ export function AdvisorResults({
       <BlueprintTabs blueprint={blueprint} />
       <BlueprintRoadmap phases={blueprint.implementationPhases} />
 
-      <div className="rounded-2xl border border-rose-100 bg-white/72 p-4 sm:p-5">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-rose-700">Assumptions</p>
+      <div className="min-w-0 rounded-2xl border border-rose-100 bg-white/72 p-4 [overflow-wrap:anywhere] sm:p-5">
+        <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Assumptions</p>
         <ul className="mt-4 space-y-2 text-sm leading-6 text-[var(--text-secondary)]">
           {blueprint.assumptions.map((assumption) => (
             <li key={assumption}>- {assumption}</li>
@@ -303,30 +303,30 @@ export function AdvisorResults({
         </ul>
       </div>
 
-      <div className="aurora-panel rounded-2xl p-5 shadow-glow">
+      <div className="aurora-panel min-w-0 rounded-2xl p-4 shadow-glow sm:p-5">
         <p className="text-lg font-semibold text-[var(--text-primary)]">Need this blueprint validated and implemented?</p>
         <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
           An automated preliminary blueprint is a useful starting point. A production architecture still requires validation
           against your application, traffic, security requirements, budget, and existing systems.
         </p>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <div className="mt-5 flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link
             href="/contact?requestType=Production%20Audit&projectType=Cloud%20Infrastructure"
-            className={buttonClassName("primary")}
+            className={buttonClassName("primary", "w-full sm:w-auto")}
             onClick={() => trackAdvisorEvent("ai_consultation_clicked", { source: "professional_review" })}
           >
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
             Request a Professional Review
           </Link>
-          <Button type="button" variant="secondary" onClick={sendToContact}>
+          <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={sendToContact}>
             <Send className="h-4 w-4" aria-hidden="true" />
             Send This Blueprint
           </Button>
-          <Button type="button" variant="ghost" onClick={onEdit}>
+          <Button type="button" variant="ghost" className="w-full sm:w-auto" onClick={onEdit}>
             <Edit3 className="h-4 w-4" aria-hidden="true" />
             Edit Requirements
           </Button>
-          <Button type="button" variant="ghost" onClick={onStartOver}>
+          <Button type="button" variant="ghost" className="w-full sm:w-auto" onClick={onStartOver}>
             <RotateCcw className="h-4 w-4" aria-hidden="true" />
             Start Over
           </Button>

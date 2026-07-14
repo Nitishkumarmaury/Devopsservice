@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { useForm, useWatch, type Path } from "react-hook-form";
 import { AdvisorPrivacyNotice } from "@/components/ai/advisor-privacy-notice";
 import { Button } from "@/components/ui/button";
+import Strands from "@/components/visuals/strands";
 import {
   advisorRequestSchema,
   applicationTypeOptions,
@@ -65,7 +66,7 @@ const stepFields: Record<Step, Path<AdvisorRequest>[]> = {
 };
 
 const inputClass =
-  "premium-focus mt-2 block w-full rounded-xl border border-rose-200/70 !bg-white/86 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(15,34,48,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
+  "premium-focus mt-2 block w-full min-w-0 rounded-xl border border-rose-200/70 !bg-white/86 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(15,34,48,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
 
 const labelClass = "block text-sm font-medium text-[var(--text-primary)]";
 
@@ -80,17 +81,17 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 
 function StepHeader({ step }: { step: Step }) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <p className="font-mono text-xs uppercase tracking-[0.18em] text-rose-700">Step {step + 1} of 4</p>
+    <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0">
+        <p className="font-mono text-xs uppercase leading-6 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Step {step + 1} of 4</p>
         <h3 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">{steps[step]}</h3>
       </div>
-      <div className="flex gap-2" aria-label="Advisor progress">
+      <div className="grid w-full grid-cols-4 gap-2 sm:w-auto" aria-label="Advisor progress">
         {steps.map((label, index) => (
           <span
             key={label}
             className={cn(
-              "h-2.5 w-10 rounded-full transition",
+              "h-2.5 min-w-0 rounded-full transition sm:w-10",
               index <= step ? "aurora-gradient shadow-[0_0_18px_rgba(14,165,183,0.18)]" : "bg-rose-100",
             )}
           />
@@ -161,11 +162,11 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="relative" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="relative min-w-0" noValidate>
       <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" {...register("website")} />
 
-      <div className="rounded-2xl border border-rose-100 bg-white/68 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-        <div role="tablist" aria-label="Advisor steps" className="grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] gap-2">
+      <div className="min-w-0 rounded-2xl border border-rose-100 bg-white/68 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+        <div role="tablist" aria-label="Advisor steps" className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
           {steps.map((label, index) => (
             <button
               key={label}
@@ -175,7 +176,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
               aria-controls={`advisor-step-${index}`}
               onClick={() => goToStep(index as Step)}
               className={cn(
-                "min-h-11 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+                "min-h-11 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold leading-tight transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
                 step === index
                   ? stepAccentClass[index]
                   : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
@@ -187,23 +188,72 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
         </div>
       </div>
 
-      <div className="mt-5 min-h-[360px] overflow-hidden rounded-2xl border border-rose-100 bg-white/74 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[430px] sm:p-6">
-        <StepHeader step={step} />
+      <div className="relative mt-5 min-h-[360px] min-w-0 overflow-hidden rounded-2xl border border-rose-100 bg-white/74 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[430px] sm:p-6">
+        <div className="advisor-mobile-strands pointer-events-none absolute left-1/2 top-1 h-56 w-full -translate-x-1/2 overflow-hidden opacity-[0.78] sm:hidden" aria-hidden="true">
+          <div className="absolute inset-0 -translate-x-[19%] opacity-90">
+            <Strands
+              className="h-full w-full"
+              colors={["#0EA5B7", "#7C5CFF", "#F04493", "#D5A645"]}
+              count={4}
+              speed={0.44}
+              amplitude={0.86}
+              waviness={0.92}
+              thickness={0.72}
+              glow={2.45}
+              taper={3.2}
+              spread={0.9}
+              intensity={0.58}
+              saturation={1.8}
+              opacity={0.92}
+              scale={1.28}
+              glass={false}
+              refraction={1}
+              dispersion={1}
+              glassSize={1}
+              hueShift={0.08}
+            />
+          </div>
+          <div className="absolute inset-0 -translate-x-[19%] scale-x-[-1] opacity-90">
+            <Strands
+              className="h-full w-full"
+              colors={["#0EA5B7", "#7C5CFF", "#F04493", "#D5A645"]}
+              count={4}
+              speed={0.44}
+              amplitude={0.86}
+              waviness={0.92}
+              thickness={0.72}
+              glow={2.45}
+              taper={3.2}
+              spread={0.9}
+              intensity={0.58}
+              saturation={1.8}
+              opacity={0.92}
+              scale={1.28}
+              glass={false}
+              refraction={1}
+              dispersion={1}
+              glassSize={1}
+              hueShift={0.08}
+            />
+          </div>
+        </div>
+        <div className="relative">
+          <StepHeader step={step} />
 
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
-          <motion.div
-            key={step}
-            id={`advisor-step-${step}`}
-            role="tabpanel"
-            custom={direction}
-            initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
-            transition={{ duration: 0.24, ease: "easeOut" }}
-            className="mt-6"
-          >
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={step}
+              id={`advisor-step-${step}`}
+              role="tabpanel"
+              custom={direction}
+              initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
+              transition={{ duration: 0.24, ease: "easeOut" }}
+              className="mt-6 min-w-0"
+            >
             {step === 0 ? (
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid min-w-0 gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="advisor-project-name" className={labelClass}>
                     Project or application name
@@ -270,7 +320,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
             ) : null}
 
             {step === 1 ? (
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid min-w-0 gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="advisor-monthly-users" className={labelClass}>
                     Expected monthly users
@@ -338,7 +388,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
 
             {step === 2 ? (
               <div>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid min-w-0 gap-3 sm:grid-cols-2">
                   {requirementOptions.map((requirement) => {
                     const selected = requirements.includes(requirement);
                     return (
@@ -348,7 +398,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
                         aria-pressed={selected}
                         onClick={() => toggleRequirement(requirement)}
                         className={cn(
-                          "flex min-h-12 items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+                          "flex min-h-12 min-w-0 items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm leading-6 transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
                           selected
                             ? "border-violet-200 bg-violet-50 text-violet-800 shadow-[0_14px_34px_rgba(49,92,148,0.1)]"
                             : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
@@ -390,13 +440,13 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
 
                 <div>
                   <p className="text-sm font-medium text-[var(--text-primary)]">Suggested prompts</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-3 flex min-w-0 flex-wrap gap-2">
                     {challengePromptOptions.map((prompt) => (
                       <button
                         key={prompt}
                         type="button"
                         onClick={() => addPrompt(prompt)}
-                        className="rounded-lg border border-rose-100 bg-white/72 px-3 py-2 text-left text-xs leading-5 text-[var(--text-secondary)] transition hover:border-rose-300 hover:bg-rose-50 hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
+                        className="max-w-full rounded-lg border border-rose-100 bg-white/72 px-3 py-2 text-left text-xs leading-5 text-[var(--text-secondary)] transition [overflow-wrap:anywhere] hover:border-rose-300 hover:bg-rose-50 hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
                       >
                         {prompt}
                       </button>
@@ -406,7 +456,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
 
                 <AdvisorPrivacyNotice />
 
-                <label className="flex gap-3 rounded-lg border border-rose-100 bg-white/72 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                <label className="flex min-w-0 gap-3 rounded-lg border border-rose-100 bg-white/72 p-4 text-sm leading-6 text-[var(--text-secondary)]">
                   <input
                     type="checkbox"
                     className="mt-1 h-4 w-4 shrink-0 rounded border-rose-300 bg-white text-rose-500 focus:ring-rose-400"
@@ -420,11 +470,12 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
                 <FieldError id="advisor-privacy-error" message={errors.privacyAccepted?.message} />
               </div>
             ) : null}
-          </motion.div>
-        </AnimatePresence>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
-      <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-5 flex min-w-0 flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Button type="button" variant="ghost" onClick={previousStep} disabled={step === 0 || isSubmitting}>
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Back

@@ -298,14 +298,18 @@ textarea {
   isolation: isolate;
   justify-content: center;
   line-height: 1.2;
+  max-width: 100%;
   min-height: 2.75rem;
+  min-width: 0;
   outline-offset: 4px;
   overflow: hidden;
   padding: 0.75rem 1rem;
   position: relative;
+  text-align: center;
   text-decoration: none;
   transform: translateZ(0);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  white-space: normal;
   transition:
     transform 180ms ease,
     box-shadow 220ms ease,
@@ -354,11 +358,17 @@ textarea {
 .animated-shiny-button__content {
   align-items: center;
   display: inline-flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
+  min-width: 0;
   position: relative;
-  white-space: nowrap;
+  white-space: normal;
   z-index: 1;
+}
+
+.animated-shiny-button__content svg {
+  flex-shrink: 0;
 }
 
 .animated-shiny-button__content::before {
@@ -607,6 +617,11 @@ textarea {
 
 .strands-container[data-webgl="ok"] .strands-fallback {
   opacity: 0;
+}
+
+.advisor-mobile-strands {
+  -webkit-mask-image: radial-gradient(ellipse 34% 52% at 50% 43%, #000 0%, #000 44%, transparent 76%);
+  mask-image: radial-gradient(ellipse 34% 52% at 50% 43%, #000 0%, #000 44%, transparent 76%);
 }
 
 .lightfall-container {

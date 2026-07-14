@@ -13,9 +13,9 @@ type BlueprintTab = (typeof tabs)[number];
 
 function ListBlock({ title, items }: { title: string; items: string[] }) {
   return (
-    <div>
+    <div className="min-w-0">
       <h4 className="text-sm font-semibold text-[var(--text-primary)]">{title}</h4>
-      <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)]">
+      <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)] [overflow-wrap:anywhere]">
         {items.map((item) => (
           <li key={item}>- {item}</li>
         ))}
@@ -29,11 +29,11 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
   const id = useId();
 
   return (
-    <div className="rounded-2xl border border-rose-100 bg-white/74 p-4 sm:p-5">
+    <div className="min-w-0 rounded-2xl border border-rose-100 bg-white/74 p-4 [overflow-wrap:anywhere] sm:p-5">
       <div
         role="tablist"
         aria-label="Blueprint recommendations"
-        className="grid grid-cols-[repeat(auto-fit,minmax(8.75rem,1fr))] gap-2"
+        className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(8rem,1fr))]"
       >
         {tabs.map((tab) => (
           <button
@@ -45,7 +45,7 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
             aria-controls={`${id}-${tab}-panel`}
             onClick={() => setActive(tab)}
             className={cn(
-              "min-h-10 min-w-0 whitespace-nowrap rounded-xl border px-3 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+              "min-h-10 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold leading-tight transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
               active === tab
                 ? "border-rose-200 bg-rose-50 text-rose-800 shadow-[0_14px_34px_rgba(14,165,183,0.1)]"
                 : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
@@ -61,11 +61,11 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
         role="tabpanel"
         aria-labelledby={`${id}-${active}-tab`}
         tabIndex={0}
-        className="mt-5 rounded-2xl border border-rose-100 bg-white/72 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400"
+        className="mt-5 min-w-0 rounded-2xl border border-rose-100 bg-white/72 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400"
       >
         {active === "Architecture" ? (
           <div className="space-y-5">
-            <div>
+            <div className="min-w-0">
               <h4 className="text-base font-semibold text-[var(--text-primary)]">{blueprint.recommendedArchitecture.title}</h4>
               <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{blueprint.recommendedArchitecture.description}</p>
             </div>
@@ -81,7 +81,7 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
         ) : null}
 
         {active === "Monitoring" ? (
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid min-w-0 gap-5 md:grid-cols-2">
             <div className="md:col-span-2">
               <p className="text-sm leading-7 text-[var(--text-secondary)]">{blueprint.observabilityPlan.summary}</p>
             </div>
@@ -91,14 +91,14 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
         ) : null}
 
         {active === "Security" ? (
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid min-w-0 gap-5 md:grid-cols-2">
             <ListBlock title="Security priorities" items={blueprint.securityPriorities} />
             <ListBlock title="Backup and recovery" items={blueprint.backupAndRecovery} />
           </div>
         ) : null}
 
         {active === "Scaling" ? (
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid min-w-0 gap-5 md:grid-cols-2">
             <ListBlock title="Scaling plan" items={blueprint.scalingPlan} />
             <ListBlock title="Cost considerations" items={blueprint.costConsiderations} />
           </div>
@@ -107,10 +107,10 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
         {active === "Implementation" ? (
           <div className="space-y-4">
             {blueprint.implementationPhases.map((phase) => (
-              <div key={`${phase.phase}-${phase.title}`} className="rounded-xl border border-rose-100 bg-white/76 p-4">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-rose-700">{phase.phase}</p>
-                  <span className="w-fit rounded-lg border border-rose-100 bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800">
+              <div key={`${phase.phase}-${phase.title}`} className="min-w-0 rounded-xl border border-rose-100 bg-white/76 p-4">
+                <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                  <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.12em] text-rose-700 sm:tracking-[0.16em]">{phase.phase}</p>
+                  <span className="w-fit max-w-full rounded-lg border border-rose-100 bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800">
                     {phase.duration}
                   </span>
                 </div>
@@ -121,7 +121,7 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
                     <li key={action}>- {action}</li>
                   ))}
                 </ul>
-                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                <div className="mt-4 grid min-w-0 gap-3 md:grid-cols-2">
                   <ListBlock title="Deliverables" items={phase.deliverables} />
                   <ListBlock title="Validation" items={phase.validation} />
                 </div>

@@ -5,7 +5,7 @@ export function TechnologyTag({ children, className }: Readonly<{ children: Reac
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-[var(--border)] bg-white/72 px-3 py-1.5 text-xs font-semibold text-[var(--text-secondary)] shadow-[0_10px_24px_rgba(65,39,71,0.06)]",
+        "inline-flex max-w-full min-w-0 items-center rounded-full border border-[var(--border)] bg-white/72 px-3 py-1.5 text-xs font-semibold leading-snug text-[var(--text-secondary)] shadow-[0_10px_24px_rgba(65,39,71,0.06)] [overflow-wrap:anywhere]",
         className,
       )}
     >

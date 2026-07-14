@@ -65,19 +65,19 @@ export function ArchitectureDiagram({ blueprint }: Readonly<ArchitectureDiagramP
   const flowText = approvedNodes.map((node) => node.label).join(" to ");
 
   return (
-    <div className="aurora-panel relative overflow-hidden rounded-2xl p-4 sm:p-5">
+    <div className="aurora-panel relative min-w-0 overflow-hidden rounded-2xl p-4 [overflow-wrap:anywhere] sm:p-5">
       <div className="absolute inset-0 soft-grid opacity-35" aria-hidden="true" />
       <p className="sr-only">Architecture flow: {flowText}</p>
       <div className="relative">
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-rose-700">Architecture Flow</p>
+        <div className="mb-4 flex min-w-0 items-center justify-between gap-4">
+          <div className="min-w-0">
+            <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Architecture Flow</p>
             <h4 className="mt-1 text-base font-semibold text-[var(--text-primary)]">{blueprint.recommendedArchitecture.title}</h4>
           </div>
           <MonitorCheck className="hidden h-5 w-5 text-rose-600 sm:block" aria-hidden="true" />
         </div>
 
-        <div className="relative grid gap-3 lg:grid-cols-6">
+        <div className="relative grid min-w-0 gap-3 lg:grid-cols-6">
           <svg
             className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
             aria-hidden="true"
@@ -93,7 +93,7 @@ export function ArchitectureDiagram({ blueprint }: Readonly<ArchitectureDiagramP
           {approvedNodes.map(({ label, detail, Icon }, index) => (
             <div
               key={label}
-              className="advisor-node-glow relative rounded-2xl border border-rose-100 bg-white/72 p-3 shadow-[0_18px_55px_rgba(15,34,48,0.08)]"
+              className="advisor-node-glow relative min-w-0 rounded-2xl border border-rose-100 bg-white/72 p-3 shadow-[0_18px_55px_rgba(15,34,48,0.08)]"
               style={{ animationDelay: `${index * 160}ms` }}
             >
               <div className="flex items-start gap-3 lg:block">
@@ -109,7 +109,7 @@ export function ArchitectureDiagram({ blueprint }: Readonly<ArchitectureDiagramP
           ))}
         </div>
 
-        <div className="mt-4 rounded-xl border border-rose-100 bg-white/72 p-3">
+        <div className="mt-4 min-w-0 rounded-xl border border-rose-100 bg-white/72 p-3">
           <p className="text-xs leading-5 text-[var(--text-secondary)]">
             Component signal: <span className="text-rose-700">{componentPreview}</span>
           </p>

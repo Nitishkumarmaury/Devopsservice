@@ -3,10 +3,10 @@ import { ShieldCheck } from "lucide-react";
 
 export function AdvisorPrivacyNotice() {
   return (
-    <div className="rounded-lg border border-rose-100 bg-white/72 p-4 text-sm leading-6 text-[var(--text-secondary)]">
-      <div className="flex gap-3">
+    <div className="min-w-0 rounded-lg border border-rose-100 bg-white/72 p-4 text-sm leading-6 text-[var(--text-secondary)] [overflow-wrap:anywhere]">
+      <div className="flex min-w-0 gap-3">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" aria-hidden="true" />
-        <p>
+        <p className="min-w-0">
           Do not enter passwords, API keys, access tokens, private infrastructure addresses, customer data, or other
           confidential information. The generated blueprint is preliminary guidance and must be reviewed before
           production use. Submitted technical details are processed through secure server-side systems for planning
