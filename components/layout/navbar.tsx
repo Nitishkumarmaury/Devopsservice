@@ -105,7 +105,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full border border-rose-200/70 bg-white/78 p-1 text-sm text-[var(--text-secondary)] shadow-[0_12px_34px_rgba(65,39,71,0.08)] lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full border border-rose-200/70 bg-white/78 p-1 text-sm text-[var(--text-secondary)] shadow-[0_12px_34px_rgba(65,39,71,0.08)] xl:flex">
           {navItems.map((item) =>
             item.label === "Services" ? (
               <div
@@ -189,20 +189,20 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
           )}
         </nav>
 
-        <div className="hidden items-center gap-1.5 lg:flex">
+        <div className="hidden shrink-0 items-center gap-1.5 xl:flex">
           {isAuthenticated ? (
             <LogoutButton />
           ) : (
             <>
-              <AnimatedShinyButton url={loginHref} tone="soft" showArrow={false} className="nav-login-button px-3">
+              <AnimatedShinyButton url={loginHref} tone="soft" showArrow={false} className="nav-header-button nav-login-button px-3">
                 Login
               </AnimatedShinyButton>
-              <AnimatedShinyButton url={signupHref} showArrow={false} className="px-3.5">
+              <AnimatedShinyButton url={signupHref} showArrow={false} className="nav-header-button px-3.5">
                 Sign up
               </AnimatedShinyButton>
             </>
           )}
-          <AnimatedShinyButton url={consultationHref} showArrow={false} className="px-3">
+          <AnimatedShinyButton url={consultationHref} showArrow={false} className="nav-header-button shrink-0 px-3.5">
             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
             Consultation
           </AnimatedShinyButton>
@@ -214,7 +214,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
           aria-expanded={open}
           aria-controls="mobile-navigation"
           onClick={() => setOpen((value) => !value)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-rose-200/70 bg-white/80 text-[var(--text-primary)] transition hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 lg:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-rose-200/70 bg-white/80 text-[var(--text-primary)] transition hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 xl:hidden"
         >
           {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
         </button>
@@ -229,7 +229,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-rose-200/70 bg-white/96 px-5 py-5 shadow-[0_18px_60px_rgba(65,39,71,0.14)] backdrop-blur-xl lg:hidden"
+            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-rose-200/70 bg-white/96 px-5 py-5 shadow-[0_18px_60px_rgba(65,39,71,0.14)] backdrop-blur-xl xl:hidden"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-2">
               {navItems.map((item) =>

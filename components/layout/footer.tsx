@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, RadioTower } from "lucide-react";
+import { ArrowRight, CalendarCheck, Mail, MapPin, RadioTower } from "lucide-react";
 import { seoArticles } from "@/data/seo-articles";
 import { seoMoneyPages } from "@/data/seo-pages";
-import { siteConfig } from "@/lib/constants";
+import { consultationHref, siteConfig } from "@/lib/constants";
 
 const companyLinks = [
   { label: "About", href: "/about" },
@@ -24,6 +24,10 @@ const resourceLinks = [
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const socialLinks = [
+    siteConfig.social.linkedin ? { label: "LinkedIn", href: siteConfig.social.linkedin } : null,
+    siteConfig.social.github ? { label: "GitHub", href: siteConfig.social.github } : null,
+  ].filter(Boolean) as Array<{ label: string; href: string }>;
 
   return (
     <footer className="relative z-10 overflow-hidden border-t border-[#26324a] bg-[var(--navy)] text-white">
@@ -51,6 +55,19 @@ export function Footer() {
               Available for remote infrastructure projects
             </span>
           </div>
+          {socialLinks.length ? (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-xs font-semibold text-white/72 transition hover:border-cyan-200/50 hover:text-white"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <FooterColumn title="Company" links={companyLinks} />
@@ -59,6 +76,27 @@ export function Footer() {
           links={seoMoneyPages.map((page) => ({ label: page.shortTitle, href: `/${page.slug}` }))}
         />
         <FooterColumn title="Resources" links={resourceLinks} />
+
+        <div className="rounded-[24px] border border-white/10 bg-white/[0.07] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.18)] lg:col-span-4">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-100">
+                <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+                Enterprise consultation
+              </p>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/64">
+                Bring your deployment, monitoring, Linux, or cloud infrastructure challenge and get a practical next step.
+              </p>
+            </div>
+            <Link
+              href={consultationHref}
+              className="inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-2.5 text-sm font-semibold text-[var(--navy)] shadow-[0_16px_44px_rgba(53,214,237,0.16)] transition hover:-translate-y-0.5 hover:bg-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+            >
+              Book a Consultation
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
 
         <div className="border-t border-white/10 pt-6 text-sm text-white/60 lg:col-span-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

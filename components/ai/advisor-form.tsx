@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import { useForm, useWatch, type Path } from "react-hook-form";
 import { AdvisorPrivacyNotice } from "@/components/ai/advisor-privacy-notice";
 import { Button } from "@/components/ui/button";
-import Strands from "@/components/visuals/strands";
+import MagicRings from "@/components/visuals/magic-rings";
 import {
   advisorRequestSchema,
   applicationTypeOptions,
@@ -189,54 +189,27 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
       </div>
 
       <div className="relative mt-5 min-h-[360px] min-w-0 overflow-hidden rounded-2xl border border-rose-100 bg-white/74 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[430px] sm:p-6">
-        <div className="advisor-mobile-strands pointer-events-none absolute left-1/2 top-1 h-56 w-full -translate-x-1/2 overflow-hidden opacity-[0.78] sm:hidden" aria-hidden="true">
-          <div className="absolute inset-0 -translate-x-[19%] opacity-90">
-            <Strands
-              className="h-full w-full"
-              colors={["#0EA5B7", "#7C5CFF", "#F04493", "#D5A645"]}
-              count={4}
-              speed={0.44}
-              amplitude={0.86}
-              waviness={0.92}
-              thickness={0.72}
-              glow={2.45}
-              taper={3.2}
-              spread={0.9}
-              intensity={0.58}
-              saturation={1.8}
-              opacity={0.92}
-              scale={1.28}
-              glass={false}
-              refraction={1}
-              dispersion={1}
-              glassSize={1}
-              hueShift={0.08}
-            />
-          </div>
-          <div className="absolute inset-0 -translate-x-[19%] scale-x-[-1] opacity-90">
-            <Strands
-              className="h-full w-full"
-              colors={["#0EA5B7", "#7C5CFF", "#F04493", "#D5A645"]}
-              count={4}
-              speed={0.44}
-              amplitude={0.86}
-              waviness={0.92}
-              thickness={0.72}
-              glow={2.45}
-              taper={3.2}
-              spread={0.9}
-              intensity={0.58}
-              saturation={1.8}
-              opacity={0.92}
-              scale={1.28}
-              glass={false}
-              refraction={1}
-              dispersion={1}
-              glassSize={1}
-              hueShift={0.08}
-            />
-          </div>
+        <div className="pointer-events-none absolute -right-36 -top-36 h-[26rem] w-[34rem] opacity-70 sm:-right-44 sm:-top-44 sm:h-[34rem] sm:w-[44rem]" aria-hidden="true">
+          <MagicRings
+            color="#0EA5B7"
+            colorTwo="#D5A645"
+            ringCount={5}
+            speed={0.48}
+            attenuation={13}
+            lineThickness={1.55}
+            baseRadius={0.2}
+            radiusStep={0.075}
+            scaleRate={0.13}
+            opacity={0.4}
+            noiseAmount={0.01}
+            rotation={-10}
+            ringGap={1.42}
+            fadeIn={0.72}
+            fadeOut={0.48}
+            parallax={0.025}
+          />
         </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/20 via-white/60 to-white/92" aria-hidden="true" />
         <div className="relative">
           <StepHeader step={step} />
 

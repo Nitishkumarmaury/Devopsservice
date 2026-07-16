@@ -21,7 +21,7 @@ export default function ContactPage() {
           { name: "Hire a Freelance DevOps Consultant", path: "/contact" },
         ]}
       />
-      <PageHero eyebrow="Contact" title="Hire a Freelance DevOps Consultant">
+      <PageHero eyebrow="Contact" title="Hire a Freelance DevOps Consultant" dark>
         Tell me your stack, deployment issue, production risk, or project scope and get a clear next step for DevOps
         consulting, AWS support, CI/CD implementation, monitoring, or deployment work.
       </PageHero>

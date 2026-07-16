@@ -23,7 +23,7 @@ const inputClass =
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p className="mt-2 text-sm text-amber-200">{message}</p>;
+  return <p className="mt-2 text-sm font-medium text-amber-700">{message}</p>;
 }
 
 export function ContactSection() {
@@ -200,19 +200,26 @@ export function ContactSection() {
       <SectionGlow className="h-[560px] bg-[radial-gradient(ellipse_at_45%_0%,rgba(14,165,183,0.14),transparent_60%)]" />
       <Container className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div>
+          <div className="min-w-0">
             <SectionHeading title="Tell us where production needs to be stronger." eyebrow="Contact">
               <p>
                 Share the current state, risk level, budget range, and timeline. You will receive a practical next step rather than an inflated proposal.
               </p>
             </SectionHeading>
-            <div className="aurora-panel mt-8 rounded-[22px] p-6">
+            <div className="aurora-panel mt-8 rounded-[24px] p-6">
               <p className="text-sm font-semibold text-[var(--text-primary)]">What to expect</p>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-secondary)]">
-                <li>- Free initial scope review for qualified project requests</li>
-                <li>- 30 to 45 minute technical consultation</li>
-                <li>- Practical discussion of risks, access, and delivery path</li>
-                <li>- Follow-up recommendations tailored to your stack</li>
+                {[
+                  "Free initial scope review for qualified project requests",
+                  "30 to 45 minute technical consultation",
+                  "Practical discussion of risks, access, and delivery path",
+                  "Follow-up recommendations tailored to your stack",
+                ].map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--success)]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
               <a
                 href={`mailto:${siteConfig.email}`}
@@ -224,7 +231,7 @@ export function ContactSection() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="aurora-panel rounded-[24px] p-5 shadow-glow sm:p-7" noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} className="aurora-panel min-w-0 rounded-[24px] p-5 shadow-glow sm:p-7" noValidate>
             <input
               type="text"
               tabIndex={-1}

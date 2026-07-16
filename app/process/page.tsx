@@ -3,8 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
-import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { ProcessTimeline } from "@/components/sections/process-timeline";
 import { engagementProcess } from "@/data/landing";
 import { createPageMetadata } from "@/lib/route-metadata";
 
@@ -55,11 +55,17 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 export default function ProcessPage() {
+  const processSteps = engagementProcess.map((stage, index) => ({
+    ...stage,
+    ...stageDetails[index],
+  }));
+
   return (
     <SiteFrame>
       <PageHero
         eyebrow="Process"
         title="A production-first workflow from discovery to support."
+        dark
         actions={
           <ButtonLink href="/contact?requestType=Production%20Audit">
             Start with an audit
@@ -71,44 +77,15 @@ export default function ProcessPage() {
         changes reach production.
       </PageHero>
 
-      <section className="bg-[var(--background-soft)] py-16 sm:py-24">
-        <Container>
-          <div className="relative grid gap-6">
-            <div className="absolute left-6 top-6 hidden h-[calc(100%-3rem)] w-px bg-gradient-to-b from-rose-300 via-violet-300 to-cyan-300 md:block" />
-            {engagementProcess.map((stage, index) => {
-              const detail = stageDetails[index];
-              return (
-                <article key={stage.title} className="relative grid gap-5 rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)] md:grid-cols-[0.45fr_1fr] md:p-8">
-                  <div>
-                    <span className="inline-grid h-12 w-12 place-items-center rounded-2xl bg-rose-100 font-mono text-sm font-semibold text-rose-800">
-                      0{index + 1}
-                    </span>
-                    <h2 className="mt-5 text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{stage.title}</h2>
-                    <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{stage.deliverable}</p>
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <Detail title="Objective" text={detail.objective} />
-                    <Detail title="Client input required" text={detail.input} />
-                    <Detail title="Work performed" text={detail.work} />
-                    <Detail title="Next step" text={detail.next} />
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </Container>
-      </section>
+      <ProcessTimeline
+        steps={processSteps}
+        eyebrow="Engagement timeline"
+        title="Every stage produces a practical deliverable."
+        description="The flow keeps goals, access, risks, implementation work, validation, and handover visible from the first call through ongoing support."
+        layout="detailed"
+      />
 
       <ContactCta title="Move from unclear production risk to a scoped next step." />
     </SiteFrame>
-  );
-}
-
-function Detail({ title, text }: Readonly<{ title: string; text: string }>) {
-  return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
-      <p className="text-sm font-semibold text-[var(--text-primary)]">{title}</p>
-      <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{text}</p>
-    </div>
   );
 }

@@ -44,7 +44,7 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
           <div className="min-w-0 max-w-4xl [overflow-wrap:anywhere]">
             <p
               className={cn(
-                "font-mono text-xs font-semibold uppercase leading-6 tracking-[0.14em] sm:tracking-[0.22em]",
+                "font-mono text-xs font-semibold uppercase leading-6 tracking-normal",
                 dark ? "text-cyan-100" : "text-[var(--rose-dark)]",
               )}
             >
@@ -52,7 +52,7 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
             </p>
             <h1
               className={cn(
-                "mt-5 text-4xl font-semibold leading-[1.04] tracking-[-0.02em] sm:text-6xl sm:tracking-[-0.035em] lg:text-7xl",
+                "mt-5 text-4xl font-semibold leading-[1.04] tracking-normal sm:text-6xl lg:text-7xl",
                 dark ? "text-white" : "text-[var(--text-primary)]",
               )}
             >
