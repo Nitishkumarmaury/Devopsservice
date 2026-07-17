@@ -39,7 +39,9 @@ export function ClickSpark({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
   const animationRef = useRef<number | null>(null);
+  const resizeFrameRef = useRef<number | null>(null);
   const reducedMotionRef = useRef(false);
+  const coarsePointerRef = useRef(false);
 
   const easeFunc = useCallback(
     (t: number) => {
@@ -64,8 +66,9 @@ export function ClickSpark({
     if (!canvas || !context) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const viewport = window.visualViewport;
+    const width = viewport?.width ?? window.innerWidth;
+    const height = viewport?.height ?? window.innerHeight;
 
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
@@ -81,7 +84,11 @@ export function ClickSpark({
       return;
     }
 
-    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    const viewport = window.visualViewport;
+    const width = viewport?.width ?? window.innerWidth;
+    const height = viewport?.height ?? window.innerHeight;
+
+    context.clearRect(0, 0, width, height);
 
     sparksRef.current = sparksRef.current.filter((spark) => {
       const elapsed = timestamp - spark.startTime;
@@ -120,22 +127,42 @@ export function ClickSpark({
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const pointer = window.matchMedia("(pointer: coarse)");
     const updatePreference = () => {
       reducedMotionRef.current = media.matches;
+      coarsePointerRef.current = pointer.matches;
     };
 
     updatePreference();
     media.addEventListener("change", updatePreference);
+    pointer.addEventListener("change", updatePreference);
 
-    return () => media.removeEventListener("change", updatePreference);
+    return () => {
+      media.removeEventListener("change", updatePreference);
+      pointer.removeEventListener("change", updatePreference);
+    };
   }, []);
 
   useEffect(() => {
+    const scheduleResize = () => {
+      if (resizeFrameRef.current) return;
+      resizeFrameRef.current = window.requestAnimationFrame(() => {
+        resizeFrameRef.current = null;
+        resizeCanvas();
+      });
+    };
+
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", scheduleResize);
+    window.visualViewport?.addEventListener("resize", scheduleResize);
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", scheduleResize);
+      window.visualViewport?.removeEventListener("resize", scheduleResize);
+
+      if (resizeFrameRef.current) {
+        cancelAnimationFrame(resizeFrameRef.current);
+      }
 
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
@@ -144,7 +171,7 @@ export function ClickSpark({
   }, [resizeCanvas]);
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (reducedMotionRef.current) return;
+    if (reducedMotionRef.current || coarsePointerRef.current) return;
 
     const now = performance.now();
     const newSparks = Array.from({ length: sparkCount }, (_, index) => ({

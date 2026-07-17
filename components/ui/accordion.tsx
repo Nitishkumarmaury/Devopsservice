@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,7 @@ type AccordionProps = {
 
 export function Accordion({ items }: Readonly<AccordionProps>) {
   const [openIndex, setOpenIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   return (
     <div className="space-y-3">
@@ -48,10 +49,10 @@ export function Accordion({ items }: Readonly<AccordionProps>) {
                   id={panelId}
                   role="region"
                   aria-labelledby={buttonId}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                  animate={reduceMotion ? undefined : { height: "auto", opacity: 1 }}
+                  exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
                   <p className="px-5 pb-5 text-sm leading-7 text-slate-300">{item.answer}</p>

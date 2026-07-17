@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CalendarCheck, ChevronDown, Menu, X } from "lucide-react";
 import { LogoutButton } from "@/components/auth/logout-button";
@@ -12,6 +12,7 @@ import { ServiceIcon } from "@/components/services/service-icon";
 import { seoMoneyPages } from "@/data/seo-pages";
 import { consultationHref, navItems, siteConfig } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { useIsTouchDevice, usePrefersReducedMotion } from "@/lib/hooks/use-interaction-capabilities";
 
 const serviceLinks = seoMoneyPages.map((page) => ({
   title: page.shortTitle,
@@ -33,9 +34,16 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
   const scrolledRef = useRef(false);
+  const scrollLockRef = useRef<number | null>(null);
+  const isTouchDevice = useIsTouchDevice();
+  const reduceMotion = usePrefersReducedMotion();
   const loginHref = `/login?next=${encodeURIComponent(pathname || "/")}`;
   const signupHref = `/signup?next=${encodeURIComponent(pathname || "/")}`;
   const servicesActive = isActivePath(pathname, "/services") || serviceLinks.some((service) => isActivePath(pathname, service.href));
+  const closeMobileMenu = useCallback(() => {
+    setOpen(false);
+    setMobileServicesOpen(false);
+  }, []);
 
   useEffect(() => {
     let frame = 0;
@@ -74,14 +82,48 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpen(false);
+        closeMobileMenu();
         setServicesOpen(false);
       }
     };
 
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, []);
+  }, [closeMobileMenu]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+    const previous = {
+      left: style.left,
+      overflow: style.overflow,
+      position: style.position,
+      right: style.right,
+      top: style.top,
+      width: style.width,
+    };
+
+    scrollLockRef.current = scrollY;
+    style.position = "fixed";
+    style.top = `-${scrollY}px`;
+    style.left = "0";
+    style.right = "0";
+    style.width = "100%";
+    style.overflow = "hidden";
+
+    return () => {
+      style.position = previous.position;
+      style.top = previous.top;
+      style.left = previous.left;
+      style.right = previous.right;
+      style.width = previous.width;
+      style.overflow = previous.overflow;
+      window.scrollTo(0, scrollLockRef.current ?? scrollY);
+      scrollLockRef.current = null;
+    };
+  }, [open]);
 
   return (
     <header
@@ -96,7 +138,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
         <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#102437] via-[#0f6f7d] to-[#d5a645] will-change-transform" />
       </div>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link href="/" aria-label={siteConfig.name} className="group inline-flex shrink-0 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
+        <Link href="/" aria-label={siteConfig.name} onClick={closeMobileMenu} className="group inline-flex shrink-0 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
           <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-lg border border-white/70 bg-white shadow-[0_12px_28px_rgba(15,34,48,0.14)] ring-1 ring-cyan-100/70">
             <Image src={siteConfig.logo} alt="" width={527} height={323} className="h-8 w-10 object-contain" priority />
           </span>
@@ -111,8 +153,12 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
               <div
                 key={item.href}
                 className="relative"
-                onMouseEnter={() => setServicesOpen(true)}
-                onMouseLeave={() => setServicesOpen(false)}
+                onMouseEnter={() => {
+                  if (!isTouchDevice) setServicesOpen(true);
+                }}
+                onMouseLeave={() => {
+                  if (!isTouchDevice) setServicesOpen(false);
+                }}
               >
                 <button
                   type="button"
@@ -134,10 +180,10 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                   {servicesOpen ? (
                     <motion.div
                       role="menu"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                      animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                      exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
+                      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] w-[620px] max-w-[calc(100vw-2rem)] rounded-[22px] border border-rose-100 bg-white p-3 shadow-[0_34px_90px_rgba(65,39,71,0.22)] ring-1 ring-white"
                     >
                       <div className="grid gap-2 sm:grid-cols-2">
@@ -213,7 +259,12 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
           aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={open}
           aria-controls="mobile-navigation"
-          onClick={() => setOpen((value) => !value)}
+          onClick={() =>
+            setOpen((value) => {
+              if (value) setMobileServicesOpen(false);
+              return !value;
+            })
+          }
           className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-rose-200/70 bg-white/80 text-[var(--text-primary)] transition hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 xl:hidden"
         >
           {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
@@ -225,11 +276,11 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
           <motion.nav
             id="mobile-navigation"
             aria-label="Mobile primary"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-rose-200/70 bg-white/96 px-5 py-5 shadow-[0_18px_60px_rgba(65,39,71,0.14)] backdrop-blur-xl xl:hidden"
+            initial={reduceMotion ? false : { opacity: 0, y: -12 }}
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="mobile-navigation-panel overflow-y-auto border-t border-rose-200/70 bg-white/96 px-5 py-5 shadow-[0_18px_60px_rgba(65,39,71,0.14)] backdrop-blur-xl xl:hidden"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-2">
               {navItems.map((item) =>
@@ -239,7 +290,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                       type="button"
                       aria-expanded={mobileServicesOpen}
                       onClick={() => setMobileServicesOpen((value) => !value)}
-                      className="flex w-full items-center justify-between px-3 py-3 text-left text-base font-medium text-[var(--text-primary)]"
+                      className="flex min-h-11 w-full items-center justify-between px-3 py-3 text-left text-base font-medium text-[var(--text-primary)]"
                     >
                       Services
                       <ChevronDown className={cn("h-4 w-4 transition", mobileServicesOpen ? "rotate-180" : "")} aria-hidden="true" />
@@ -247,17 +298,17 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                     <AnimatePresence initial={false}>
                       {mobileServicesOpen ? (
                         <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                          animate={reduceMotion ? undefined : { height: "auto", opacity: 1 }}
+                          exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                          transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
                           <div className="grid gap-1 px-2 pb-2">
                             <Link
                               href="/services"
-                              onClick={() => setOpen(false)}
-                              className="rounded-lg px-3 py-2 text-sm font-semibold text-rose-800 hover:bg-white"
+                              onClick={closeMobileMenu}
+                              className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-rose-800 hover:bg-white"
                             >
                               View all services
                             </Link>
@@ -265,8 +316,8 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                               <Link
                                 key={service.href}
                                 href={service.href}
-                                onClick={() => setOpen(false)}
-                                className="rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-white hover:text-[var(--text-primary)]"
+                                onClick={closeMobileMenu}
+                                className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-white hover:text-[var(--text-primary)]"
                               >
                                 {service.title}
                               </Link>
@@ -280,9 +331,9 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => setOpen(false)}
+                    onClick={closeMobileMenu}
                     className={cn(
-                      "rounded-xl px-3 py-3 text-base font-medium transition hover:bg-rose-50 hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+                      "flex min-h-11 items-center rounded-xl px-3 py-3 text-base font-medium transition hover:bg-rose-50 hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
                       isActivePath(pathname, item.href) ? "bg-rose-100 text-rose-800" : "text-[var(--text-secondary)]",
                     )}
                   >
@@ -290,7 +341,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                   </Link>
                 ),
               )}
-              <AnimatedShinyButton url={consultationHref} onClick={() => setOpen(false)} className="mt-3 w-full">
+              <AnimatedShinyButton url={consultationHref} onClick={closeMobileMenu} className="mt-3 w-full">
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                 Book a Consultation
               </AnimatedShinyButton>
@@ -298,10 +349,10 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                 <LogoutButton className="mt-2 w-full" />
               ) : (
                 <>
-                  <AnimatedShinyButton url={signupHref} onClick={() => setOpen(false)} showArrow={false} className="mt-2 w-full">
+                  <AnimatedShinyButton url={signupHref} onClick={closeMobileMenu} showArrow={false} className="mt-2 w-full">
                     Sign up
                   </AnimatedShinyButton>
-                  <AnimatedShinyButton url={loginHref} onClick={() => setOpen(false)} tone="soft" showArrow={false} className="nav-login-button mt-2 w-full">
+                  <AnimatedShinyButton url={loginHref} onClick={closeMobileMenu} tone="soft" showArrow={false} className="nav-login-button mt-2 w-full">
                     Login
                   </AnimatedShinyButton>
                 </>

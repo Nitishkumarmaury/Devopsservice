@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useForm, useWatch, type Path } from "react-hook-form";
@@ -104,6 +104,7 @@ function StepHeader({ step }: { step: Step }) {
 export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<AdvisorFormProps>) {
   const [step, setStep] = useState<Step>(0);
   const [direction, setDirection] = useState(1);
+  const reduceMotion = useReducedMotion();
   const formDefaults = useMemo(() => initialValues ?? defaultValues, [initialValues]);
 
   const {
@@ -219,10 +220,10 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
               id={`advisor-step-${step}`}
               role="tabpanel"
               custom={direction}
-              initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
-              transition={{ duration: 0.24, ease: "easeOut" }}
+              initial={reduceMotion ? false : { opacity: 0, x: direction > 0 ? 24 : -24 }}
+              animate={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, x: direction > 0 ? -24 : 24 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
               className="mt-6 min-w-0"
             >
             {step === 0 ? (

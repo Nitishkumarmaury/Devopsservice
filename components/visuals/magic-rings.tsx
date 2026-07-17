@@ -371,6 +371,7 @@ export default function MagicRings({
     };
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let isVisible = true;
     let animationId = 0;
     const update = (time: number) => {
       renderFrame(time);
@@ -379,21 +380,36 @@ export default function MagicRings({
 
     const start = () => {
       window.cancelAnimationFrame(animationId);
-      if (reducedMotion.matches) {
+      if (reducedMotion.matches || !isVisible || document.hidden) {
         renderFrame();
         return;
       }
       animationId = window.requestAnimationFrame(update);
     };
 
+    const visibilityObserver =
+      "IntersectionObserver" in window
+        ? new IntersectionObserver(
+            ([entry]) => {
+              isVisible = entry.isIntersecting;
+              start();
+            },
+            { rootMargin: "160px" },
+          )
+        : null;
+
+    const handleDocumentVisibility = () => start();
+
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
+    visibilityObserver?.observe(container);
     window.addEventListener("resize", resize);
     container.addEventListener("mousemove", onMouseMove);
     container.addEventListener("mouseenter", onMouseEnter);
     container.addEventListener("mouseleave", onMouseLeave);
     container.addEventListener("click", onClick);
     reducedMotion.addEventListener("change", start);
+    document.addEventListener("visibilitychange", handleDocumentVisibility);
 
     resize();
     start();
@@ -401,12 +417,14 @@ export default function MagicRings({
     return () => {
       window.cancelAnimationFrame(animationId);
       resizeObserver.disconnect();
+      visibilityObserver?.disconnect();
       window.removeEventListener("resize", resize);
       container.removeEventListener("mousemove", onMouseMove);
       container.removeEventListener("mouseenter", onMouseEnter);
       container.removeEventListener("mouseleave", onMouseLeave);
       container.removeEventListener("click", onClick);
       reducedMotion.removeEventListener("change", start);
+      document.removeEventListener("visibilitychange", handleDocumentVisibility);
       if (gl.canvas.parentNode === container) {
         container.removeChild(gl.canvas);
       }

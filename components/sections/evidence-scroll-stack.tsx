@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Activity, ArrowRight, ClipboardCheck, GitBranch, ShieldCheck } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { useElementInView } from "@/lib/hooks/use-element-in-view";
 import { cn } from "@/lib/utils";
 
 const evidenceCards = [
@@ -53,21 +54,22 @@ const MANUAL_PAUSE_MS = 6200;
 
 export function EvidenceScrollStack() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [rotationHeld, setRotationHeld] = useState(false);
   const reduceMotion = useReducedMotion();
   const resumeTimer = useRef<number | null>(null);
+  const [sectionRef, sectionInView] = useElementInView<HTMLElement>();
   const card = evidenceCards[active];
   const Icon = card.icon;
 
   useEffect(() => {
-    if (reduceMotion || paused) return;
+    if (reduceMotion || rotationHeld || !sectionInView) return;
 
     const interval = window.setInterval(() => {
       setActive((current) => (current + 1) % evidenceCards.length);
     }, ROTATION_MS);
 
     return () => window.clearInterval(interval);
-  }, [paused, reduceMotion]);
+  }, [rotationHeld, reduceMotion, sectionInView]);
 
   useEffect(() => {
     return () => {
@@ -77,16 +79,16 @@ export function EvidenceScrollStack() {
 
   const selectCard = (index: number) => {
     setActive(index);
-    setPaused(true);
+    setRotationHeld(true);
     if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
     resumeTimer.current = window.setTimeout(() => {
-      setPaused(false);
+      setRotationHeld(false);
       resumeTimer.current = null;
     }, MANUAL_PAUSE_MS);
   };
 
   return (
-    <section id="evidence" className="relative overflow-hidden bg-white py-16 sm:py-24 lg:py-32">
+    <section ref={sectionRef} id="evidence" className="relative overflow-hidden bg-white py-16 sm:py-24 lg:py-32">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(14,165,183,0.08),transparent_30%),radial-gradient(circle_at_86%_18%,rgba(139,108,255,0.07),transparent_28%)]" />
       <Container className="relative">
         <div className="grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-center">
@@ -98,8 +100,8 @@ export function EvidenceScrollStack() {
               Scientific DevOps: measure, change, validate, repeat.
             </h2>
             <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
-              Recommendations are tied to observable signals, controlled changes, and documented outcomes. This section
-              now advances automatically while still letting buyers pick the evidence stage they care about.
+              Recommendations are tied to observable signals, controlled changes, and documented outcomes. Buyers can
+              review each evidence stage and see how delivery decisions are validated.
             </p>
             <ButtonLink href="/process" variant="secondary" className="mt-7">
               See the validation process
@@ -110,11 +112,11 @@ export function EvidenceScrollStack() {
           <div
             className={cn(
               "relative min-w-0 overflow-hidden rounded-[32px] border border-[var(--border)] bg-[linear-gradient(135deg,#eef8fb_0%,#f7f5ff_60%,#fff8fb_100%)] p-4 shadow-[0_34px_110px_rgba(15,34,48,0.14)] sm:p-6",
-              paused && "is-paused",
+              (rotationHeld || !sectionInView) && "motion-held",
             )}
             style={{ "--auto-duration": `${ROTATION_MS}ms` } as CSSProperties}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
+            onMouseEnter={() => setRotationHeld(true)}
+            onMouseLeave={() => setRotationHeld(false)}
           >
             <div className="pointer-events-none absolute inset-0 soft-grid opacity-24" />
             <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl" />
@@ -123,9 +125,6 @@ export function EvidenceScrollStack() {
             <div className="relative mb-4 flex flex-wrap items-center justify-between gap-2">
               <span className="rounded-full border border-white bg-white/60 px-3 py-1.5 text-xs font-semibold text-[var(--text-secondary)]">
                 Evidence sequence
-              </span>
-              <span className="rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1.5 text-xs font-semibold text-[var(--rose-dark)]">
-                {paused ? "Paused" : "Auto changing"}
               </span>
             </div>
 

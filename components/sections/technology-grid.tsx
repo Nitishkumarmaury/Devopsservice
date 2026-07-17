@@ -2,11 +2,12 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { BrandIcon3D } from "@/components/ui/brand-icon-3d";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Container } from "@/components/ui/container";
 import { ServiceIcon } from "@/components/services/service-icon";
+import { useElementInView } from "@/lib/hooks/use-element-in-view";
 import { services } from "@/data/services";
 import { cn } from "@/lib/utils";
 
@@ -14,7 +15,7 @@ const toolCategories = [
   {
     title: "Services",
     eyebrow: "Delivery menu",
-    summary: "The service box now leads with the actual DevOps offers, then rotates through the supporting tool stack.",
+    summary: "Core DevOps offers supported by the tool stack used in production delivery.",
     items: services.map((service) => ({
       label: service.shortTitle,
       detail: service.relatedPackage,
@@ -78,12 +79,13 @@ const MANUAL_PAUSE_MS = 6200;
 export function TechnologyGrid() {
   const [active, setActive] = useState<(typeof toolCategories)[number]["title"]>(toolCategories[0].title);
   const reduceMotion = useReducedMotion();
-  const [paused, setPaused] = useState(false);
+  const [rotationHeld, setRotationHeld] = useState(false);
   const resumeTimer = useRef<number | null>(null);
+  const [sectionRef, sectionInView] = useElementInView<HTMLElement>();
   const category = useMemo(() => toolCategories.find((item) => item.title === active) ?? toolCategories[0], [active]);
 
   useEffect(() => {
-    if (reduceMotion || paused) return;
+    if (reduceMotion || rotationHeld || !sectionInView) return;
 
     const interval = window.setInterval(() => {
       setActive((current) => {
@@ -93,7 +95,7 @@ export function TechnologyGrid() {
     }, ROTATION_MS);
 
     return () => window.clearInterval(interval);
-  }, [paused, reduceMotion]);
+  }, [rotationHeld, reduceMotion, sectionInView]);
 
   useEffect(() => {
     return () => {
@@ -101,38 +103,38 @@ export function TechnologyGrid() {
     };
   }, []);
 
-  const pauseTemporarily = () => {
-    setPaused(true);
+  const holdRotationTemporarily = () => {
+    setRotationHeld(true);
     if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
     resumeTimer.current = window.setTimeout(() => {
-      setPaused(false);
+      setRotationHeld(false);
       resumeTimer.current = null;
     }, MANUAL_PAUSE_MS);
   };
 
   const activate = (title: (typeof toolCategories)[number]["title"]) => {
     setActive(title);
-    pauseTemporarily();
+    holdRotationTemporarily();
   };
 
   return (
-    <section className="relative overflow-hidden bg-white py-16 sm:py-24 lg:py-32">
+    <section ref={sectionRef} className="relative overflow-hidden bg-white py-16 sm:py-24 lg:py-32">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(14,165,183,0.08),transparent_30%),radial-gradient(circle_at_84%_20%,rgba(139,108,255,0.08),transparent_28%)]" />
       <Container className="relative">
         <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-          <SectionHeader eyebrow="Services and tools" title="An auto-moving service cockpit instead of static tabs.">
-            The box rotates through core services and the tool categories behind them, so buyers can scan what you do
-            without staring at a long logo wall.
+          <SectionHeader eyebrow="Services and tools" title="A clear view of services and delivery tools.">
+            Review core services and the supporting tool categories behind production deployment, monitoring,
+            security, and infrastructure support.
           </SectionHeader>
 
           <div
             className={cn(
               "relative min-w-0 overflow-hidden rounded-[32px] border border-cyan-200/70 bg-[linear-gradient(135deg,#edf8fb_0%,#f6f4ff_55%,#fff7fb_100%)] p-4 shadow-[0_30px_100px_rgba(15,34,48,0.14)] sm:p-5",
-              paused && "is-paused",
+              (rotationHeld || !sectionInView) && "motion-held",
             )}
             style={{ "--auto-duration": `${ROTATION_MS}ms` } as CSSProperties}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
+            onMouseEnter={() => setRotationHeld(true)}
+            onMouseLeave={() => setRotationHeld(false)}
           >
             <div className="pointer-events-none absolute inset-0 soft-grid opacity-30" />
             <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl" />
@@ -162,61 +164,55 @@ export function TechnologyGrid() {
               </div>
 
               <div className="min-w-0 rounded-[26px] border border-white bg-white/82 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:p-6">
-                <AnimatePresence initial={false}>
-                  <motion.div
-                    key={category.title}
-                    aria-live="polite"
-                    initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.98 }}
-                    animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-                    exit={reduceMotion ? undefined : { opacity: 0, y: -12, scale: 0.98 }}
-                    transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-                    className="min-w-0"
-                  >
-                    <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                      <div className="min-w-0">
-                        <p className="font-mono text-xs font-semibold uppercase leading-5 tracking-normal text-[var(--rose-dark)]">
-                          {category.eyebrow}
-                        </p>
-                        <h3 className="mt-2 text-2xl font-semibold leading-tight tracking-normal text-[var(--text-primary)] sm:text-3xl">
-                          {category.title}
-                        </h3>
-                        <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">{category.summary}</p>
-                      </div>
-                      <span className="w-fit rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1.5 text-xs font-semibold text-[var(--rose-dark)]">
-                        {paused ? "Paused" : "Auto changing"}
-                      </span>
+                <motion.div
+                  key={category.title}
+                  aria-live="polite"
+                  initial={reduceMotion ? false : { opacity: 0 }}
+                  animate={reduceMotion ? undefined : { opacity: 1 }}
+                  transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex min-h-[23rem] min-w-0 flex-col"
+                >
+                  <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
+                      <p className="font-mono text-xs font-semibold uppercase leading-5 tracking-normal text-[var(--rose-dark)]">
+                        {category.eyebrow}
+                      </p>
+                      <h3 className="mt-2 text-2xl font-semibold leading-tight tracking-normal text-[var(--text-primary)] sm:text-3xl">
+                        {category.title}
+                      </h3>
+                      <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">{category.summary}</p>
                     </div>
+                  </div>
 
-                    <div className="mt-6 grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                      {category.items.map((item, index) => (
-                        <motion.div
-                          key={`${category.title}-${item.label}`}
-                          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1], delay: index * 0.04 }}
-                          className="min-w-0"
-                        >
-                          {item.kind === "service" ? (
-                            <div className="group flex min-h-16 min-w-0 items-center gap-3 rounded-2xl border border-[var(--border)] bg-white/94 p-3 shadow-[0_16px_42px_rgba(15,34,48,0.08)] transition hover:-translate-y-0.5 hover:border-cyan-200">
-                              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-cyan-50 text-[var(--rose-dark)]">
-                                <ServiceIcon icon={item.icon} />
-                              </span>
-                              <span className="min-w-0">
-                                <span className="block truncate text-sm font-semibold text-[var(--text-primary)]">{item.label}</span>
-                                <span className="mt-1 block truncate text-xs text-[var(--text-muted)]">{item.detail}</span>
-                              </span>
-                            </div>
-                          ) : (
-                            <BrandIcon3D
-                              name={item.label}
-                              className="min-h-16 w-full justify-start rounded-2xl border-[var(--border)] bg-white/94 px-3 py-3 transition hover:-translate-y-0.5 hover:border-cyan-200 hover:shadow-[0_18px_42px_rgba(14,165,183,0.12)]"
-                            />
-                          )}
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+                  <div className="mt-6 grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {category.items.map((item, index) => (
+                      <motion.div
+                        key={`${category.title}-${item.label}`}
+                        initial={reduceMotion ? false : { opacity: 0 }}
+                        animate={reduceMotion ? undefined : { opacity: 1 }}
+                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1], delay: index * 0.025 }}
+                        className="min-w-0"
+                      >
+                        {item.kind === "service" ? (
+                          <div className="group flex min-h-16 min-w-0 items-center gap-3 rounded-2xl border border-[var(--border)] bg-white/94 p-3 shadow-[0_16px_42px_rgba(15,34,48,0.08)] transition hover:-translate-y-0.5 hover:border-cyan-200">
+                            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-cyan-50 text-[var(--rose-dark)]">
+                              <ServiceIcon icon={item.icon} />
+                            </span>
+                            <span className="min-w-0">
+                              <span className="block truncate text-sm font-semibold text-[var(--text-primary)]">{item.label}</span>
+                              <span className="mt-1 block truncate text-xs text-[var(--text-muted)]">{item.detail}</span>
+                            </span>
+                          </div>
+                        ) : (
+                          <BrandIcon3D
+                            name={item.label}
+                            className="min-h-16 w-full justify-start rounded-2xl border-[var(--border)] bg-white/94 px-3 py-3 transition hover:-translate-y-0.5 hover:border-cyan-200 hover:shadow-[0_18px_42px_rgba(14,165,183,0.12)]"
+                          />
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
               </div>
             </div>
 

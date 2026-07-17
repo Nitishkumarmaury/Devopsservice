@@ -15,7 +15,7 @@ const variantClass: Record<Variant, string> = {
 
 export function buttonClassName(variant: Variant = "primary", className?: string) {
   return cn(
-    "inline-flex min-h-11 max-w-full min-w-0 items-center justify-center gap-2 whitespace-normal rounded-lg px-4 py-2.5 text-center text-sm font-semibold leading-snug [overflow-wrap:anywhere] transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 disabled:pointer-events-none disabled:opacity-60 sm:whitespace-nowrap [&_svg]:shrink-0",
+    "inline-flex min-h-11 max-w-full min-w-0 items-center justify-center gap-2 whitespace-normal rounded-lg px-4 py-2.5 text-center text-sm font-semibold leading-snug [overflow-wrap:anywhere] transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 disabled:pointer-events-none disabled:opacity-60 sm:whitespace-nowrap [&_svg]:shrink-0",
     variantClass[variant],
     className,
   );

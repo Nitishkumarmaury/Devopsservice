@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import type { InfrastructureBlueprint } from "@/types/infrastructure-blueprint";
 
@@ -27,6 +28,7 @@ function ListBlock({ title, items }: { title: string; items: string[] }) {
 export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
   const [active, setActive] = useState<BlueprintTab>("Architecture");
   const id = useId();
+  const reduceMotion = useReducedMotion();
 
   return (
     <div className="min-w-0 rounded-2xl border border-rose-100 bg-white/74 p-4 [overflow-wrap:anywhere] sm:p-5">
@@ -56,22 +58,28 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
         ))}
       </div>
 
-      <div
-        id={`${id}-${active}-panel`}
-        role="tabpanel"
-        aria-labelledby={`${id}-${active}-tab`}
-        tabIndex={0}
-        className="mt-5 min-w-0 rounded-2xl border border-rose-100 bg-white/72 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400"
-      >
-        {active === "Architecture" ? (
-          <div className="space-y-5">
-            <div className="min-w-0">
-              <h4 className="text-base font-semibold text-[var(--text-primary)]">{blueprint.recommendedArchitecture.title}</h4>
-              <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{blueprint.recommendedArchitecture.description}</p>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={active}
+          id={`${id}-${active}-panel`}
+          role="tabpanel"
+          aria-labelledby={`${id}-${active}-tab`}
+          tabIndex={0}
+          initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-5 min-w-0 rounded-2xl border border-rose-100 bg-white/72 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400"
+        >
+          {active === "Architecture" ? (
+            <div className="space-y-5">
+              <div className="min-w-0">
+                <h4 className="text-base font-semibold text-[var(--text-primary)]">{blueprint.recommendedArchitecture.title}</h4>
+                <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{blueprint.recommendedArchitecture.description}</p>
+              </div>
+              <ListBlock title="Recommended components" items={blueprint.recommendedArchitecture.components} />
             </div>
-            <ListBlock title="Recommended components" items={blueprint.recommendedArchitecture.components} />
-          </div>
-        ) : null}
+          ) : null}
 
         {active === "Deployment" ? (
           <div className="space-y-5">
@@ -104,32 +112,33 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
           </div>
         ) : null}
 
-        {active === "Implementation" ? (
-          <div className="space-y-4">
-            {blueprint.implementationPhases.map((phase) => (
-              <div key={`${phase.phase}-${phase.title}`} className="min-w-0 rounded-xl border border-rose-100 bg-white/76 p-4">
-                <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                  <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.12em] text-rose-700 sm:tracking-[0.16em]">{phase.phase}</p>
-                  <span className="w-fit max-w-full rounded-lg border border-rose-100 bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800">
-                    {phase.duration}
-                  </span>
+          {active === "Implementation" ? (
+            <div className="space-y-4">
+              {blueprint.implementationPhases.map((phase) => (
+                <div key={`${phase.phase}-${phase.title}`} className="min-w-0 rounded-xl border border-rose-100 bg-white/76 p-4">
+                  <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.12em] text-rose-700 sm:tracking-[0.16em]">{phase.phase}</p>
+                    <span className="w-fit max-w-full rounded-lg border border-rose-100 bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-800">
+                      {phase.duration}
+                    </span>
+                  </div>
+                  <h4 className="mt-2 text-sm font-semibold text-[var(--text-primary)]">{phase.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{phase.objective}</p>
+                  <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)]">
+                    {phase.actions.map((action) => (
+                      <li key={action}>- {action}</li>
+                    ))}
+                  </ul>
+                  <div className="mt-4 grid min-w-0 gap-3 md:grid-cols-2">
+                    <ListBlock title="Deliverables" items={phase.deliverables} />
+                    <ListBlock title="Validation" items={phase.validation} />
+                  </div>
                 </div>
-                <h4 className="mt-2 text-sm font-semibold text-[var(--text-primary)]">{phase.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{phase.objective}</p>
-                <ul className="mt-3 space-y-2 text-sm leading-6 text-[var(--text-secondary)]">
-                  {phase.actions.map((action) => (
-                    <li key={action}>- {action}</li>
-                  ))}
-                </ul>
-                <div className="mt-4 grid min-w-0 gap-3 md:grid-cols-2">
-                  <ListBlock title="Deliverables" items={phase.deliverables} />
-                  <ListBlock title="Validation" items={phase.validation} />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : null}
-      </div>
+              ))}
+            </div>
+          ) : null}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

@@ -238,6 +238,8 @@ export default function Lightfall({
     let renderer: Renderer | null = null;
     let canvas: HTMLCanvasElement | null = null;
     let resizeObserver: ResizeObserver | null = null;
+    let visibilityObserver: IntersectionObserver | null = null;
+    let isVisible = true;
 
     try {
       const pixelRatio = Math.min(dpr ?? window.devicePixelRatio ?? 1, 2);
@@ -301,8 +303,10 @@ export default function Lightfall({
         if (mouseDampening <= 0) uniforms.iMouse.value = [x, y];
       };
 
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const shouldAnimate = () => !paused && !reducedMotion.matches && isVisible && !document.hidden;
+
       const loop = (time: number) => {
-        rafRef.current = window.requestAnimationFrame(loop);
         uniforms.iTime.value = time * 0.001;
 
         if (mouseDampening > 0) {
@@ -316,19 +320,55 @@ export default function Lightfall({
           current[1] += (target[1] - current[1]) * factor;
         }
 
-        if (!paused) renderer?.render({ scene: mesh });
+        renderer?.render({ scene: mesh });
+
+        if (shouldAnimate()) {
+          rafRef.current = window.requestAnimationFrame(loop);
+        } else {
+          rafRef.current = null;
+        }
+      };
+
+      const start = () => {
+        if (rafRef.current) {
+          window.cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
+
+        if (shouldAnimate()) {
+          rafRef.current = window.requestAnimationFrame(loop);
+          return;
+        }
+
+        renderer?.render({ scene: mesh });
       };
 
       resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(container);
+      visibilityObserver =
+        "IntersectionObserver" in window
+          ? new IntersectionObserver(
+              ([entry]) => {
+                isVisible = entry.isIntersecting;
+                start();
+              },
+              { rootMargin: "160px" },
+            )
+          : null;
+      visibilityObserver?.observe(container);
       if (mouseInteraction) canvas.addEventListener("pointermove", onPointerMove);
+      reducedMotion.addEventListener("change", start);
+      document.addEventListener("visibilitychange", start);
       resize();
-      rafRef.current = window.requestAnimationFrame(loop);
+      start();
 
       return () => {
         if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
         if (canvas && mouseInteraction) canvas.removeEventListener("pointermove", onPointerMove);
+        reducedMotion.removeEventListener("change", start);
+        document.removeEventListener("visibilitychange", start);
         resizeObserver?.disconnect();
+        visibilityObserver?.disconnect();
         if (canvas?.parentElement === container) container.removeChild(canvas);
         gl.getExtension("WEBGL_lose_context")?.loseContext();
         delete container.dataset.webgl;
