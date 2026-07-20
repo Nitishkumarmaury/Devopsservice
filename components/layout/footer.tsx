@@ -36,8 +36,14 @@ export function Footer() {
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.5fr_0.7fr_1fr_0.8fr] lg:px-8">
         <div>
           <Link href="/" className="inline-flex flex-col gap-3">
-            <span className="inline-flex h-14 w-[238px] items-center overflow-hidden rounded-xl border border-white/20 bg-white px-3 shadow-[0_14px_34px_rgba(15,111,125,0.24)]">
-              <Image src={siteConfig.logoFull} alt={`${siteConfig.name} logo`} width={1578} height={323} className="h-auto w-full object-contain" />
+            <span className="inline-flex h-32 w-48 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white shadow-[0_14px_34px_rgba(15,111,125,0.24)]">
+              <Image
+                src={siteConfig.logoFull}
+                alt={`${siteConfig.name} logo`}
+                width={siteConfig.logoWidth}
+                height={siteConfig.logoHeight}
+                className="h-full w-full object-contain"
+              />
             </span>
             <span className="text-sm text-white/64">{siteConfig.tagline}</span>
           </Link>

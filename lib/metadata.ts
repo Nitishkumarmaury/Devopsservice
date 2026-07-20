@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { siteConfig } from "./constants";
 
 const sameAs = Object.values(siteConfig.social).filter((url) => url.startsWith("https://"));
+const faviconIcon = {
+  url: "/icons/favicon.png",
+  sizes: "256x256",
+  type: "image/png",
+};
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -39,12 +44,9 @@ export const defaultMetadata: Metadata = {
     images: ["/opengraph-image"],
   },
   icons: {
-    icon: [
-      { url: "/icons/favicon.svg", type: "image/svg+xml" },
-      { url: "/icons/favicon.png", sizes: "256x256", type: "image/png" },
-    ],
-    shortcut: [{ url: "/icons/favicon.svg" }],
-    apple: [{ url: siteConfig.logo, sizes: "180x180", type: "image/png" }],
+    icon: [faviconIcon, { url: "/favicon.ico", sizes: "any" }],
+    shortcut: [faviconIcon],
+    apple: [faviconIcon],
   },
 };
 

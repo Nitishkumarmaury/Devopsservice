@@ -137,14 +137,16 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
       <div className="absolute inset-x-0 bottom-0 h-px bg-rose-100/60">
         <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#102437] via-[#0f6f7d] to-[#d5a645] will-change-transform" />
       </div>
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link href="/" aria-label={siteConfig.name} onClick={closeMobileMenu} className="group inline-flex shrink-0 items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
-          <span className="grid h-11 w-11 place-items-center overflow-hidden rounded-lg border border-white/70 bg-white shadow-[0_12px_28px_rgba(15,34,48,0.14)] ring-1 ring-cyan-100/70">
-            <Image src={siteConfig.logo} alt="" width={527} height={323} className="h-8 w-10 object-contain" priority />
-          </span>
-          <span className="hidden h-11 w-[152px] items-center overflow-hidden rounded-lg border border-white/70 bg-white px-2 shadow-[0_12px_28px_rgba(15,34,48,0.1)] ring-1 ring-cyan-100/60 min-[520px]:inline-flex sm:w-[172px]">
-            <Image src={siteConfig.logoWordmark} alt={`${siteConfig.name} logo`} width={1012} height={185} className="h-auto w-full object-contain" priority />
-          </span>
+      <div className="mx-auto flex h-[5.25rem] max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
+        <Link href="/" aria-label={siteConfig.name} onClick={closeMobileMenu} className="group inline-flex h-[72px] w-[108px] shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/80 bg-white shadow-[0_12px_28px_rgba(15,34,48,0.12)] ring-1 ring-cyan-100/70 transition hover:shadow-[0_16px_34px_rgba(15,34,48,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
+          <Image
+            src={siteConfig.logoFull}
+            alt={`${siteConfig.name} logo`}
+            width={siteConfig.logoWidth}
+            height={siteConfig.logoHeight}
+            className="h-full w-full object-contain"
+            priority
+          />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full border border-rose-200/70 bg-white/78 p-1 text-sm text-[var(--text-secondary)] shadow-[0_12px_34px_rgba(65,39,71,0.08)] xl:flex">
