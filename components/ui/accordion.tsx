@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 type AccordionItem = {
   question: string;
@@ -37,10 +36,14 @@ export function Accordion({ items }: Readonly<AccordionProps>) {
                 className="flex w-full items-center justify-between gap-4 rounded-lg px-5 py-4 text-left text-sm font-semibold text-white transition hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 sm:text-base"
               >
                 <span>{item.question}</span>
-                <ChevronDown
+                <motion.span
                   aria-hidden="true"
-                  className={cn("h-4 w-4 shrink-0 text-cyan-200 transition", isOpen && "rotate-180")}
-                />
+                  animate={reduceMotion ? undefined : { rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                  className="grid h-4 w-4 shrink-0 place-items-center text-cyan-200"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </motion.span>
               </button>
             </h3>
             <AnimatePresence initial={false}>
@@ -52,7 +55,7 @@ export function Accordion({ items }: Readonly<AccordionProps>) {
                   initial={reduceMotion ? false : { height: 0, opacity: 0 }}
                   animate={reduceMotion ? undefined : { height: "auto", opacity: 1 }}
                   exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
                   <p className="px-5 pb-5 text-sm leading-7 text-slate-300">{item.answer}</p>

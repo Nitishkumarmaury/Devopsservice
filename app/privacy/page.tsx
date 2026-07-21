@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { FadeIn } from "@/components/ui/fade-in";
 import { siteConfig } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/route-metadata";
 
@@ -14,6 +15,7 @@ export default function PrivacyPage() {
   return (
     <SiteFrame>
       <section className="mx-auto max-w-3xl px-5 py-32 sm:px-6 lg:px-8">
+        <FadeIn>
         <Link href="/" className="text-sm font-semibold text-rose-700 transition hover:text-rose-900">Back to home</Link>
         <h1 className="mt-8 text-4xl font-semibold tracking-tight text-[var(--text-primary)]">Privacy Policy</h1>
         <div className="mt-6 space-y-5 text-base leading-8 text-[var(--text-secondary)]">
@@ -30,6 +32,7 @@ export default function PrivacyPage() {
             For privacy questions or data-removal requests, contact {siteConfig.email}.
           </p>
         </div>
+        </FadeIn>
       </section>
     </SiteFrame>
   );

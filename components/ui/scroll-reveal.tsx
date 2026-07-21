@@ -8,7 +8,7 @@ type ScrollRevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
-  as?: "div" | "section" | "article" | "li";
+  as?: "div" | "section" | "article" | "aside" | "li";
 };
 
 export function ScrollReveal({ children, className, delay = 0, as = "div" }: Readonly<ScrollRevealProps>) {
@@ -17,10 +17,10 @@ export function ScrollReveal({ children, className, delay = 0, as = "div" }: Rea
 
   return (
     <Component
-      initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
       whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2, margin: "-72px" }}
-      transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1], delay }}
+      viewport={{ once: true, amount: 0.18, margin: "0px 0px -72px 0px" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay }}
       className={cn(className)}
     >
       {children}

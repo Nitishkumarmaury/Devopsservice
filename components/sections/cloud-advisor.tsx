@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { ArrowRight, Bot, CheckCircle2, LockKeyhole, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { buttonClassName } from "@/components/ui/button";
+import { FadeIn } from "@/components/ui/fade-in";
 import { SectionGlow } from "@/components/ui/section-glow";
 
 const AdvisorWorkspace = dynamic(
@@ -48,7 +49,7 @@ export function CloudAdvisorSection() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/70 to-transparent" />
       <Container className="relative">
         <div className="grid min-w-0 gap-10 xl:grid-cols-[0.82fr_1.18fr] xl:items-start">
-          <div className="min-w-0 [overflow-wrap:anywhere] xl:sticky xl:top-24">
+          <FadeIn className="min-w-0 [overflow-wrap:anywhere] xl:sticky xl:top-24">
             <div className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-rose-200 bg-white/72 px-3.5 py-2 text-sm font-semibold leading-snug text-rose-700 shadow-[0_14px_34px_rgba(14,165,183,0.1)]">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               Infrastructure Blueprint Tool
@@ -92,9 +93,11 @@ export function CloudAdvisorSection() {
               Start Your Blueprint
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
-          </div>
+          </FadeIn>
 
-          <AdvisorWorkspace />
+          <FadeIn delay={0.08}>
+            <AdvisorWorkspace />
+          </FadeIn>
         </div>
       </Container>
     </section>

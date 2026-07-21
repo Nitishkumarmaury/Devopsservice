@@ -27,7 +27,6 @@ export function Marquee({ items, className }: Readonly<MarqueeProps>) {
             compact
             className={cn(
               "tech-pill shrink-0 border-rose-100/90 text-[var(--text-secondary)] transition hover:-translate-y-0.5 hover:border-[var(--tech-color)] hover:text-[var(--tech-color)]",
-              index >= items.length && "hidden sm:inline-flex",
             )}
             style={{ "--tech-color": item.color ?? "#43d9c5" } as CSSProperties}
           />

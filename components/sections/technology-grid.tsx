@@ -143,10 +143,14 @@ export function TechnologyGrid() {
             <div className="relative grid min-w-0 gap-4 lg:grid-cols-[14rem_1fr]">
               <div className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">
                 {toolCategories.map((item, index) => (
-                  <button
+                  <motion.button
                     key={item.title}
                     type="button"
                     onClick={() => activate(item.title)}
+                    initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+                    whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.18, margin: "0px 0px -72px 0px" }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.06 }}
                     className={cn(
                       "group relative min-w-0 overflow-hidden rounded-2xl border px-3 py-3 text-left text-sm font-semibold leading-snug transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300",
                       active === item.title
@@ -159,7 +163,7 @@ export function TechnologyGrid() {
                       <span className="truncate">{item.title}</span>
                     </span>
                     {active === item.title ? <span className="auto-progress absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-cyan-300 via-violet-300 to-pink-200" /> : null}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
 

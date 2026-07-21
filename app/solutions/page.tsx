@@ -5,6 +5,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
 import { solutionGroups } from "@/data/solutions";
 import { createPageMetadata } from "@/lib/route-metadata";
@@ -35,7 +36,7 @@ export default function SolutionsPage() {
 
       <section className="bg-[var(--background-soft)] py-16 sm:py-24">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-2">
+          <StaggerReveal className="grid gap-5 lg:grid-cols-2">
             {solutionGroups.map((solution) => (
               <article key={solution.name} className="rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
                 <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{solution.name}</h2>
@@ -63,7 +64,7 @@ export default function SolutionsPage() {
                 </div>
               </article>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 

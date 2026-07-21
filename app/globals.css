@@ -544,11 +544,13 @@ textarea {
 
 .marquee-track {
   animation: marquee 34s linear infinite;
+  transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
 .capability-marquee {
   animation: marquee 38s linear infinite;
+  transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
@@ -1103,10 +1105,10 @@ textarea {
 
 @keyframes marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -1476,15 +1478,6 @@ textarea {
     padding-block: 4rem;
   }
 
-  .marquee-track {
-    animation: none;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding-inline: 1.25rem;
-    transform: none;
-    white-space: normal;
-    width: 100%;
-  }
 }
 
 @media (hover: none), (pointer: coarse) {

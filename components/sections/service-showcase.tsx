@@ -33,10 +33,14 @@ export function ServiceShowcase({ services, className }: Readonly<ServiceShowcas
             {services.map((service, index) => {
               const active = activeService.slug === service.slug;
               return (
-                <button
+                <motion.button
                   key={service.slug}
                   type="button"
                   onClick={() => setActiveSlug(service.slug)}
+                  initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+                  whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.18, margin: "0px 0px -72px 0px" }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.07 }}
                   className={cn(
                     "group grid min-w-0 grid-cols-[3rem_1fr_auto] items-center gap-3 rounded-[20px] border px-4 py-4 text-left transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300",
                     active
@@ -66,7 +70,7 @@ export function ServiceShowcase({ services, className }: Readonly<ServiceShowcas
                   >
                     <ServiceIcon icon={service.icon} />
                   </span>
-                </button>
+                </motion.button>
               );
             })}
           </div>
@@ -143,7 +147,14 @@ export function ServiceShowcase({ services, className }: Readonly<ServiceShowcas
         {services.map((service, index) => {
           const open = openSlug === service.slug;
           return (
-            <article key={service.slug} className="overflow-hidden rounded-[24px] border border-[var(--border)] bg-white shadow-[var(--shadow-soft)]">
+            <motion.article
+              key={service.slug}
+              initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.18, margin: "0px 0px -72px 0px" }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.07 }}
+              className="overflow-hidden rounded-[24px] border border-[var(--border)] bg-white shadow-[var(--shadow-soft)]"
+            >
               <button
                 type="button"
                 aria-expanded={open}
@@ -192,7 +203,7 @@ export function ServiceShowcase({ services, className }: Readonly<ServiceShowcas
                   </motion.div>
                 ) : null}
               </AnimatePresence>
-            </article>
+            </motion.article>
           );
         })}
       </div>

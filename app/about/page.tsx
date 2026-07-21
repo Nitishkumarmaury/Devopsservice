@@ -5,6 +5,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
 import { capabilityGroups } from "@/data/technologies";
 import { consultationHref, siteConfig } from "@/lib/constants";
@@ -75,7 +77,7 @@ export default function AboutPage() {
       <section className="bg-white py-16 sm:py-24">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
+            <ScrollReveal className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
               <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)]">Company focus</h2>
               <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
                 Our practical work includes Linux server administration, AWS and DigitalOcean deployments, CI/CD
@@ -86,12 +88,12 @@ export default function AboutPage() {
                 The delivery style is direct and implementation-oriented: understand the production risk, choose a
                 practical path, validate the outcome, and leave behind clear handover notes.
               </p>
-            </div>
+            </ScrollReveal>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <StaggerReveal className="grid gap-5 sm:grid-cols-2">
               <Panel title="Working principles" items={principles} />
               <Panel title="Clients supported" items={clients} />
-            </div>
+            </StaggerReveal>
           </div>
         </Container>
       </section>
@@ -102,7 +104,7 @@ export default function AboutPage() {
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[var(--rose-dark)]">Technical experience</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] text-[var(--text-primary)]">Hands-on infrastructure stack.</h2>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <StaggerReveal className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {capabilityGroups.map((group) => (
               <article key={group.title} className="rounded-[24px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
                 <h3 className="text-xl font-semibold text-[var(--text-primary)]">{group.title}</h3>
@@ -113,13 +115,13 @@ export default function AboutPage() {
                 </div>
               </article>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-3">
+          <StaggerReveal className="grid gap-5 lg:grid-cols-3">
             {[
               ["Production-first philosophy", "Infrastructure is treated as an operating system for real users, not a decorative diagram. Deployment, rollback, monitoring, access, and handover are considered together."],
               ["Communication approach", "Updates are practical and plain-language: what changed, what risk remains, what access is required, and what should happen next."],
@@ -130,7 +132,7 @@ export default function AboutPage() {
                 <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">{text}</p>
               </article>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 

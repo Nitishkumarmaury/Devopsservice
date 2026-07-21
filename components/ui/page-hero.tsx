@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/container";
 import { GradientText } from "@/components/ui/gradient-text";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 
 type PageHeroProps = {
@@ -41,7 +42,7 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
       />
       <Container className="relative z-10">
         <div className={cn("grid min-w-0 gap-10 py-12 sm:py-20", visual ? "lg:grid-cols-[1fr_0.8fr] lg:items-center" : "")}>
-          <div className="min-w-0 max-w-4xl [overflow-wrap:anywhere]">
+          <ScrollReveal className="min-w-0 max-w-4xl [overflow-wrap:anywhere]">
             <p
               className={cn(
                 "font-mono text-xs font-semibold uppercase leading-6 tracking-normal",
@@ -64,8 +65,8 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
               </div>
             ) : null}
             {actions ? <div className="mt-8 flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap">{actions}</div> : null}
-          </div>
-          {visual ? <div className="relative min-w-0">{visual}</div> : null}
+          </ScrollReveal>
+          {visual ? <ScrollReveal className="relative min-w-0" delay={0.08}>{visual}</ScrollReveal> : null}
         </div>
       </Container>
     </section>

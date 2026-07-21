@@ -15,13 +15,14 @@ export function AboutSection() {
             <div className="relative mx-auto flex aspect-[4/5] w-full max-w-sm items-center justify-center rounded-lg border border-white/10 bg-white/[0.035] shadow-glow">
               <div className="absolute inset-4 rounded-lg border border-dashed border-white/12" />
               <div className="text-center">
-                <div className="mx-auto grid h-32 w-48 place-items-center overflow-hidden rounded-xl border border-cyan-300/25 bg-white text-3xl font-semibold text-cyan-100 shadow-[0_18px_45px_rgba(14,165,183,0.14)]">
+                <div className="mx-auto grid place-items-center">
                   <Image
                     src={siteConfig.logoFull}
-                    alt={`${siteConfig.name} logo`}
+                    alt="CloudOpsync"
                     width={siteConfig.logoWidth}
                     height={siteConfig.logoHeight}
-                    className="h-full w-full object-contain"
+                    className="h-28 w-auto object-contain sm:h-32"
+                    unoptimized
                   />
                 </div>
                 <p className="mt-5 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">Founded by {siteConfig.founder}</p>

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 
 type SectionHeaderProps = {
@@ -19,7 +20,7 @@ export function SectionHeader({
   className,
 }: Readonly<SectionHeaderProps>) {
   return (
-    <div className={cn("min-w-0 max-w-3xl [overflow-wrap:anywhere]", align === "center" && "mx-auto text-center", className)}>
+    <ScrollReveal className={cn("min-w-0 max-w-3xl [overflow-wrap:anywhere]", align === "center" && "mx-auto text-center", className)}>
       {eyebrow ? (
         <p
           className={cn(
@@ -45,6 +46,6 @@ export function SectionHeader({
           {children}
         </div>
       ) : null}
-    </div>
+    </ScrollReveal>
   );
 }

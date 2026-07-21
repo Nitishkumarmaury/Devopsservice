@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { siteConfig } from "./constants";
 
 const sameAs = Object.values(siteConfig.social).filter((url) => url.startsWith("https://"));
-const faviconIcon = {
-  url: "/icons/favicon.png",
-  sizes: "256x256",
-  type: "image/png",
-};
+const faviconIcons = [
+  { url: "/favicon.ico", sizes: "any" },
+  { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+  { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+];
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -43,10 +43,11 @@ export const defaultMetadata: Metadata = {
     description: siteConfig.description,
     images: ["/opengraph-image"],
   },
+  manifest: "/site.webmanifest",
   icons: {
-    icon: [faviconIcon, { url: "/favicon.ico", sizes: "any" }],
-    shortcut: [faviconIcon],
-    apple: [faviconIcon],
+    icon: faviconIcons,
+    shortcut: [{ url: "/favicon.ico", sizes: "any" }],
+    apple: [{ url: "/apple-touch-icon.png" }],
   },
 };
 

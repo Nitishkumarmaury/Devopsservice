@@ -7,6 +7,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
 import { caseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 import { getServiceBySlug } from "@/data/services";
@@ -76,7 +78,7 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
       <section className="bg-white py-16 sm:py-24">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
-            <aside className="h-fit rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6 lg:sticky lg:top-24">
+            <ScrollReveal as="aside" className="h-fit rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6 lg:sticky lg:top-24">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">Technologies</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {study.technologies.map((tag) => (
@@ -88,15 +90,15 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
                   {relatedService.shortTitle}
                 </ButtonLink>
               ) : null}
-            </aside>
-            <div className="grid gap-5">
+            </ScrollReveal>
+            <StaggerReveal className="grid gap-5">
               {sections.map(([title, text]) => (
                 <article key={title} className="rounded-[26px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
                   <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{title}</h2>
                   <p className="mt-3 text-base leading-8 text-[var(--text-secondary)]">{text}</p>
                 </article>
               ))}
-            </div>
+            </StaggerReveal>
           </div>
         </Container>
       </section>

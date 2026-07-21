@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AnimatedShinyButton } from "@/components/eldoraui/animated-shiny-button";
 import { Container } from "@/components/ui/container";
+import { FadeIn } from "@/components/ui/fade-in";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SectionGlow } from "@/components/ui/section-glow";
 import { budgetOptions, projectTypes, requestTypes, siteConfig, timelineOptions } from "@/lib/constants";
@@ -200,7 +201,7 @@ export function ContactSection() {
       <SectionGlow className="h-[560px] bg-[radial-gradient(ellipse_at_45%_0%,rgba(14,165,183,0.14),transparent_60%)]" />
       <Container className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div className="min-w-0">
+          <FadeIn className="min-w-0">
             <SectionHeading title="Tell us where production needs to be stronger." eyebrow="Contact">
               <p>
                 Share the current state, risk level, budget range, and timeline. You will receive a practical next step rather than an inflated proposal.
@@ -229,8 +230,9 @@ export function ContactSection() {
                 {siteConfig.email}
               </a>
             </div>
-          </div>
+          </FadeIn>
 
+          <FadeIn delay={0.08} className="min-w-0">
           <form onSubmit={handleSubmit(onSubmit)} className="aurora-panel min-w-0 rounded-[24px] p-5 shadow-glow sm:p-7" noValidate>
             <input
               type="text"
@@ -343,6 +345,7 @@ export function ContactSection() {
               Your project details are used only to prepare a practical response and next-step recommendation. You can also email {siteConfig.email}.
             </p>
           </form>
+          </FadeIn>
         </div>
       </Container>
     </section>

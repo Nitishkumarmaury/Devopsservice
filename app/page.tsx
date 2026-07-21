@@ -5,6 +5,7 @@ import { SiteFrame } from "@/components/layout/site-frame";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { LandingHero } from "@/components/sections/landing-hero";
 import { EvidenceScrollStack } from "@/components/sections/evidence-scroll-stack";
 import { TechnologyStrip } from "@/components/sections/technology-strip";
@@ -79,7 +80,7 @@ export default function Page() {
             Clear explanations for buyers researching DevOps, cloud migration, DevSecOps, and automation before they
             choose an implementation partner.
           </SectionIntro>
-          <div className="mt-10 grid gap-5 lg:grid-cols-4">
+          <StaggerReveal className="mt-10 grid gap-5 lg:grid-cols-4">
             {seoArticles.map((article) => (
               <article key={article.slug} className="min-w-0 rounded-[24px] border border-[var(--border)] bg-white p-5 shadow-[var(--shadow-soft)] [overflow-wrap:anywhere] sm:p-6">
                 <p className="font-mono text-xs font-semibold uppercase leading-6 tracking-[0.14em] text-[var(--rose-dark)] sm:tracking-[0.18em]">
@@ -93,7 +94,7 @@ export default function Page() {
                 </ButtonLink>
               </article>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 

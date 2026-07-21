@@ -1,6 +1,8 @@
 import { CaseStudyCard } from "@/components/ui/case-study-card";
 import { Container } from "@/components/ui/container";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { SectionHeader } from "@/components/ui/section-header";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
 import type { caseStudies, caseStudyCategories } from "@/data/case-studies";
 
@@ -37,12 +39,16 @@ export function CaseStudyShowcase({
         </div>
 
         <div className="mt-10 grid gap-5">
-          {featured ? <CaseStudyCard study={featured} featured /> : null}
-          <div className="grid gap-5 lg:grid-cols-3">
+          {featured ? (
+            <ScrollReveal>
+              <CaseStudyCard study={featured} featured />
+            </ScrollReveal>
+          ) : null}
+          <StaggerReveal className="grid gap-5 lg:grid-cols-3">
             {supporting.map((study) => (
               <CaseStudyCard key={study.slug} study={study} />
             ))}
-          </div>
+          </StaggerReveal>
         </div>
       </Container>
     </section>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, CalendarCheck, Mail, MapPin, RadioTower } from "lucide-react";
 import { seoArticles } from "@/data/seo-articles";
 import { seoMoneyPages } from "@/data/seo-pages";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { consultationHref, siteConfig } from "@/lib/constants";
 
 const companyLinks = [
@@ -33,18 +34,17 @@ export function Footer() {
     <footer className="relative z-10 overflow-hidden border-t border-[#26324a] bg-[var(--navy)] text-white">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(61,184,197,0.16),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(213,166,69,0.12),transparent_28%)]" />
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.5fr_0.7fr_1fr_0.8fr] lg:px-8">
+      <ScrollReveal className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.5fr_0.7fr_1fr_0.8fr] lg:px-8">
         <div>
-          <Link href="/" className="inline-flex flex-col gap-3">
-            <span className="inline-flex h-32 w-48 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white shadow-[0_14px_34px_rgba(15,111,125,0.24)]">
-              <Image
-                src={siteConfig.logoFull}
-                alt={`${siteConfig.name} logo`}
-                width={siteConfig.logoWidth}
-                height={siteConfig.logoHeight}
-                className="h-full w-full object-contain"
-              />
-            </span>
+          <Link href="/" className="inline-flex w-fit flex-col gap-3">
+            <Image
+              src={siteConfig.logoFull}
+              alt="CloudOpsync"
+              width={siteConfig.logoWidth}
+              height={siteConfig.logoHeight}
+              className="h-24 w-auto object-contain sm:h-28"
+              unoptimized
+            />
             <span className="text-sm text-white/64">{siteConfig.tagline}</span>
           </Link>
           <p className="mt-5 max-w-md text-sm leading-6 text-white/68">
@@ -116,7 +116,7 @@ export function Footer() {
             <p>© {year} {siteConfig.legalName}. All rights reserved.</p>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </footer>
   );
 }

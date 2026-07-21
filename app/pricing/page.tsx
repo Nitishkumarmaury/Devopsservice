@@ -5,6 +5,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { pricingPackages, pricingRules } from "@/data/pricing";
 import { createPageMetadata } from "@/lib/route-metadata";
 
@@ -50,7 +52,7 @@ export default function PricingPage() {
 
       <section className="bg-[var(--background-soft)] py-16 sm:py-24">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-3">
+          <StaggerReveal className="grid gap-5 lg:grid-cols-3">
             {cards.map((card, index) =>
               card ? (
                 <article
@@ -83,13 +85,13 @@ export default function PricingPage() {
                 </article>
               ) : null,
             )}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="overflow-hidden rounded-[28px] border border-[var(--border)] bg-white shadow-[var(--shadow-soft)]">
+          <ScrollReveal className="overflow-hidden rounded-[28px] border border-[var(--border)] bg-white shadow-[var(--shadow-soft)]">
             <div className="overflow-x-auto">
               <table className="min-w-[840px] text-left text-sm">
                 <thead className="bg-[var(--background-soft)] text-[var(--text-primary)]">
@@ -116,15 +118,15 @@ export default function PricingPage() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <StaggerReveal className="mt-8 grid gap-4 md:grid-cols-2">
             {pricingRules.map((rule) => (
               <div key={rule} className="rounded-2xl border border-[var(--border)] bg-[var(--background-soft)] p-4 text-sm leading-6 text-[var(--text-secondary)]">
                 {rule}
               </div>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 

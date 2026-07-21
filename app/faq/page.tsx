@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { faqs } from "@/data/faqs";
 import { createPageMetadata } from "@/lib/route-metadata";
 
@@ -56,7 +57,7 @@ export default function FaqPage() {
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <StaggerReveal className="grid gap-4 lg:grid-cols-2">
             {faqs.map((item) => (
               <article key={item.question} className="rounded-[22px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
                 <HelpCircle className="h-5 w-5 text-[var(--rose-dark)]" aria-hidden="true" />
@@ -66,7 +67,7 @@ export default function FaqPage() {
                 <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{item.answer}</p>
               </article>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 

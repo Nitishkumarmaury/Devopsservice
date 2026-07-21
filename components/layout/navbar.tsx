@@ -128,7 +128,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition duration-300",
+        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
         scrolled
           ? "border-rose-200/70 bg-white/85 shadow-[0_14px_42px_rgba(65,39,71,0.12)] backdrop-blur-xl"
           : "border-white/0 bg-white/40 backdrop-blur-sm",
@@ -137,16 +137,25 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
       <div className="absolute inset-x-0 bottom-0 h-px bg-rose-100/60">
         <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#102437] via-[#0f6f7d] to-[#d5a645] will-change-transform" />
       </div>
-      <div className="mx-auto flex h-[5.25rem] max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8">
-        <Link href="/" aria-label={siteConfig.name} onClick={closeMobileMenu} className="group inline-flex h-[72px] w-[108px] shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/80 bg-white shadow-[0_12px_28px_rgba(15,34,48,0.12)] ring-1 ring-cyan-100/70 transition hover:shadow-[0_16px_34px_rgba(15,34,48,0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400">
+      <div className="mx-auto flex min-h-[5.25rem] max-w-7xl items-center justify-between gap-5 px-5 py-3 sm:min-h-[6rem] sm:px-6 sm:py-4 lg:px-8">
+        <Link
+          href="/"
+          aria-label="CloudOpsync"
+          onClick={closeMobileMenu}
+          className="inline-flex min-h-[4.75rem] min-w-[7.25rem] shrink-0 flex-col items-center justify-center rounded-full border border-white/90 bg-[linear-gradient(145deg,rgba(255,255,255,0.99),rgba(240,249,251,0.94))] px-4 py-2 shadow-[0_12px_30px_rgba(15,34,48,0.12),inset_0_1px_0_rgba(255,255,255,0.95)] ring-1 ring-cyan-100/90 backdrop-blur-md transition hover:bg-white hover:shadow-[0_16px_40px_rgba(15,34,48,0.16),inset_0_1px_0_rgba(255,255,255,0.95)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 sm:min-h-[5rem] sm:min-w-[7.7rem] xl:mr-4"
+        >
           <Image
             src={siteConfig.logoFull}
-            alt={`${siteConfig.name} logo`}
+            alt="CloudOpsync"
             width={siteConfig.logoWidth}
             height={siteConfig.logoHeight}
-            className="h-full w-full object-contain"
+            className="h-8 w-auto object-contain sm:h-9"
             priority
+            unoptimized
           />
+          <span className="mt-0.5 whitespace-nowrap text-[0.66rem] font-extrabold leading-none tracking-wide text-[#102437] sm:text-[0.7rem]">
+            CloudOpsync
+          </span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full border border-rose-200/70 bg-white/78 p-1 text-sm text-[var(--text-secondary)] shadow-[0_12px_34px_rgba(65,39,71,0.08)] xl:flex">

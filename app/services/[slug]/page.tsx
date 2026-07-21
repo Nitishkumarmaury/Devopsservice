@@ -7,6 +7,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
 import { ServiceIcon } from "@/components/services/service-icon";
 import { getCaseStudyBySlug } from "@/data/case-studies";
@@ -118,15 +119,15 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+          <StaggerReveal className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
             <InfoPanel title="Client problems" items={service.problems} />
             <InfoPanel title="What this service includes" items={service.includes} featured />
-          </div>
-          <div className="mt-8 grid gap-8 lg:grid-cols-3">
+          </StaggerReveal>
+          <StaggerReveal className="mt-8 grid gap-8 lg:grid-cols-3">
             <InfoPanel title="What is not included" items={service.notIncluded} />
             <InfoPanel title="Information required" items={service.clientInputs} />
             <InfoPanel title="After implementation" items={service.afterImplementation} />
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 
@@ -143,21 +144,21 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 unnecessary platform complexity.
               </p>
             </div>
-            <div className="grid gap-4">
+            <StaggerReveal className="grid gap-4">
               {service.approach.map((step, index) => (
                 <div key={step} className="rounded-[22px] border border-[var(--border)] bg-white p-5 shadow-[var(--shadow-soft)]">
                   <span className="font-mono text-xs font-semibold text-[var(--rose-dark)]">0{index + 1}</span>
                   <p className="mt-2 font-semibold text-[var(--text-primary)]">{step}</p>
                 </div>
               ))}
-            </div>
+            </StaggerReveal>
           </div>
         </Container>
       </section>
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-2">
+          <StaggerReveal className="grid gap-8 lg:grid-cols-2">
             <div className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
               <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)]">Common engagement examples</h2>
               <ul className="mt-6 grid gap-4">
@@ -184,7 +185,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </ButtonLink>
               </div>
             ) : null}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 
@@ -194,7 +195,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[var(--rose-dark)]">FAQ</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] text-[var(--text-primary)]">Common questions.</h2>
           </div>
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <StaggerReveal className="mt-8 grid gap-4 lg:grid-cols-2">
             {service.faq.map((item) => (
               <article key={item.question} className="rounded-[22px] border border-[var(--border)] bg-white p-6">
                 <HelpCircle className="h-5 w-5 text-[var(--rose-dark)]" aria-hidden="true" />
@@ -202,7 +203,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{item.answer}</p>
               </article>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 

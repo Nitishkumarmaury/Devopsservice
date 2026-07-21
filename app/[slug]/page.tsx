@@ -8,6 +8,8 @@ import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
 import { getSeoArticleBySlug, seoArticles, type SeoArticle } from "@/data/seo-articles";
 import { seoMoneyPages, getSeoLandingPageBySlug, type SeoLandingPage } from "@/data/seo-pages";
@@ -122,10 +124,10 @@ function ServiceLandingPage({ page }: Readonly<{ page: SeoLandingPage }>) {
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <StaggerReveal className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <InfoPanel title="Common problems this fixes" items={page.problems} />
             <InfoPanel title="What you get" items={page.deliverables} featured />
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 
@@ -142,21 +144,21 @@ function ServiceLandingPage({ page }: Readonly<{ page: SeoLandingPage }>) {
                 instead of forcing a generic platform rebuild.
               </p>
             </div>
-            <div className="grid gap-4">
+            <StaggerReveal className="grid gap-4">
               {page.approach.map((step, index) => (
                 <article key={step} className="rounded-[22px] border border-[var(--border)] bg-white p-5 shadow-[var(--shadow-soft)]">
                   <span className="font-mono text-xs font-semibold text-[var(--rose-dark)]">0{index + 1}</span>
                   <p className="mt-2 text-base font-semibold leading-7 text-[var(--text-primary)]">{step}</p>
                 </article>
               ))}
-            </div>
+            </StaggerReveal>
           </div>
         </Container>
       </section>
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <StaggerReveal className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6 lg:p-8">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">
                 Best-fit projects
@@ -190,7 +192,7 @@ function ServiceLandingPage({ page }: Readonly<{ page: SeoLandingPage }>) {
                 </ButtonLink>
               </div>
             </aside>
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 
@@ -202,7 +204,7 @@ function ServiceLandingPage({ page }: Readonly<{ page: SeoLandingPage }>) {
               Questions before starting.
             </h2>
           </div>
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <StaggerReveal className="mt-8 grid gap-4 lg:grid-cols-2">
             {page.faq.map((item) => (
               <article key={item.question} className="rounded-[22px] border border-[var(--border)] bg-white p-6">
                 <HelpCircle className="h-5 w-5 text-[var(--rose-dark)]" aria-hidden="true" />
@@ -210,7 +212,7 @@ function ServiceLandingPage({ page }: Readonly<{ page: SeoLandingPage }>) {
                 <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{item.answer}</p>
               </article>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 
@@ -274,7 +276,7 @@ function ArticlePage({ article }: Readonly<{ article: SeoArticle }>) {
       <section className="bg-white py-16 sm:py-24">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
-            <aside className="h-fit rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6 lg:sticky lg:top-24">
+            <ScrollReveal as="aside" className="h-fit rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6 lg:sticky lg:top-24">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">Key takeaways</p>
               <ul className="mt-5 grid gap-3 text-sm leading-6 text-[var(--text-secondary)]">
                 {article.takeaways.map((item) => (
@@ -284,9 +286,9 @@ function ArticlePage({ article }: Readonly<{ article: SeoArticle }>) {
                   </li>
                 ))}
               </ul>
-            </aside>
+            </ScrollReveal>
 
-            <article className="grid gap-5">
+            <StaggerReveal className="grid gap-5">
               {article.sections.map((section) => (
                 <section key={section.heading} className="rounded-[26px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
                   <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{section.heading}</h2>
@@ -303,7 +305,7 @@ function ArticlePage({ article }: Readonly<{ article: SeoArticle }>) {
                   ) : null}
                 </section>
               ))}
-            </article>
+            </StaggerReveal>
           </div>
         </Container>
       </section>
@@ -316,14 +318,14 @@ function ArticlePage({ article }: Readonly<{ article: SeoArticle }>) {
               Continue from guide to implementation.
             </h2>
           </div>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <StaggerReveal className="mt-8 grid gap-4 md:grid-cols-3">
             {article.relatedLinks.map((link) => (
               <ButtonLink key={link.href} href={link.href} variant="secondary" className="justify-between">
                 {link.label}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </ButtonLink>
             ))}
-          </div>
+          </StaggerReveal>
         </Container>
       </section>
 

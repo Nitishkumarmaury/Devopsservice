@@ -1,4 +1,8 @@
+"use client";
+
+import { useRef } from "react";
 import { FileCheck2 } from "lucide-react";
+import { motion, useReducedMotion, useScroll } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -31,6 +35,12 @@ export function ProcessTimeline({
   layout = "compact",
 }: Readonly<ProcessTimelineProps>) {
   const detailed = layout === "detailed";
+  const reduceMotion = useReducedMotion();
+  const timelineRef = useRef<HTMLOListElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 78%", "end 38%"],
+  });
 
   return (
     <section
@@ -54,13 +64,25 @@ export function ProcessTimeline({
           {description}
         </SectionHeader>
 
-        <ol className={cn("relative mt-12 grid gap-5", detailed ? "lg:gap-6" : "lg:grid-cols-6")}>
+        <ol ref={timelineRef} className={cn("relative mt-12 grid gap-5", detailed ? "lg:gap-6" : "lg:grid-cols-6")}>
           <div
             className={cn(
-              "pointer-events-none hidden bg-gradient-to-r from-cyan-300 via-violet-300 to-pink-200 lg:block",
-              detailed ? "absolute left-6 top-8 h-[calc(100%-4rem)] w-px bg-gradient-to-b" : "absolute left-[8.33%] right-[8.33%] top-10 h-px",
+              "pointer-events-none hidden overflow-hidden bg-cyan-200/20 lg:block",
+              detailed ? "absolute left-6 top-8 h-[calc(100%-4rem)] w-px" : "absolute left-[8.33%] right-[8.33%] top-10 h-px",
             )}
-          />
+          >
+            <motion.div
+              className={cn(
+                "h-full w-full bg-gradient-to-r from-cyan-300 via-violet-300 to-pink-200",
+                detailed && "bg-gradient-to-b",
+              )}
+              style={
+                detailed
+                  ? { scaleY: reduceMotion ? 1 : scrollYProgress, transformOrigin: "top" }
+                  : { scaleX: reduceMotion ? 1 : scrollYProgress, transformOrigin: "left" }
+              }
+            />
+          </div>
           {steps.map((step, index) => (
             <ScrollReveal key={step.title} as="li" delay={index * 0.07} className="relative min-w-0">
               <article
@@ -116,11 +138,11 @@ function TimelineDetail({ title, text, dark }: Readonly<{ title: string; text?: 
   if (!text) return null;
 
   return (
-    <div className={cn("min-w-0 rounded-2xl border p-4", dark ? "border-white/10 bg-black/10" : "border-[var(--border)] bg-[var(--background-soft)]")}>
+    <ScrollReveal className={cn("min-w-0 rounded-2xl border p-4", dark ? "border-white/10 bg-black/10" : "border-[var(--border)] bg-[var(--background-soft)]")}>
       <p className={cn("text-xs font-semibold uppercase leading-5 tracking-normal", dark ? "text-cyan-100" : "text-[var(--rose-dark)]")}>
         {title}
       </p>
       <p className={cn("mt-2 text-sm leading-6", dark ? "text-white/64" : "text-[var(--text-secondary)]")}>{text}</p>
-    </div>
+    </ScrollReveal>
   );
 }
