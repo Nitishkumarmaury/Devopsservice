@@ -130,35 +130,35 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
       className={cn(
         "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
         scrolled
-          ? "border-rose-200/70 bg-white/85 shadow-[0_14px_42px_rgba(65,39,71,0.12)] backdrop-blur-xl"
-          : "border-white/0 bg-white/40 backdrop-blur-sm",
+          ? "border-[#d6ebff]/14 bg-[#06111f]/88 shadow-[0_18px_50px_rgba(0,0,0,0.34)] backdrop-blur-xl"
+          : "border-[#d6ebff]/8 bg-[#06111f]/58 backdrop-blur-md",
       )}
     >
-      <div className="absolute inset-x-0 bottom-0 h-px bg-rose-100/60">
-        <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#102437] via-[#0f6f7d] to-[#d5a645] will-change-transform" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-[#d6ebff]/8">
+        <div ref={progressRef} className="h-px origin-left scale-x-0 bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a] will-change-transform" />
       </div>
       <div className="mx-auto flex min-h-[5.25rem] max-w-7xl items-center justify-between gap-5 px-5 py-3 sm:min-h-[6rem] sm:px-6 sm:py-4 lg:px-8">
         <Link
           href="/"
           aria-label="CloudOpsync"
           onClick={closeMobileMenu}
-          className="inline-flex min-h-[4.75rem] min-w-[7.25rem] shrink-0 flex-col items-center justify-center rounded-full border border-white/90 bg-[linear-gradient(145deg,rgba(255,255,255,0.99),rgba(240,249,251,0.94))] px-4 py-2 shadow-[0_12px_30px_rgba(15,34,48,0.12),inset_0_1px_0_rgba(255,255,255,0.95)] ring-1 ring-cyan-100/90 backdrop-blur-md transition hover:bg-white hover:shadow-[0_16px_40px_rgba(15,34,48,0.16),inset_0_1px_0_rgba(255,255,255,0.95)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 sm:min-h-[5rem] sm:min-w-[7.7rem] xl:mr-4"
+          className="inline-flex min-h-[4.75rem] min-w-[7.25rem] shrink-0 flex-col items-start justify-center rounded-lg border border-transparent bg-transparent px-0 py-1 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff] sm:min-h-[5rem] sm:min-w-[7.7rem] xl:mr-4"
         >
           <Image
             src={siteConfig.logoFull}
             alt="CloudOpsync"
             width={siteConfig.logoWidth}
             height={siteConfig.logoHeight}
-            className="h-8 w-auto object-contain sm:h-9"
+            className="h-12 w-auto object-contain sm:h-14"
             priority
             unoptimized
           />
-          <span className="mt-0.5 whitespace-nowrap text-[0.66rem] font-extrabold leading-none tracking-wide text-[#102437] sm:text-[0.7rem]">
-            CloudOpsync
+          <span className="sr-only">
+            {siteConfig.name}
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-1 rounded-full border border-rose-200/70 bg-white/78 p-1 text-sm text-[var(--text-secondary)] shadow-[0_12px_34px_rgba(65,39,71,0.08)] xl:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-1 rounded-xl border border-[#d6ebff]/12 bg-[#0d2338]/72 p-1 text-sm text-[var(--text-secondary)] shadow-[0_16px_44px_rgba(0,0,0,0.22)] xl:flex">
           {navItems.map((item) =>
             item.label === "Services" ? (
               <div
@@ -178,9 +178,9 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                   onFocus={() => setServicesOpen(true)}
                   onClick={() => setServicesOpen((value) => !value)}
                   className={cn(
-                    "relative inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
+                    "relative inline-flex items-center gap-1 whitespace-nowrap rounded-lg px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff]",
                     servicesActive
-                      ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(14,165,183,0.12)]"
+                      ? "bg-[#4da3ff]/12 text-[#e5f2ff] shadow-[0_0_26px_rgba(77,163,255,0.12)]"
                       : "text-[var(--text-secondary)]",
                   )}
                 >
@@ -195,7 +195,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                       animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                       exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
                       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] w-[620px] max-w-[calc(100vw-2rem)] rounded-[22px] border border-rose-100 bg-white p-3 shadow-[0_34px_90px_rgba(65,39,71,0.22)] ring-1 ring-white"
+                      className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] w-[620px] max-w-[calc(100vw-2rem)] rounded-[18px] border border-[#d6ebff]/14 bg-[#0d2338] p-3 shadow-[0_34px_90px_rgba(0,0,0,0.42)] ring-1 ring-white/5"
                     >
                       <div className="grid gap-2 sm:grid-cols-2">
                         {serviceLinks.map((service) => (
@@ -204,9 +204,9 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                             role="menuitem"
                             href={service.href}
                             onClick={() => setServicesOpen(false)}
-                            className="group grid min-w-0 grid-cols-[2.25rem_1fr] gap-3 rounded-2xl border border-transparent bg-white px-3 py-2.5 transition hover:border-rose-100 hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
+                            className="group grid min-w-0 grid-cols-[2.25rem_1fr] gap-3 rounded-xl border border-transparent bg-[#081a2e]/70 px-3 py-2.5 transition hover:border-[#4da3ff]/20 hover:bg-[#12304b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
                           >
-                            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-rose-100 text-rose-700">
+                            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-[#4da3ff]/16 bg-[#4da3ff]/10 text-[#4da3ff]">
                               <ServiceIcon icon={service.icon} />
                             </span>
                             <span className="min-w-0">
@@ -220,7 +220,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                         href="/services"
                         role="menuitem"
                         onClick={() => setServicesOpen(false)}
-                        className="mt-2 flex items-center justify-center rounded-2xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-800 transition hover:bg-rose-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
+                        className="mt-2 flex items-center justify-center rounded-xl border border-[#4da3ff]/14 bg-[#4da3ff]/10 px-4 py-3 text-sm font-semibold text-[#e5f2ff] transition hover:bg-[#4da3ff]/14 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
                       >
                         View all services
                       </Link>
@@ -234,9 +234,9 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                 href={item.href}
                 onClick={() => setServicesOpen(false)}
                 className={cn(
-                  "relative whitespace-nowrap rounded-full px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400",
+                  "relative whitespace-nowrap rounded-lg px-3 py-2 transition hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff]",
                   isActivePath(pathname, item.href)
-                    ? "bg-rose-100 text-rose-800 shadow-[0_0_26px_rgba(14,165,183,0.12)]"
+                    ? "bg-[#4da3ff]/12 text-[#e5f2ff] shadow-[0_0_26px_rgba(77,163,255,0.12)]"
                     : "text-[var(--text-secondary)]",
                 )}
               >
@@ -276,7 +276,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
               return !value;
             })
           }
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-rose-200/70 bg-white/80 text-[var(--text-primary)] transition hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-400 xl:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[#d6ebff]/14 bg-[#0d2338]/80 text-[var(--text-primary)] transition hover:bg-[#12304b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff] xl:hidden"
         >
           {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
         </button>
@@ -291,12 +291,12 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="mobile-navigation-panel overflow-y-auto border-t border-rose-200/70 bg-white/96 px-5 py-5 shadow-[0_18px_60px_rgba(65,39,71,0.14)] backdrop-blur-xl xl:hidden"
+            className="mobile-navigation-panel overflow-y-auto border-t border-[#d6ebff]/14 bg-[#06111f]/96 px-5 py-5 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-xl xl:hidden"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-2">
               {navItems.map((item) =>
                 item.label === "Services" ? (
-                  <div key={item.href} className="rounded-xl border border-rose-100 bg-rose-50/60">
+                  <div key={item.href} className="rounded-xl border border-[#d6ebff]/14 bg-[#0d2338]/82">
                     <button
                       type="button"
                       aria-expanded={mobileServicesOpen}
@@ -319,7 +319,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                             <Link
                               href="/services"
                               onClick={closeMobileMenu}
-                              className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-rose-800 hover:bg-white"
+                              className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-[#e5f2ff] hover:bg-[#12304b]"
                             >
                               View all services
                             </Link>
@@ -328,7 +328,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                                 key={service.href}
                                 href={service.href}
                                 onClick={closeMobileMenu}
-                                className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-white hover:text-[var(--text-primary)]"
+                                className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[#12304b] hover:text-[var(--text-primary)]"
                               >
                                 {service.title}
                               </Link>
@@ -344,8 +344,8 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                     href={item.href}
                     onClick={closeMobileMenu}
                     className={cn(
-                      "flex min-h-11 items-center rounded-xl px-3 py-3 text-base font-medium transition hover:bg-rose-50 hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
-                      isActivePath(pathname, item.href) ? "bg-rose-100 text-rose-800" : "text-[var(--text-secondary)]",
+                      "flex min-h-11 items-center rounded-xl px-3 py-3 text-base font-medium transition hover:bg-[#12304b] hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]",
+                      isActivePath(pathname, item.href) ? "bg-[#4da3ff]/12 text-[#e5f2ff]" : "text-[var(--text-secondary)]",
                     )}
                   >
                     {item.label}

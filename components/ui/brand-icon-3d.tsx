@@ -148,7 +148,7 @@ export function BrandIcon3D({
   const brand = key ? brandMap[key] : undefined;
   const Icon = brand?.icon;
   const displayLabel = label ?? brand?.shortLabel ?? brand?.label ?? name;
-  const color = brand?.color ?? "#0f7f91";
+  const color = brand?.color ?? "#4da3ff";
   const glow = brand?.glow ?? "rgba(15,127,145,0.18)";
   const mergedStyle = { "--brand-color": color, "--brand-glow": glow, ...style } as CSSProperties;
   const hasPositionClass =

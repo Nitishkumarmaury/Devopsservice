@@ -15,7 +15,19 @@ export const contactSchema = z.object({
     .max(140, "Please keep the company name under 140 characters.")
     .optional()
     .or(z.literal("")),
+  projectWebsite: z
+    .string()
+    .trim()
+    .max(220, "Please keep the website under 220 characters.")
+    .optional()
+    .or(z.literal("")),
   projectType: z.enum(projectTypes),
+  cloudProvider: z
+    .string()
+    .trim()
+    .max(120, "Please keep the cloud provider under 120 characters.")
+    .optional()
+    .or(z.literal("")),
   currentInfrastructure: z
     .string()
     .trim()

@@ -123,15 +123,15 @@ export const whyUs = [
 
 export const engagementProcess = [
   {
-    title: "Discovery Call",
+    title: "Discover",
     deliverable: "Current-state context, goals, constraints, risks, and a practical first recommendation.",
   },
   {
-    title: "Infrastructure Audit",
+    title: "Audit",
     deliverable: "Assessment of servers, cloud services, deployment paths, monitoring, security, backups, and operational gaps.",
   },
   {
-    title: "Architecture Proposal",
+    title: "Design",
     deliverable: "Infrastructure architecture, implementation plan, security and deployment recommendations, and support options.",
   },
   {
@@ -139,11 +139,11 @@ export const engagementProcess = [
     deliverable: "Configured environments, automated pipelines, reverse proxy, SSL, process management, and cloud resources.",
   },
   {
-    title: "Validation and Handover",
+    title: "Validate",
     deliverable: "Health checks, deployment validation, environment documentation, rollback notes, and handover guidance.",
   },
   {
-    title: "Monitoring and Support",
+    title: "Handover & Support",
     deliverable: "Dashboards, alert routes, maintenance rhythm, and optional support for release or incident windows.",
   },
 ] as const;

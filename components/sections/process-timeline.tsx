@@ -47,7 +47,7 @@ export function ProcessTimeline({
       className={cn(
         "relative overflow-hidden py-16 sm:py-24 lg:py-32",
         dark
-          ? "bg-[linear-gradient(135deg,#071521_0%,#102437_60%,#172351_100%)] text-white"
+          ? "bg-[linear-gradient(135deg,#06111f_0%,#0d2338_100%)] text-white"
           : "bg-[var(--background-soft)]",
       )}
     >
@@ -55,8 +55,8 @@ export function ProcessTimeline({
         className={cn(
           "pointer-events-none absolute inset-0",
           dark
-            ? "bg-[radial-gradient(circle_at_18%_10%,rgba(53,214,237,0.16),transparent_32%),radial-gradient(circle_at_84%_18%,rgba(139,108,255,0.14),transparent_30%)]"
-            : "bg-[radial-gradient(circle_at_18%_10%,rgba(14,165,183,0.08),transparent_32%),radial-gradient(circle_at_84%_22%,rgba(139,108,255,0.07),transparent_30%)]",
+            ? "bg-[radial-gradient(circle_at_18%_10%,rgba(77,163,255,0.14),transparent_32%),radial-gradient(circle_at_84%_18%,rgba(125,211,252,0.08),transparent_30%)]"
+            : "bg-[radial-gradient(circle_at_18%_10%,rgba(77,163,255,0.08),transparent_32%),radial-gradient(circle_at_84%_22%,rgba(125,211,252,0.06),transparent_30%)]",
         )}
       />
       <Container className="relative">
@@ -67,13 +67,13 @@ export function ProcessTimeline({
         <ol ref={timelineRef} className={cn("relative mt-12 grid gap-5", detailed ? "lg:gap-6" : "lg:grid-cols-6")}>
           <div
             className={cn(
-              "pointer-events-none hidden overflow-hidden bg-cyan-200/20 lg:block",
+              "pointer-events-none hidden overflow-hidden bg-[#4da3ff]/12 lg:block",
               detailed ? "absolute left-6 top-8 h-[calc(100%-4rem)] w-px" : "absolute left-[8.33%] right-[8.33%] top-10 h-px",
             )}
           >
             <motion.div
               className={cn(
-                "h-full w-full bg-gradient-to-r from-cyan-300 via-violet-300 to-pink-200",
+                "h-full w-full bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]",
                 detailed && "bg-gradient-to-b",
               )}
               style={
@@ -97,10 +97,10 @@ export function ProcessTimeline({
                 <div className="min-w-0">
                   <span
                     className={cn(
-                      "grid h-12 w-12 place-items-center rounded-2xl border font-mono text-sm font-semibold",
+                      "grid h-12 w-12 place-items-center rounded-xl border font-mono text-sm font-semibold",
                       dark
-                        ? "border-cyan-200/24 bg-cyan-200/10 text-cyan-100"
-                        : "border-cyan-200 bg-cyan-50 text-[var(--rose-dark)]",
+                        ? "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[#b9ddff]"
+                        : "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[var(--rose-dark)]",
                     )}
                   >
                     {String(index + 1).padStart(2, "0")}

@@ -206,7 +206,7 @@ export default function Lightfall({
   dpr,
   paused = false,
   colors = ["#A6C8FF", "#8FB6E8", "#F2C7FF"],
-  backgroundColor = "#10213B",
+  backgroundColor = "#06111F",
   speed = 0.45,
   streakCount = 3,
   streakWidth = 0.8,

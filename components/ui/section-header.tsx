@@ -24,10 +24,10 @@ export function SectionHeader({
       {eyebrow ? (
         <p
           className={cn(
-            "inline-flex rounded-full border px-3 py-1.5 font-mono text-xs font-semibold uppercase leading-5 tracking-normal shadow-[0_14px_34px_rgba(14,165,183,0.08)]",
+            "inline-flex rounded-lg border px-3 py-1.5 font-mono text-xs font-semibold uppercase leading-5 tracking-normal shadow-[0_14px_34px_rgba(77,163,255,0.08)]",
             dark
-              ? "border-white/12 bg-white/8 text-cyan-100"
-              : "border-cyan-200/80 bg-white/70 text-[var(--rose-dark)]",
+              ? "border-[#4da3ff]/18 bg-[#4da3ff]/8 text-[#b9ddff]"
+              : "border-[#4da3ff]/18 bg-[#4da3ff]/8 text-[var(--rose-dark)]",
           )}
         >
           {eyebrow}
@@ -42,7 +42,7 @@ export function SectionHeader({
         {title}
       </h2>
       {children ? (
-        <div className={cn("mt-5 text-base leading-8 sm:text-lg", dark ? "text-white/72" : "text-[var(--text-secondary)]")}>
+        <div className={cn("mt-5 text-base leading-8 sm:text-lg", dark ? "text-[#c7d5e6]" : "text-[var(--text-secondary)]")}>
           {children}
         </div>
       ) : null}

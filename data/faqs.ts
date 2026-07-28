@@ -7,7 +7,7 @@ export const faqs = [
   {
     question: "How much does DevOps consulting cost?",
     answer:
-      "Pricing depends on scope, urgency, access complexity, and the production risk involved. Small fixes, deployment setup, audits, and monthly support are scoped separately after reviewing the stack.",
+      "CloudOpsync publishes USD launch prices for focused scopes: production issue fixes start at $199, reliability audits at $599, application deployment at $699, CI/CD pipelines at $1,299, and DevOps Care at $1,199/month. These assume one application, one cloud account, and one production environment.",
   },
   {
     question: "How quickly can a deployment or CI/CD project start?",

@@ -26,6 +26,15 @@ export default function PrivacyPage() {
             Inquiry data may include name, work email, company, project details, infrastructure context, budget range, and timeline. This information is used to respond to the inquiry and prepare practical recommendations.
           </p>
           <p>
+            If configured for production, contact form messages and lead records may be processed through the configured email provider, currently Brevo. Forgot-password rate limiting may use Upstash Redis when configured. Account and password-reset records are stored in MongoDB when authentication is enabled.
+          </p>
+          <p>
+            The Cloud Architecture Advisor collects technical planning inputs submitted by an authenticated user to generate preliminary infrastructure guidance. Advisor output is not a production guarantee and should be reviewed before implementation.
+          </p>
+          <p>
+            This website does not currently load third-party advertising trackers. If analytics are added later, they should be disclosed here with the purpose and retention approach.
+          </p>
+          <p>
             Production credentials, secrets, API keys, and private infrastructure details should only be shared through agreed secure channels after an engagement scope is confirmed.
           </p>
           <p>

@@ -11,6 +11,18 @@ import { TechnologyTag } from "@/components/ui/technology-tag";
 import { seoArticles } from "@/data/seo-articles";
 import { createPageMetadata } from "@/lib/route-metadata";
 
+const resourceCategories = [
+  "DevOps",
+  "AWS",
+  "CI/CD",
+  "Docker",
+  "Kubernetes",
+  "Terraform",
+  "Monitoring",
+  "Production Reliability",
+  "Cloud Security",
+] as const;
+
 export const metadata: Metadata = createPageMetadata({
   title: "DevOps and Cloud Engineering Guides",
   description:
@@ -43,6 +55,14 @@ export default function BlogPage() {
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
+          <div className="mb-10 rounded-[18px] border border-[var(--border)] bg-[var(--background-soft)] p-5">
+            <p className="font-mono text-xs font-semibold uppercase tracking-normal text-[var(--rose-dark)]">Resource categories</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {resourceCategories.map((category) => (
+                <TechnologyTag key={category}>{category}</TechnologyTag>
+              ))}
+            </div>
+          </div>
           <StaggerReveal className="grid gap-5 lg:grid-cols-2">
             {seoArticles.map((article) => (
               <article key={article.slug} className="rounded-[26px] border border-[var(--border)] bg-[var(--background-soft)] p-6 shadow-[var(--shadow-soft)]">
@@ -51,6 +71,9 @@ export default function BlogPage() {
                   {article.eyebrow} • {article.readingTime}
                 </p>
                 <h2 className="mt-4 text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{article.h1}</h2>
+                <p className="mt-3 font-mono text-xs leading-5 text-[var(--text-muted)]">
+                  CloudOpsync • Published {article.publishedAt} • Updated {article.updatedAt}
+                </p>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">{article.metaDescription}</p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {article.primaryKeywords.slice(0, 3).map((keyword) => (
@@ -61,6 +84,16 @@ export default function BlogPage() {
                   Read guide
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </ButtonLink>
+                <div className="mt-5 border-t border-[var(--border)] pt-4">
+                  <p className="font-mono text-xs font-semibold uppercase text-[var(--rose-dark)]">Related implementation</p>
+                  <div className="mt-3 flex flex-wrap gap-3">
+                    {article.relatedLinks.slice(0, 2).map((link) => (
+                      <ButtonLink key={link.href} href={link.href} variant="ghost" className="min-h-0 px-0 py-1 text-xs">
+                        {link.label}
+                      </ButtonLink>
+                    ))}
+                  </div>
+                </div>
               </article>
             ))}
           </StaggerReveal>

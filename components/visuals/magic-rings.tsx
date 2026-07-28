@@ -139,8 +139,8 @@ function browserSupportsWebGl2() {
 }
 
 export default function MagicRings({
-  color = "#0EA5B7",
-  colorTwo = "#D5A645",
+  color = "#4DA3FF",
+  colorTwo = "#7DD3FC",
   speed = 0.6,
   ringCount = 5,
   attenuation = 12,

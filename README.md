@@ -30,10 +30,10 @@ Open `http://localhost:3000`.
 Create `.env.local` from `.env.example`.
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://example.com
+NEXT_PUBLIC_SITE_URL=https://cloudopsync.com
 CONTACT_EMAIL_PROVIDER=brevo
-CONTACT_EMAIL_TO=nitish.henceforth@gmail.com
-CONTACT_EMAIL_FROM=nitish.henceforth@gmail.com
+CONTACT_EMAIL_TO=hello@cloudopsync.com
+CONTACT_EMAIL_FROM=hello@cloudopsync.com
 CONTACT_PROVIDER_API_KEY=
 BREVO_CONTACT_LIST_IDS=
 AI_ADVISOR_ENABLED=true

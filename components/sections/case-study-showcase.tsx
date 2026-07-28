@@ -22,8 +22,8 @@ export function CaseStudyShowcase({
   const [featured, ...supporting] = studies;
 
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#edf3f6_100%)] py-16 sm:py-24 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(14,165,183,0.08),transparent_30%),radial-gradient(circle_at_84%_18%,rgba(139,108,255,0.07),transparent_28%)]" />
+    <section className="relative overflow-hidden border-y border-[#d6ebff]/10 bg-[linear-gradient(180deg,#06111f_0%,#081a2e_100%)] py-16 sm:py-24 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(77,163,255,0.08),transparent_30%),radial-gradient(circle_at_84%_18%,rgba(125,211,252,0.06),transparent_28%)]" />
       <Container className="relative">
         <div className="flex min-w-0 flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader eyebrow="Featured case studies" title={title}>

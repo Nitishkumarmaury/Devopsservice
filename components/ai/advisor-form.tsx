@@ -25,14 +25,25 @@ type AdvisorFormProps = {
   onSubmit: (values: AdvisorRequest) => void;
 };
 
-type Step = 0 | 1 | 2 | 3;
+type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
-const steps = ["Application", "Infrastructure", "Requirements", "Challenges"] as const;
+const steps = [
+  "Application",
+  "Infrastructure",
+  "Traffic / Scale",
+  "Reliability",
+  "Security",
+  "Current Problems",
+  "Recommendations",
+] as const;
 const stepAccentClass = [
-  "border-cyan-200 bg-[linear-gradient(135deg,rgba(18,169,199,0.12),rgba(244,249,251,0.9))] text-cyan-800 shadow-[0_14px_34px_rgba(18,169,199,0.1)]",
-  "border-blue-200 bg-[linear-gradient(135deg,rgba(85,104,255,0.12),rgba(244,249,251,0.9))] text-blue-800 shadow-[0_14px_34px_rgba(85,104,255,0.1)]",
-  "border-violet-200 bg-[linear-gradient(135deg,rgba(49,92,148,0.12),rgba(244,249,251,0.9))] text-violet-800 shadow-[0_14px_34px_rgba(49,92,148,0.1)]",
-  "border-rose-200 bg-[linear-gradient(135deg,rgba(14,165,183,0.14),rgba(244,249,251,0.9))] text-rose-800 shadow-[0_14px_34px_rgba(14,165,183,0.1)]",
+  "border-[#4da3ff]/28 bg-[#4da3ff]/10 text-[#b9ddff] shadow-[0_14px_34px_rgba(77,163,255,0.1)]",
+  "border-[#7dd3fc]/24 bg-[#7dd3fc]/10 text-[#7dd3fc] shadow-[0_14px_34px_rgba(125,211,252,0.08)]",
+  "border-[#b8a5ff]/24 bg-[#b8a5ff]/10 text-[#d7ceff] shadow-[0_14px_34px_rgba(184,165,255,0.08)]",
+  "border-[#ff8a7a]/24 bg-[#ff8a7a]/10 text-[#ffb8ae] shadow-[0_14px_34px_rgba(255,138,122,0.08)]",
+  "border-[#ffcf72]/24 bg-[#ffcf72]/10 text-[#ffe0a3] shadow-[0_14px_34px_rgba(255,207,114,0.08)]",
+  "border-[#7dd3fc]/24 bg-[#7dd3fc]/10 text-[#7dd3fc] shadow-[0_14px_34px_rgba(125,211,252,0.08)]",
+  "border-[#4da3ff]/28 bg-[#4da3ff]/10 text-[#b9ddff] shadow-[0_14px_34px_rgba(77,163,255,0.1)]",
 ] as const;
 
 const defaultValues: AdvisorRequest = {
@@ -53,20 +64,17 @@ const defaultValues: AdvisorRequest = {
 };
 
 const stepFields: Record<Step, Path<AdvisorRequest>[]> = {
-  0: ["projectName", "applicationType", "technologyStack", "database", "currentHostingProvider"],
-  1: [
-    "expectedMonthlyUsers",
-    "expectedConcurrentUsers",
-    "currentServerConfiguration",
-    "preferredCloudPlatform",
-    "environments",
-  ],
-  2: ["requirements"],
-  3: ["challenges", "privacyAccepted"],
+  0: ["projectName", "applicationType", "technologyStack", "database"],
+  1: ["currentHostingProvider", "currentServerConfiguration", "preferredCloudPlatform", "environments"],
+  2: ["expectedMonthlyUsers", "expectedConcurrentUsers"],
+  3: ["requirements"],
+  4: ["requirements"],
+  5: ["challenges"],
+  6: ["privacyAccepted"],
 };
 
 const inputClass =
-  "premium-focus mt-2 block w-full min-w-0 rounded-xl border border-rose-200/70 !bg-white/86 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(15,34,48,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
+  "premium-focus mt-2 block w-full min-w-0 rounded-xl border border-[#d6ebff]/16 !bg-[#06111f]/82 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_32px_rgba(0,0,0,0.18)] outline-none transition placeholder:text-[var(--text-muted)]";
 
 const labelClass = "block text-sm font-medium text-[var(--text-primary)]";
 
@@ -83,16 +91,16 @@ function StepHeader({ step }: { step: Step }) {
   return (
     <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="min-w-0">
-        <p className="font-mono text-xs uppercase leading-6 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Step {step + 1} of 4</p>
+        <p className="font-mono text-xs uppercase leading-6 tracking-normal text-[#b9ddff]">Step {step + 1} of 7</p>
         <h3 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">{steps[step]}</h3>
       </div>
-      <div className="grid w-full grid-cols-4 gap-2 sm:w-auto" aria-label="Advisor progress">
+      <div className="grid w-full grid-cols-7 gap-2 sm:w-auto" aria-label="Advisor progress">
         {steps.map((label, index) => (
           <span
             key={label}
             className={cn(
               "h-2.5 min-w-0 rounded-full transition sm:w-10",
-              index <= step ? "aurora-gradient shadow-[0_0_18px_rgba(14,165,183,0.18)]" : "bg-rose-100",
+              index <= step ? "bg-[#4da3ff] shadow-[0_0_18px_rgba(77,163,255,0.18)]" : "bg-[#d6ebff]/10",
             )}
           />
         ))}
@@ -138,7 +146,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
   };
 
   const nextStep = async () => {
-    if (step === 3) return;
+    if (step === 6) return;
     await goToStep((step + 1) as Step);
   };
 
@@ -166,7 +174,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
     <form onSubmit={handleSubmit(onSubmit)} className="relative min-w-0" noValidate>
       <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" {...register("website")} />
 
-      <div className="min-w-0 rounded-2xl border border-rose-100 bg-white/68 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+      <div className="min-w-0 rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/58 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
         <div role="tablist" aria-label="Advisor steps" className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
           {steps.map((label, index) => (
             <button
@@ -177,10 +185,10 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
               aria-controls={`advisor-step-${index}`}
               onClick={() => goToStep(index as Step)}
               className={cn(
-                "min-h-11 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold leading-tight transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+                "min-h-11 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold leading-tight transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]",
                 step === index
                   ? stepAccentClass[index]
-                  : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
+                  : "border-[#d6ebff]/10 bg-[#0d2338]/62 text-[var(--text-muted)] hover:bg-[#12304b] hover:text-[var(--text-primary)]",
               )}
             >
               {label}
@@ -189,11 +197,11 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
         </div>
       </div>
 
-      <div className="relative mt-5 min-h-[360px] min-w-0 overflow-hidden rounded-2xl border border-rose-100 bg-white/74 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[430px] sm:p-6">
+      <div className="relative mt-5 min-h-[360px] min-w-0 overflow-hidden rounded-xl border border-[#d6ebff]/12 bg-[#0d2338]/74 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:min-h-[430px] sm:p-6">
         <div className="pointer-events-none absolute -right-36 -top-36 h-[26rem] w-[34rem] opacity-70 sm:-right-44 sm:-top-44 sm:h-[34rem] sm:w-[44rem]" aria-hidden="true">
           <MagicRings
-            color="#0EA5B7"
-            colorTwo="#D5A645"
+            color="#4DA3FF"
+            colorTwo="#FF8A7A"
             ringCount={5}
             speed={0.48}
             attenuation={13}
@@ -210,7 +218,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
             parallax={0.025}
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/20 via-white/60 to-white/92" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0d2338]/20 via-[#0d2338]/60 to-[#06111f]/92" aria-hidden="true" />
         <div className="relative">
           <StepHeader step={step} />
 
@@ -277,7 +285,12 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
                   />
                   <FieldError id="advisor-database-error" message={errors.database?.message} />
                 </div>
-                <div className="sm:col-span-2">
+              </div>
+            ) : null}
+
+            {step === 1 ? (
+              <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+                <div>
                   <label htmlFor="advisor-hosting" className={labelClass}>
                     Current hosting provider
                   </label>
@@ -290,10 +303,46 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
                   />
                   <FieldError id="advisor-hosting-error" message={errors.currentHostingProvider?.message} />
                 </div>
+                <div>
+                  <label htmlFor="advisor-cloud" className={labelClass}>
+                    Preferred cloud platform
+                  </label>
+                  <select id="advisor-cloud" className={inputClass} {...register("preferredCloudPlatform")}>
+                    {cloudPlatformOptions.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                  <FieldError id="advisor-cloud-error" message={errors.preferredCloudPlatform?.message} />
+                </div>
+                <div className="sm:col-span-2">
+                  <label htmlFor="advisor-server" className={labelClass}>
+                    Current server configuration
+                  </label>
+                  <textarea
+                    id="advisor-server"
+                    rows={3}
+                    className={inputClass}
+                    placeholder="One Ubuntu VM, Nginx, PM2, managed database, manual deploys..."
+                    aria-describedby="advisor-server-error"
+                    {...register("currentServerConfiguration")}
+                  />
+                  <FieldError id="advisor-server-error" message={errors.currentServerConfiguration?.message} />
+                </div>
+                <div>
+                  <label htmlFor="advisor-environments" className={labelClass}>
+                    Number of environments
+                  </label>
+                  <select id="advisor-environments" className={inputClass} {...register("environments")}>
+                    {environmentOptions.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                  <FieldError id="advisor-environments-error" message={errors.environments?.message} />
+                </div>
               </div>
             ) : null}
 
-            {step === 1 ? (
+            {step === 2 ? (
               <div className="grid min-w-0 gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="advisor-monthly-users" className={labelClass}>
@@ -321,46 +370,17 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
                   />
                   <FieldError id="advisor-concurrent-users-error" message={errors.expectedConcurrentUsers?.message} />
                 </div>
-                <div className="sm:col-span-2">
-                  <label htmlFor="advisor-server" className={labelClass}>
-                    Current server configuration
-                  </label>
-                  <textarea
-                    id="advisor-server"
-                    rows={3}
-                    className={inputClass}
-                    placeholder="One Ubuntu VM, Nginx, PM2, managed database, manual deploys..."
-                    aria-describedby="advisor-server-error"
-                    {...register("currentServerConfiguration")}
-                  />
-                  <FieldError id="advisor-server-error" message={errors.currentServerConfiguration?.message} />
-                </div>
-                <div>
-                  <label htmlFor="advisor-cloud" className={labelClass}>
-                    Preferred cloud platform
-                  </label>
-                  <select id="advisor-cloud" className={inputClass} {...register("preferredCloudPlatform")}>
-                    {cloudPlatformOptions.map((option) => (
-                      <option key={option}>{option}</option>
-                    ))}
-                  </select>
-                  <FieldError id="advisor-cloud-error" message={errors.preferredCloudPlatform?.message} />
-                </div>
-                <div>
-                  <label htmlFor="advisor-environments" className={labelClass}>
-                    Number of environments
-                  </label>
-                  <select id="advisor-environments" className={inputClass} {...register("environments")}>
-                    {environmentOptions.map((option) => (
-                      <option key={option}>{option}</option>
-                    ))}
-                  </select>
-                  <FieldError id="advisor-environments-error" message={errors.environments?.message} />
+                <div className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/42 p-4 sm:col-span-2">
+                  <p className="font-mono text-xs font-semibold uppercase text-[#b9ddff]">Scale context</p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+                    Rough traffic numbers are enough. The goal is to identify whether the architecture needs simple
+                    vertical sizing, separate services, caching, managed data stores, or load distribution.
+                  </p>
                 </div>
               </div>
             ) : null}
 
-            {step === 2 ? (
+            {step === 3 ? (
               <div>
                 <div className="grid min-w-0 gap-3 sm:grid-cols-2">
                   {requirementOptions.map((requirement) => {
@@ -372,16 +392,16 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
                         aria-pressed={selected}
                         onClick={() => toggleRequirement(requirement)}
                         className={cn(
-                          "flex min-h-12 min-w-0 items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm leading-6 transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
+                          "flex min-h-12 min-w-0 items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm leading-6 transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]",
                           selected
-                            ? "border-violet-200 bg-violet-50 text-violet-800 shadow-[0_14px_34px_rgba(49,92,148,0.1)]"
-                            : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
+                            ? "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[#b9ddff] shadow-[0_14px_34px_rgba(77,163,255,0.1)]"
+                            : "border-[#d6ebff]/10 bg-[#0d2338]/62 text-[var(--text-muted)] hover:bg-[#12304b] hover:text-[var(--text-primary)]",
                         )}
                       >
                         <span
                           className={cn(
                             "flex h-5 w-5 shrink-0 items-center justify-center rounded border",
-                            selected ? "border-violet-300 bg-violet-200 text-violet-900" : "border-rose-200 bg-white",
+                            selected ? "border-[#4da3ff]/40 bg-[#4da3ff]/20 text-[#b9ddff]" : "border-[#d6ebff]/20 bg-[#06111f]",
                           )}
                           aria-hidden="true"
                         >
@@ -396,7 +416,26 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
               </div>
             ) : null}
 
-            {step === 3 ? (
+            {step === 4 ? (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {[
+                  "Secrets should stay out of source control and public forms.",
+                  "Production access should be scoped and auditable before implementation.",
+                  "Backups, TLS, firewalls, and dependency updates need validation.",
+                  "Final security controls require technical review against the real environment.",
+                ].map((item) => (
+                  <div key={item} className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/42 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                    {item}
+                  </div>
+                ))}
+                <div className="rounded-xl border border-[#ff8a7a]/18 bg-[#ff8a7a]/8 p-4 text-sm leading-6 text-[var(--text-secondary)] sm:col-span-2">
+                  Do not paste credentials, tokens, private IP addresses, customer data, or production secrets into this
+                  advisor.
+                </div>
+              </div>
+            ) : null}
+
+            {step === 5 ? (
               <div className="space-y-5">
                 <div>
                   <label htmlFor="advisor-challenges" className={labelClass}>
@@ -420,20 +459,28 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
                         key={prompt}
                         type="button"
                         onClick={() => addPrompt(prompt)}
-                        className="max-w-full rounded-lg border border-rose-100 bg-white/72 px-3 py-2 text-left text-xs leading-5 text-[var(--text-secondary)] transition [overflow-wrap:anywhere] hover:border-rose-300 hover:bg-rose-50 hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400"
+                        className="max-w-full rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 px-3 py-2 text-left text-xs leading-5 text-[var(--text-secondary)] transition [overflow-wrap:anywhere] hover:border-[#4da3ff]/30 hover:bg-[#12304b] hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
                       >
                         {prompt}
                       </button>
                     ))}
                   </div>
                 </div>
+              </div>
+            ) : null}
 
+            {step === 6 ? (
+              <div className="space-y-5">
                 <AdvisorPrivacyNotice />
-
-                <label className="flex min-w-0 gap-3 rounded-lg border border-rose-100 bg-white/72 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                <div className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/42 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                  The output will include suggested architecture, deployment model, CI/CD recommendation, monitoring
+                  recommendation, security considerations, scaling strategy, and potential risks. Treat it as a
+                  preliminary blueprint for review.
+                </div>
+                <label className="flex min-w-0 gap-3 rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 p-4 text-sm leading-6 text-[var(--text-secondary)]">
                   <input
                     type="checkbox"
-                    className="mt-1 h-4 w-4 shrink-0 rounded border-rose-300 bg-white text-rose-500 focus:ring-rose-400"
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-[#d6ebff]/20 bg-[#06111f] text-[#4da3ff] focus:ring-[#4da3ff]"
                     {...register("privacyAccepted")}
                   />
                   <span>
@@ -455,7 +502,7 @@ export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<
           Back
         </Button>
 
-        {step < 3 ? (
+        {step < 6 ? (
           <Button type="button" onClick={nextStep} disabled={isSubmitting}>
             Continue
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

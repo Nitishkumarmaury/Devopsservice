@@ -1,24 +1,33 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, CalendarCheck, Mail, MapPin, RadioTower } from "lucide-react";
-import { seoArticles } from "@/data/seo-articles";
-import { seoMoneyPages } from "@/data/seo-pages";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { consultationHref, siteConfig } from "@/lib/constants";
+
+const serviceLinks = [
+  { label: "DevOps Consulting", href: "/services/devops-consulting" },
+  { label: "Cloud Infrastructure", href: "/services/cloud-infrastructure" },
+  { label: "CI/CD", href: "/services/cicd-automation" },
+  { label: "Containers", href: "/services/docker-containers" },
+  { label: "Monitoring", href: "/services/monitoring-observability" },
+  { label: "Managed DevOps", href: "/services/managed-devops-support" },
+];
 
 const companyLinks = [
   { label: "About", href: "/about" },
   { label: "Process", href: "/process" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "Contact", href: "/contact" },
-  { label: "Pricing", href: "/pricing" },
 ];
 
 const resourceLinks = [
-  { label: "Case Studies", href: "/case-studies" },
   { label: "Guides", href: "/blog" },
-  { label: "DevOps FAQ", href: "/faq" },
-  ...seoArticles.slice(0, 3).map((article) => ({ label: article.h1, href: `/${article.slug}` })),
-  { label: "Cloud Architecture Advisor", href: "/advisor" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Architecture Advisor", href: "/advisor" },
+  { label: "Pricing", href: "/pricing" },
+];
+
+const legalLinks = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
 ];
@@ -31,10 +40,10 @@ export function Footer() {
   ].filter(Boolean) as Array<{ label: string; href: string }>;
 
   return (
-    <footer className="relative z-10 overflow-hidden border-t border-[#26324a] bg-[var(--navy)] text-white">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(61,184,197,0.16),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(213,166,69,0.12),transparent_28%)]" />
-      <ScrollReveal className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.5fr_0.7fr_1fr_0.8fr] lg:px-8">
+    <footer className="relative z-10 overflow-hidden border-t border-[#d6ebff]/10 bg-[#06111f] text-white">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4da3ff]/60 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(77,163,255,0.1),transparent_30%),radial-gradient(circle_at_84%_16%,rgba(125,211,252,0.07),transparent_28%)]" />
+      <ScrollReveal className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-6 lg:grid-cols-[1.45fr_0.78fr_0.72fr_0.72fr_0.52fr] lg:px-8">
         <div>
           <Link href="/" className="inline-flex w-fit flex-col gap-3">
             <Image
@@ -42,24 +51,31 @@ export function Footer() {
               alt="CloudOpsync"
               width={siteConfig.logoWidth}
               height={siteConfig.logoHeight}
-              className="h-24 w-auto object-contain sm:h-28"
+              className="h-20 w-auto object-contain sm:h-24"
               unoptimized
             />
             <span className="text-sm text-white/64">{siteConfig.tagline}</span>
           </Link>
           <p className="mt-5 max-w-md text-sm leading-6 text-white/68">
-            Production deployment and managed DevOps support for Node.js, Next.js and NestJS applications on AWS and DigitalOcean.
+            Cloud and DevOps engineering practice for production infrastructure, deployment automation, monitoring,
+            and operational reliability.
           </p>
-          <p className="mt-4 text-sm font-semibold text-rose-100">Designed and engineered for reliability.</p>
           <div className="mt-5 flex flex-col gap-3 text-sm text-white/68">
             <span className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-rose-200" aria-hidden="true" />
+              <MapPin className="h-4 w-4 text-[#4da3ff]" aria-hidden="true" />
               {siteConfig.location}
             </span>
             <span className="inline-flex items-center gap-2">
-              <RadioTower className="h-4 w-4 text-cyan-200" aria-hidden="true" />
-              Available for remote infrastructure projects
+              <RadioTower className="h-4 w-4 text-[#7dd3fc]" aria-hidden="true" />
+              Remote DevOps engineering for international teams
             </span>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="inline-flex w-fit items-center gap-2 rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 px-3 py-2 font-medium text-white transition hover:border-[#4da3ff]/36 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff]"
+            >
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              {siteConfig.email}
+            </a>
           </div>
           {socialLinks.length ? (
             <div className="mt-5 flex flex-wrap gap-2">
@@ -67,7 +83,7 @@ export function Footer() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="rounded-full border border-white/10 bg-white/8 px-3 py-1.5 text-xs font-semibold text-white/72 transition hover:border-cyan-200/50 hover:text-white"
+                  className="rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 px-3 py-1.5 text-xs font-semibold text-white/72 transition hover:border-[#4da3ff]/36 hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -76,27 +92,25 @@ export function Footer() {
           ) : null}
         </div>
 
+        <FooterColumn title="Services" links={serviceLinks} />
         <FooterColumn title="Company" links={companyLinks} />
-        <FooterColumn
-          title="Services"
-          links={seoMoneyPages.map((page) => ({ label: page.shortTitle, href: `/${page.slug}` }))}
-        />
         <FooterColumn title="Resources" links={resourceLinks} />
+        <FooterColumn title="Legal" links={legalLinks} />
 
-        <div className="rounded-[24px] border border-white/10 bg-white/[0.07] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.18)] lg:col-span-4">
+        <div className="rounded-[18px] border border-[#d6ebff]/10 bg-[#0d2338]/72 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.22)] lg:col-span-5">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-100">
+              <p className="inline-flex items-center gap-2 text-sm font-semibold text-[#b9ddff]">
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-                Enterprise consultation
+                Consultation
               </p>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-white/64">
-                Bring your deployment, monitoring, Linux, or cloud infrastructure challenge and get a practical next step.
+                Share the stack, delivery goal, and current risk. The next step is a scoped technical conversation.
               </p>
             </div>
             <Link
               href={consultationHref}
-              className="inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-2.5 text-sm font-semibold text-[var(--navy)] shadow-[0_16px_44px_rgba(53,214,237,0.16)] transition hover:-translate-y-0.5 hover:bg-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+              className="inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-lg border border-[#4da3ff]/70 bg-[#4da3ff] px-4 py-2.5 text-sm font-semibold text-[#06111f] shadow-[0_16px_44px_rgba(77,163,255,0.16)] transition hover:-translate-y-0.5 hover:bg-[#b9ddff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff]"
             >
               Book a Consultation
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -104,15 +118,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-6 text-sm text-white/60 lg:col-span-4">
+        <div className="border-t border-[#d6ebff]/10 pt-6 text-sm text-white/60 lg:col-span-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 font-medium text-white transition hover:border-rose-200/60 hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-200"
-            >
-              <Mail className="h-4 w-4" aria-hidden="true" />
-              {siteConfig.email}
-            </a>
+            <p>{siteConfig.name} does not claim official cloud partnerships unless explicitly stated.</p>
             <p>© {year} {siteConfig.legalName}. All rights reserved.</p>
           </div>
         </div>
@@ -130,7 +138,7 @@ function FooterColumn({ title, links }: { title: string; links: Array<{ label: s
           <Link
             key={`${title}-${link.href}`}
             href={link.href}
-            className="transition hover:text-rose-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose-200"
+            className="transition hover:text-[#b9ddff] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff]"
           >
             {link.label}
           </Link>

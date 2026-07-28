@@ -32,7 +32,7 @@ export function AdvisorProgress() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/80 to-transparent" />
       <div className="relative">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-rose-200 bg-rose-50 shadow-[0_0_34px_rgba(14,165,183,0.12)]">
+          <span className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-rose-200 bg-rose-50 shadow-[0_0_34px_rgba(77,163,255,0.12)]">
             <span className="signal-dot absolute h-3 w-3 rounded-full bg-rose-300/80" aria-hidden="true" />
             <Loader2 className="h-5 w-5 animate-spin text-rose-700" aria-hidden="true" />
           </span>
@@ -49,7 +49,7 @@ export function AdvisorProgress() {
               className={cn(
                 "rounded-xl border px-4 py-3 transition",
                 index === messageIndex
-                  ? "border-rose-200 bg-rose-50 text-rose-800 shadow-[0_0_24px_rgba(14,165,183,0.08)]"
+                  ? "border-rose-200 bg-rose-50 text-rose-800 shadow-[0_0_24px_rgba(77,163,255,0.08)]"
                   : "border-rose-100 bg-white/72 text-[var(--text-muted)]",
               )}
             >

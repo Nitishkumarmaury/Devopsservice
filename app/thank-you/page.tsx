@@ -21,7 +21,7 @@ export default function ThankYouPage() {
           <p className="mt-4 text-lg leading-8 text-[var(--text-secondary)]">
             The message will be reviewed and followed up with a practical next step.
           </p>
-          <Link href="/" className="aurora-gradient mt-8 inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_46px_rgba(14,165,183,0.25)]">
+          <Link href="/" className="aurora-gradient mt-8 inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_46px_rgba(77,163,255,0.25)]">
             Back to home
           </Link>
         </FadeIn>

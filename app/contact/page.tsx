@@ -6,9 +6,9 @@ import { PageHero } from "@/components/ui/page-hero";
 import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Hire a Freelance DevOps Consultant",
+  title: "Contact CloudOpsync",
   description:
-    "Tell me your stack, deployment issue or project scope and get a clear next step for DevOps consulting, AWS support or CI/CD implementation.",
+    "Tell CloudOpsync about your infrastructure challenge, current stack, delivery goal, and production risk to request a practical consultation.",
   path: "/contact",
 });
 
@@ -18,12 +18,12 @@ export default function ContactPage() {
       <BreadcrumbJsonLd
         items={[
           { name: "Home", path: "/" },
-          { name: "Hire a Freelance DevOps Consultant", path: "/contact" },
+          { name: "Contact CloudOpsync", path: "/contact" },
         ]}
       />
-      <PageHero eyebrow="Contact" title="Hire a Freelance DevOps Consultant" dark>
-        Tell me your stack, deployment issue, production risk, or project scope and get a clear next step for DevOps
-        consulting, AWS support, CI/CD implementation, monitoring, or deployment work.
+      <PageHero eyebrow="Contact" title="Tell us about your infrastructure challenge." dark>
+        Share your current stack, delivery goal, and what feels risky. The next step is a practical scope conversation,
+        not a generic sales funnel.
       </PageHero>
       <ContactSection />
     </SiteFrame>

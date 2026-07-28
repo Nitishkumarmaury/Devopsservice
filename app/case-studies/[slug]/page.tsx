@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileCheck2 } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
@@ -42,13 +42,14 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
   const relatedService = getServiceBySlug(study.relatedServiceSlug);
 
   const sections = [
-    ["Initial problem", study.problem],
+    ["Problem", study.problem],
+    ["Environment", `Anonymized production environment using ${study.technologies.join(", ")}. Client names, domains, and private infrastructure details are intentionally omitted.`],
     ["Constraints", study.constraints.join(" ")],
-    ["Investigation", study.investigation.join(" ")],
-    ["Engineering approach", study.approach],
+    ["Approach", study.approach],
+    ["Implementation", study.investigation.join(" ")],
     ["Validation", study.validation.join(" ")],
-    ["Client value", study.outcome],
-    ["Lessons", study.lessons.join(" ")],
+    ["Outcome", study.outcome],
+    ["Technology Stack", study.technologies.join(", ")],
   ] as const;
 
   return (
@@ -90,11 +91,19 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
                   {relatedService.shortTitle}
                 </ButtonLink>
               ) : null}
+              <div className="mt-6 rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/42 p-4">
+                <p className="font-mono text-xs font-semibold uppercase text-[#b9ddff]">Evidence note</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+                  This case study is anonymized. No customer names, private domains, IP addresses, credentials, or
+                  unsupported metrics are shown.
+                </p>
+              </div>
             </ScrollReveal>
             <StaggerReveal className="grid gap-5">
               {sections.map(([title, text]) => (
                 <article key={title} className="rounded-[26px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
-                  <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{title}</h2>
+                  <FileCheck2 className="h-5 w-5 text-[var(--rose-dark)]" aria-hidden="true" />
+                  <h2 className="mt-4 text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{title}</h2>
                   <p className="mt-3 text-base leading-8 text-[var(--text-secondary)]">{text}</p>
                 </article>
               ))}

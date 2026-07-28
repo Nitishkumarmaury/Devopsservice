@@ -17,7 +17,7 @@ const accents = [
 export function CaseStudiesSection() {
   return (
     <section id="case-studies" className="aurora-section border-y border-rose-100 bg-[linear-gradient(180deg,#f6f8fa_0%,#fff_100%)] section-rhythm">
-      <SectionGlow className="bg-[radial-gradient(ellipse_at_35%_0%,rgba(14,165,183,0.12),transparent_62%)]" />
+      <SectionGlow className="bg-[radial-gradient(ellipse_at_35%_0%,rgba(77,163,255,0.12),transparent_62%)]" />
       <Container className="relative z-10">
         <FadeIn>
           <SectionHeading title="Project patterns built for measurable production improvement." eyebrow="Project Examples">

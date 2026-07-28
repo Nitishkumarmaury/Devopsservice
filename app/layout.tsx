@@ -3,6 +3,7 @@ import { RouteTransition } from "@/components/layout/route-transition";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { ClickSpark } from "@/components/ui/click-spark";
 import { CursorGlow } from "@/components/ui/cursor-glow";
+import { OrbitField } from "@/components/visuals/orbit-field";
 import { defaultMetadata, jsonLd } from "@/lib/metadata";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -12,13 +13,13 @@ export const metadata = defaultMetadata;
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <body className="min-h-screen bg-[var(--background)] font-sans text-[var(--text-primary)] antialiased">
+      <body className="command-shell min-h-screen bg-[var(--background)] font-sans text-[var(--text-primary)] antialiased">
         <SmoothScroll />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
         <ClickSpark
-          sparkColor="#0ea5b7"
+          sparkColor="#4da3ff"
           sparkSize={9}
           sparkRadius={18}
           sparkCount={8}
@@ -28,8 +29,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         >
           <div className="relative isolate min-h-screen overflow-hidden">
             <CursorGlow />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(242,247,250,0.42)),radial-gradient(circle_at_14%_10%,rgba(14,165,183,0.08),transparent_32%),radial-gradient(circle_at_84%_8%,rgba(49,92,148,0.06),transparent_30%)] opacity-95" />
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/60 to-transparent" />
+            <OrbitField />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,17,31,0.42),rgba(6,17,31,0.72)),linear-gradient(rgba(77,163,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(77,163,255,0.032)_1px,transparent_1px)] bg-[size:auto,72px_72px,72px_72px] opacity-95" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4da3ff]/60 to-transparent" />
             <RouteTransition>{children}</RouteTransition>
           </div>
         </ClickSpark>

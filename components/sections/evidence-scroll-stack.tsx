@@ -88,20 +88,20 @@ export function EvidenceScrollStack() {
   };
 
   return (
-    <section ref={sectionRef} id="evidence" className="relative overflow-hidden bg-white py-16 sm:py-24 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(14,165,183,0.08),transparent_30%),radial-gradient(circle_at_86%_18%,rgba(139,108,255,0.07),transparent_28%)]" />
+    <section ref={sectionRef} id="evidence" className="relative overflow-hidden border-y border-[#d6ebff]/10 bg-[var(--background)] py-16 sm:py-24 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(77,163,255,0.08),transparent_30%),radial-gradient(circle_at_86%_18%,rgba(125,211,252,0.06),transparent_28%)]" />
       <Container className="relative">
         <div className="grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-center">
           <div className="min-w-0 [overflow-wrap:anywhere]">
             <p className="font-mono text-xs font-semibold uppercase leading-6 tracking-normal text-[var(--rose-dark)]">
-              Evidence-based delivery
+              Evidence sequence
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-normal text-[var(--text-primary)] sm:text-5xl">
-              Scientific DevOps: measure, change, validate, repeat.
+              Observe, gate, verify, handover.
             </h2>
             <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
-              Recommendations are tied to observable signals, controlled changes, and documented outcomes. Buyers can
-              review each evidence stage and see how delivery decisions are validated.
+              Production changes should be based on observable evidence rather than assumptions. Each stage keeps
+              baselines, checks, rollback paths, and handover notes visible.
             </p>
             <ButtonLink href="/process" variant="secondary" className="mt-7">
               See the validation process
@@ -111,7 +111,7 @@ export function EvidenceScrollStack() {
 
           <div
             className={cn(
-              "relative min-w-0 overflow-hidden rounded-[32px] border border-[var(--border)] bg-[linear-gradient(135deg,#eef8fb_0%,#f7f5ff_60%,#fff8fb_100%)] p-4 shadow-[0_34px_110px_rgba(15,34,48,0.14)] sm:p-6",
+              "relative min-w-0 overflow-hidden rounded-[22px] border border-[#d6ebff]/12 bg-[linear-gradient(135deg,#081a2e_0%,#0d2338_100%)] p-4 shadow-[0_34px_110px_rgba(0,0,0,0.3)] sm:p-6",
               (rotationHeld || !sectionInView) && "motion-held",
             )}
             style={{ "--auto-duration": `${ROTATION_MS}ms` } as CSSProperties}
@@ -119,17 +119,15 @@ export function EvidenceScrollStack() {
             onMouseLeave={() => setRotationHeld(false)}
           >
             <div className="pointer-events-none absolute inset-0 soft-grid opacity-24" />
-            <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-20 left-16 h-72 w-72 rounded-full bg-violet-200/24 blur-3xl" />
 
             <div className="relative mb-4 flex flex-wrap items-center justify-between gap-2">
-              <span className="rounded-full border border-white bg-white/60 px-3 py-1.5 text-xs font-semibold text-[var(--text-secondary)]">
+              <span className="rounded-lg border border-[#d6ebff]/12 bg-[#06111f]/62 px-3 py-1.5 font-mono text-xs font-semibold text-[var(--text-secondary)]">
                 Evidence sequence
               </span>
             </div>
 
             <div className="relative grid gap-5 lg:grid-cols-[1fr_0.45fr]">
-              <div className="relative min-h-[500px] overflow-hidden rounded-[28px] border border-white bg-white/72 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:min-h-[440px] sm:p-5">
+              <div className="relative min-h-[500px] overflow-hidden rounded-[18px] border border-[#d6ebff]/10 bg-[#06111f]/62 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:min-h-[440px] sm:p-5">
                 <div className="absolute inset-x-5 top-5 hidden h-28 sm:block">
                   {evidenceCards.map((item, index) => {
                     const PreviewIcon = item.icon;
@@ -142,8 +140,8 @@ export function EvidenceScrollStack() {
                         className={cn(
                           "absolute left-0 right-0 flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition duration-300",
                           index === active
-                            ? "z-20 border-cyan-200 bg-white text-[var(--text-primary)] shadow-[0_18px_48px_rgba(14,165,183,0.14)]"
-                            : "border-[var(--border)] bg-white/72 text-[var(--text-muted)]",
+                            ? "z-20 border-[#4da3ff]/24 bg-[#0d2338] text-[var(--text-primary)] shadow-[0_18px_48px_rgba(77,163,255,0.12)]"
+                            : "border-[var(--border)] bg-[#0d2338]/72 text-[var(--text-muted)]",
                         )}
                         style={{
                           transform: `translateY(${offset * 20}px) scale(${index === active ? 1 : 1 - offset * 0.035})`,
@@ -152,10 +150,10 @@ export function EvidenceScrollStack() {
                         }}
                       >
                         <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase leading-5 tracking-normal">
-                          <PreviewIcon className="h-4 w-4 text-[var(--rose-dark)]" aria-hidden="true" />
+                          <PreviewIcon className="h-4 w-4 text-[#4da3ff]" aria-hidden="true" />
                           {item.label}
                         </span>
-                        <span className="h-1.5 w-24 rounded-full bg-gradient-to-r from-cyan-300 via-violet-300 to-pink-200" />
+                        <span className="h-1.5 w-24 rounded-full bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]" />
                       </button>
                     );
                   })}
@@ -173,10 +171,10 @@ export function EvidenceScrollStack() {
                   >
                     <div className="relative h-56 min-w-0 overflow-hidden rounded-[24px] bg-[var(--navy)] shadow-[0_24px_70px_rgba(15,34,48,0.16)] md:h-72">
                       <Image src={card.image} alt={card.alt} fill sizes="(min-width: 1024px) 28vw, 100vw" className="object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#071521]/72 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#06111f]/72 via-transparent to-transparent" />
                     </div>
                     <div className="min-w-0 [overflow-wrap:anywhere]">
-                      <div className="inline-flex items-center gap-2 rounded-xl border border-cyan-200/80 bg-cyan-50 px-3 py-2 text-xs font-semibold uppercase leading-5 tracking-normal text-[var(--rose-dark)]">
+                      <div className="inline-flex items-center gap-2 rounded-lg border border-[#4da3ff]/20 bg-[#4da3ff]/10 px-3 py-2 font-mono text-xs font-semibold uppercase leading-5 tracking-normal text-[#b9ddff]">
                         <Icon className="h-4 w-4" aria-hidden="true" />
                         {card.label}
                       </div>
@@ -184,7 +182,7 @@ export function EvidenceScrollStack() {
                       <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)] sm:text-base sm:leading-8">{card.text}</p>
                       <div className="mt-5 flex flex-wrap gap-2">
                         {card.proof.map((item) => (
-                          <span key={item} className="rounded-full border border-[var(--border)] bg-white/78 px-3 py-1.5 text-xs font-semibold text-[var(--text-secondary)]">
+                          <span key={item} className="rounded-lg border border-[var(--border)] bg-[#0d2338]/78 px-3 py-1.5 font-mono text-xs font-semibold text-[var(--text-secondary)]">
                             {item}
                           </span>
                         ))}
@@ -206,15 +204,15 @@ export function EvidenceScrollStack() {
                       className={cn(
                         "relative min-w-0 overflow-hidden rounded-2xl border p-4 text-left transition duration-200",
                         selected
-                          ? "border-cyan-200 bg-white text-[var(--text-primary)] shadow-[0_16px_42px_rgba(14,165,183,0.14)]"
-                          : "border-white bg-white/52 text-[var(--text-muted)] hover:bg-white",
+                          ? "border-[#4da3ff]/24 bg-[#0d2338] text-[var(--text-primary)] shadow-[0_16px_42px_rgba(77,163,255,0.12)]"
+                          : "border-[#d6ebff]/10 bg-[#0d2338]/52 text-[var(--text-muted)] hover:bg-[#12304b]",
                       )}
                     >
-                      <span className="grid h-10 w-10 place-items-center rounded-2xl bg-cyan-50 text-[var(--rose-dark)]">
+                      <span className="grid h-10 w-10 place-items-center rounded-xl border border-[#4da3ff]/18 bg-[#4da3ff]/10 text-[var(--rose-dark)]">
                         <StepIcon className="h-4 w-4" aria-hidden="true" />
                       </span>
                       <span className="mt-3 block text-sm font-semibold leading-6">{item.label}</span>
-                      {selected ? <span className="auto-progress absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-cyan-300 via-violet-300 to-pink-200" /> : null}
+                      {selected ? <span className="auto-progress absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]" /> : null}
                     </button>
                   );
                 })}

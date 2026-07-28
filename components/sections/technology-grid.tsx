@@ -118,8 +118,8 @@ export function TechnologyGrid() {
   };
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-white py-16 sm:py-24 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(14,165,183,0.08),transparent_30%),radial-gradient(circle_at_84%_20%,rgba(139,108,255,0.08),transparent_28%)]" />
+    <section ref={sectionRef} className="relative overflow-hidden border-y border-[#d6ebff]/10 bg-[var(--background-soft)] py-16 sm:py-24 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(77,163,255,0.08),transparent_30%),radial-gradient(circle_at_84%_20%,rgba(125,211,252,0.06),transparent_28%)]" />
       <Container className="relative">
         <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <SectionHeader eyebrow="Services and tools" title="A clear view of services and delivery tools.">
@@ -129,7 +129,7 @@ export function TechnologyGrid() {
 
           <div
             className={cn(
-              "relative min-w-0 overflow-hidden rounded-[32px] border border-cyan-200/70 bg-[linear-gradient(135deg,#edf8fb_0%,#f6f4ff_55%,#fff7fb_100%)] p-4 shadow-[0_30px_100px_rgba(15,34,48,0.14)] sm:p-5",
+              "relative min-w-0 overflow-hidden rounded-[22px] border border-[#d6ebff]/12 bg-[linear-gradient(135deg,#081a2e_0%,#0d2338_100%)] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.3)] sm:p-5",
               (rotationHeld || !sectionInView) && "motion-held",
             )}
             style={{ "--auto-duration": `${ROTATION_MS}ms` } as CSSProperties}
@@ -137,8 +137,6 @@ export function TechnologyGrid() {
             onMouseLeave={() => setRotationHeld(false)}
           >
             <div className="pointer-events-none absolute inset-0 soft-grid opacity-30" />
-            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-cyan-200/30 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-28 left-1/4 h-72 w-72 rounded-full bg-pink-200/22 blur-3xl" />
 
             <div className="relative grid min-w-0 gap-4 lg:grid-cols-[14rem_1fr]">
               <div className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">
@@ -152,22 +150,22 @@ export function TechnologyGrid() {
                     viewport={{ once: true, amount: 0.18, margin: "0px 0px -72px 0px" }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.06 }}
                     className={cn(
-                      "group relative min-w-0 overflow-hidden rounded-2xl border px-3 py-3 text-left text-sm font-semibold leading-snug transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300",
+                      "group relative min-w-0 overflow-hidden rounded-xl border px-3 py-3 text-left text-sm font-semibold leading-snug transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]",
                       active === item.title
-                        ? "border-cyan-200 bg-white text-[var(--text-primary)] shadow-[0_14px_34px_rgba(14,165,183,0.14)]"
-                        : "border-transparent bg-white/48 text-[var(--text-muted)] hover:bg-white/80 hover:text-[var(--text-primary)]",
+                        ? "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[var(--text-primary)] shadow-[0_14px_34px_rgba(77,163,255,0.12)]"
+                        : "border-transparent bg-[#06111f]/46 text-[var(--text-muted)] hover:bg-[#12304b] hover:text-[var(--text-primary)]",
                     )}
                   >
                     <span className="relative z-10 flex min-w-0 items-center gap-2">
                       <span className="font-mono text-[11px] text-[var(--rose-dark)]">{String(index + 1).padStart(2, "0")}</span>
                       <span className="truncate">{item.title}</span>
                     </span>
-                    {active === item.title ? <span className="auto-progress absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-cyan-300 via-violet-300 to-pink-200" /> : null}
+                    {active === item.title ? <span className="auto-progress absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]" /> : null}
                   </motion.button>
                 ))}
               </div>
 
-              <div className="min-w-0 rounded-[26px] border border-white bg-white/82 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:p-6">
+              <div className="min-w-0 rounded-[18px] border border-[#d6ebff]/10 bg-[#06111f]/58 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:p-6">
                 <motion.div
                   key={category.title}
                   aria-live="polite"
@@ -198,8 +196,8 @@ export function TechnologyGrid() {
                         className="min-w-0"
                       >
                         {item.kind === "service" ? (
-                          <div className="group flex min-h-16 min-w-0 items-center gap-3 rounded-2xl border border-[var(--border)] bg-white/94 p-3 shadow-[0_16px_42px_rgba(15,34,48,0.08)] transition hover:-translate-y-0.5 hover:border-cyan-200">
-                            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-cyan-50 text-[var(--rose-dark)]">
+                          <div className="group flex min-h-16 min-w-0 items-center gap-3 rounded-xl border border-[var(--border)] bg-[#0d2338]/88 p-3 shadow-[0_16px_42px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:border-[#4da3ff]/24">
+                            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[#4da3ff]/18 bg-[#4da3ff]/10 text-[var(--rose-dark)]">
                               <ServiceIcon icon={item.icon} />
                             </span>
                             <span className="min-w-0">
@@ -210,7 +208,7 @@ export function TechnologyGrid() {
                         ) : (
                           <BrandIcon3D
                             name={item.label}
-                            className="min-h-16 w-full justify-start rounded-2xl border-[var(--border)] bg-white/94 px-3 py-3 transition hover:-translate-y-0.5 hover:border-cyan-200 hover:shadow-[0_18px_42px_rgba(14,165,183,0.12)]"
+                            className="min-h-16 w-full justify-start rounded-xl border-[var(--border)] bg-[#0d2338]/88 px-3 py-3 transition hover:-translate-y-0.5 hover:border-[#4da3ff]/24 hover:shadow-[0_18px_42px_rgba(77,163,255,0.1)]"
                           />
                         )}
                       </motion.div>
@@ -220,12 +218,12 @@ export function TechnologyGrid() {
               </div>
             </div>
 
-            <div className="relative mt-4 overflow-hidden rounded-2xl border border-white bg-white/58 py-3">
+            <div className="relative mt-4 overflow-hidden rounded-xl border border-[#d6ebff]/10 bg-[#06111f]/46 py-3">
               <div className="capability-marquee flex w-max items-center gap-3 px-3">
                 {[...services, ...services].map((service, index) => (
                   <span
                     key={`${service.slug}-${index}`}
-                    className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border border-cyan-200/70 bg-white px-3 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-[0_10px_26px_rgba(15,34,48,0.08)]"
+                    className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-[#4da3ff]/16 bg-[#0d2338]/82 px-3 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
                   >
                     <ServiceIcon icon={service.icon} />
                     {service.shortTitle}

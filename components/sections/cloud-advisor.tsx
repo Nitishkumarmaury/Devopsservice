@@ -20,18 +20,18 @@ const useCases = [
 
 function AdvisorWorkspaceSkeleton() {
   return (
-    <div className="relative min-w-0 overflow-hidden rounded-[20px] border border-rose-100 bg-white/86 p-4 shadow-[0_30px_110px_rgba(15,34,48,0.12)] sm:rounded-lg sm:p-5">
-      <div className="absolute inset-0 bg-gradient-to-b from-white/46 via-white/74 to-white/94" aria-hidden="true" />
+    <div className="relative min-w-0 overflow-hidden rounded-[18px] border border-[#d6ebff]/12 bg-[#0d2338]/86 p-4 shadow-[0_30px_110px_rgba(0,0,0,0.26)] sm:p-5">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d2338]/46 via-[#0d2338]/74 to-[#06111f]/94" aria-hidden="true" />
       <div className="absolute inset-0 soft-grid opacity-30" aria-hidden="true" />
       <div className="relative space-y-4">
-        <div className="h-4 w-36 rounded bg-rose-100" />
-        <div className="h-8 w-64 max-w-full rounded bg-rose-100" />
+        <div className="h-4 w-36 rounded bg-[#4da3ff]/12" />
+        <div className="h-8 w-64 max-w-full rounded bg-[#4da3ff]/12" />
         <div className="grid min-w-0 gap-3 sm:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="h-11 rounded-lg border border-rose-100 bg-white/70" />
+            <div key={index} className="h-11 rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/70" />
           ))}
         </div>
-        <div className="h-[420px] rounded-lg border border-rose-100 bg-white/70 sm:h-[480px]" />
+        <div className="h-[420px] rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/70 sm:h-[480px]" />
       </div>
     </div>
   );
@@ -41,16 +41,16 @@ export function CloudAdvisorSection() {
   return (
     <section
       id="cloud-advisor"
-      className="aurora-section relative overflow-hidden border-b border-rose-100 bg-[linear-gradient(180deg,#fff_0%,#edf3f6_100%)] section-rhythm"
+      className="aurora-section relative overflow-hidden border-b border-[#d6ebff]/10 bg-[linear-gradient(180deg,#06111f_0%,#081a2e_100%)] section-rhythm"
     >
-      <SectionGlow className="h-[520px] bg-[radial-gradient(ellipse_at_55%_0%,rgba(14,165,183,0.14),transparent_62%)]" />
+      <SectionGlow className="h-[520px] bg-[radial-gradient(ellipse_at_55%_0%,rgba(77,163,255,0.12),transparent_62%)]" />
       <div className="absolute inset-0 soft-grid opacity-30" aria-hidden="true" />
-      <div className="absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-white/10 via-white/42 to-[#edf3f6]" aria-hidden="true" />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/70 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-[#0d2338]/20 via-[#0d2338]/42 to-[#06111f]" aria-hidden="true" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4da3ff]/60 to-transparent" />
       <Container className="relative">
         <div className="grid min-w-0 gap-10 xl:grid-cols-[0.82fr_1.18fr] xl:items-start">
           <FadeIn className="min-w-0 [overflow-wrap:anywhere] xl:sticky xl:top-24">
-            <div className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-rose-200 bg-white/72 px-3.5 py-2 text-sm font-semibold leading-snug text-rose-700 shadow-[0_14px_34px_rgba(14,165,183,0.1)]">
+            <div className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-lg border border-[#4da3ff]/18 bg-[#4da3ff]/8 px-3.5 py-2 text-sm font-semibold leading-snug text-[#b9ddff] shadow-[0_14px_34px_rgba(77,163,255,0.08)]">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               Infrastructure Blueprint Tool
             </div>
@@ -66,9 +66,9 @@ export function CloudAdvisorSection() {
               and scaling.
             </p>
 
-            <div className="mt-6 min-w-0 rounded-lg border border-rose-100 bg-white/68 p-4">
+            <div className="mt-6 min-w-0 rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 p-4">
               <div className="flex min-w-0 gap-3">
-                <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" aria-hidden="true" />
+                <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0 text-[#4da3ff]" aria-hidden="true" />
                 <p className="text-sm leading-6 text-[var(--text-secondary)]">
                   This is an initial planning assistant, not a replacement for a professional infrastructure audit.
                   Do not submit credentials, customer data, or private infrastructure addresses.
@@ -80,9 +80,9 @@ export function CloudAdvisorSection() {
               {useCases.map((useCase) => (
                 <div
                   key={useCase}
-                  className="flex min-w-0 gap-3 rounded-lg border border-rose-100 bg-white/68 p-4 text-sm text-[var(--text-secondary)]"
+                  className="flex min-w-0 gap-3 rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 p-4 text-sm text-[var(--text-secondary)]"
                 >
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" aria-hidden="true" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#4da3ff]" aria-hidden="true" />
                   {useCase}
                 </div>
               ))}
