@@ -49,7 +49,7 @@ export function BlueprintTabs({ blueprint }: Readonly<BlueprintTabsProps>) {
             className={cn(
               "min-h-10 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold leading-tight transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
               active === tab
-                ? "border-rose-200 bg-rose-50 text-rose-800 shadow-[0_14px_34px_rgba(77,163,255,0.1)]"
+                ? "border-rose-200 bg-rose-50 text-rose-800 shadow-[0_14px_34px_rgba(14,165,183,0.1)]"
                 : "border-rose-100 bg-white/72 text-[var(--text-muted)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
             )}
           >

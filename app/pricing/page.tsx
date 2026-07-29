@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, CheckCircle2, CreditCard, FileCheck2, ShieldCheck } from "lucide-react";
+import { ArrowRight, Clock, DollarSign } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
@@ -7,215 +7,130 @@ import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
-import {
-  extraWorkRate,
-  pricingAssumption,
-  pricingAssumptionItems,
-  pricingPackages,
-  pricingRules,
-} from "@/data/pricing";
+import { pricingPackages, pricingRules } from "@/data/pricing";
 import { createPageMetadata } from "@/lib/route-metadata";
 
+const cardMap = [
+  ["Quick Infrastructure Fix", "Small fix", "Fast correction for proxy, SSL, PM2, environment, or config issues."],
+  ["Production Deployment", "Full deployment", "Complete application deployment with proxy, SSL, DNS, process management, and validation."],
+  ["CI/CD Automation", "CI/CD pipeline", "Repeatable build, deploy, validation, and rollback workflow."],
+  ["Monitoring Setup", "Monitoring setup", "Dashboards, alerts, uptime checks, log checks, and a basic runbook."],
+  ["Monthly DevOps Care", "Monthly maintenance", "Routine patching, release support, health checks, and basic incidents."],
+  ["Emergency Production Support", "Production troubleshooting", "Urgent investigation for logs, crash loops, CPU/RAM pressure, deployment failures, and downtime triage."],
+] as const;
+
 export const metadata: Metadata = createPageMetadata({
-  title: "DevOps Pricing and Launch Packages",
+  title: "DevOps Pricing and Engagement Packages",
   description:
-    "Honest CloudOpsync starter pricing in USD for production fixes, reliability audits, app deployment, CI/CD, Docker, monitoring, cloud foundation, migration, and DevOps Care.",
+    "Transparent DevOps and cloud infrastructure pricing guidance for fixes, server setup, CI/CD, deployments, monitoring, monthly maintenance, and production troubleshooting.",
   path: "/pricing",
 });
 
-const featuredServices = new Set(["Reliability audit", "Application deployment", "CI/CD pipeline"]);
-
-function pricingHref(service: string) {
-  const projectDetails = `I would like to request scope for the ${service} launch package.`;
-  return `/contact?requestType=Pricing%20Request&projectDetails=${encodeURIComponent(projectDetails)}`;
-}
-
 export default function PricingPage() {
-  const oneTimePackages = pricingPackages.filter((item) => item.billing === "Fixed price");
-  const monthlyPackages = pricingPackages.filter((item) => item.billing === "Monthly retainer");
+  const cards = cardMap
+    .map(([name, lookup, description]) => {
+      const item = pricingPackages.find((entry) => entry.service === lookup);
+      return item ? { name, description, item } : undefined;
+    })
+    .filter(Boolean);
 
   return (
     <SiteFrame>
       <PageHero
-        eyebrow="Launch Pricing"
-        title="Honest starter prices for focused production DevOps work."
+        eyebrow="Pricing"
+        title="Clear engagement ranges for practical DevOps work."
         actions={
           <ButtonLink href="/contact?requestType=Pricing%20Request">
-            Request Scope
+            Request a custom quote
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </ButtonLink>
         }
       >
-        Published USD prices for clearly scoped work. These are CloudOpsync launch prices, not fake market averages,
-        and they assume {pricingAssumption.toLowerCase()}
+        Pricing depends on access, current infrastructure, risk level, urgency, and validation needs. These ranges keep
+        early conversations practical without inventing guarantees.
       </PageHero>
 
       <section className="bg-[var(--background-soft)] py-16 sm:py-24">
         <Container>
-          <ScrollReveal className="rounded-[24px] border border-[var(--border)] bg-[#0d2338]/82 p-6 shadow-[var(--shadow-soft)] lg:p-8">
-            <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-              <div>
-                <p className="font-mono text-xs font-semibold uppercase tracking-normal text-[var(--rose-dark)]">
-                  Clear assumption
-                </p>
-                <h2 className="mt-3 text-3xl font-semibold leading-tight text-[var(--text-primary)]">
-                  One app. One cloud account. One production environment.
-                </h2>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {pricingAssumptionItems.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/56 p-4 text-sm font-semibold text-[var(--text-primary)]"
-                  >
-                    <CheckCircle2 className="mb-3 h-4 w-4 text-[#4da3ff]" aria-hidden="true" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </ScrollReveal>
-        </Container>
-      </section>
-
-      <section className="bg-[var(--background)] py-16 sm:py-24">
-        <Container>
-          <div className="max-w-3xl">
-            <p className="font-mono text-xs font-semibold uppercase tracking-normal text-[var(--rose-dark)]">Fixed-price work</p>
-            <h2 className="mt-4 text-4xl font-semibold text-[var(--text-primary)]">Starter packages for practical outcomes.</h2>
-            <p className="mt-4 text-base leading-8 text-[var(--text-secondary)]">
-              Each package has a defined client price and a narrow operational promise. Wider scope, extra environments,
-              additional applications, or urgent coverage are approved before work expands.
-            </p>
-          </div>
-
-          <StaggerReveal className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {oneTimePackages.map((item) => {
-              const featured = featuredServices.has(item.service);
-              return (
+          <StaggerReveal className="grid gap-5 lg:grid-cols-3">
+            {cards.map((card, index) =>
+              card ? (
                 <article
-                  key={item.service}
-                  className={[
-                    "relative flex min-w-0 flex-col rounded-[22px] border bg-[#0d2338]/82 p-5 shadow-[var(--shadow-soft)] [overflow-wrap:anywhere] sm:p-6",
-                    featured ? "border-[#4da3ff]/36 ring-1 ring-[#4da3ff]/16" : "border-[var(--border)]",
-                  ].join(" ")}
+                  key={card.name}
+                  className={index === 1 ? "rounded-[28px] border border-rose-200 bg-white p-6 shadow-[var(--shadow-medium)] ring-2 ring-rose-100" : "rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]"}
                 >
-                  {featured ? (
-                    <span className="absolute right-4 top-4 rounded-lg border border-[#4da3ff]/24 bg-[#4da3ff]/10 px-2.5 py-1 font-mono text-[11px] font-semibold uppercase text-[#b9ddff]">
-                      Common
-                    </span>
-                  ) : null}
-                  <p className="font-mono text-xs font-semibold uppercase tracking-normal text-[var(--rose-dark)]">{item.category}</p>
-                  <h3
-                    className={[
-                      "mt-4 text-xl font-semibold text-[var(--text-primary)]",
-                      featured ? "pr-16" : "",
-                    ].join(" ")}
-                  >
-                    {item.service}
-                  </h3>
-                  <p className="mt-4 text-4xl font-semibold text-[var(--text-primary)]">{item.fixedPrice}</p>
-                  <p className="mt-4 flex-1 text-sm leading-7 text-[var(--text-secondary)]">{item.includes}</p>
-                  <ButtonLink href={pricingHref(item.service)} variant={featured ? "primary" : "secondary"} className="mt-6 w-full">
-                    Request Scope
+                  <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">
+                    {index === 1 ? "Most suitable" : "Engagement"}
+                  </p>
+                  <h2 className="mt-4 text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{card.name}</h2>
+                  <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{card.description}</p>
+                  <div className="mt-6 rounded-2xl border border-rose-100 bg-rose-50 p-4">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-[var(--text-primary)]">
+                      <DollarSign className="h-4 w-4 text-[var(--rose-dark)]" aria-hidden="true" />
+                      {card.item.target}
+                    </div>
+                    <div className="mt-2 flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                      <Clock className="h-4 w-4 text-[var(--violet)]" aria-hidden="true" />
+                      {card.item.hours}
+                    </div>
+                  </div>
+                  <div className="mt-5 space-y-3 text-sm leading-6 text-[var(--text-secondary)]">
+                    <p><strong className="text-[var(--text-primary)]">Included:</strong> {card.item.deliverables}</p>
+                    <p><strong className="text-[var(--text-primary)]">May affect price:</strong> access quality, urgency, production risk, and validation depth.</p>
+                    <p><strong className="text-[var(--text-primary)]">Support limitations:</strong> {card.item.urgent}</p>
+                  </div>
+                  <ButtonLink href={`/contact?requestType=Pricing%20Request&projectDetails=${encodeURIComponent(`I would like pricing for ${card.name}.`)}`} variant="secondary" className="mt-6 w-full">
+                    Request package quote
                   </ButtonLink>
                 </article>
-              );
-            })}
+              ) : null,
+            )}
           </StaggerReveal>
         </Container>
       </section>
 
-      <section className="bg-[var(--background-soft)] py-16 sm:py-24">
+      <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="max-w-3xl">
-            <p className="font-mono text-xs font-semibold uppercase tracking-normal text-[var(--rose-dark)]">Monthly care</p>
-            <h2 className="mt-4 text-4xl font-semibold text-[var(--text-primary)]">Retainers for teams that need release support.</h2>
-          </div>
-          <StaggerReveal className="mt-10 grid gap-5 lg:grid-cols-2">
-            {monthlyPackages.map((item) => (
-              <article key={item.service} className="rounded-[24px] border border-[var(--border)] bg-[#0d2338]/82 p-6 shadow-[var(--shadow-soft)] lg:p-8">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <p className="font-mono text-xs font-semibold uppercase tracking-normal text-[var(--rose-dark)]">{item.category}</p>
-                    <h3 className="mt-4 text-2xl font-semibold text-[var(--text-primary)]">{item.service}</h3>
-                  </div>
-                  <p className="text-4xl font-semibold text-[var(--text-primary)]">{item.fixedPrice}</p>
-                </div>
-                <p className="mt-5 text-base leading-7 text-[var(--text-secondary)]">{item.includes}</p>
-                <ButtonLink href={pricingHref(item.service)} variant="secondary" className="mt-6">
-                  Request Monthly Scope
-                </ButtonLink>
-              </article>
-            ))}
-          </StaggerReveal>
-        </Container>
-      </section>
-
-      <section className="bg-[var(--background)] py-16 sm:py-24">
-        <Container>
-          <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
-            <ScrollReveal className="rounded-[24px] border border-[var(--border)] bg-[#0d2338]/82 p-6 shadow-[var(--shadow-soft)] lg:p-8">
-              <CreditCard className="h-5 w-5 text-[#4da3ff]" aria-hidden="true" />
-              <h2 className="mt-4 text-3xl font-semibold text-[var(--text-primary)]">Trust rules</h2>
-              <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                These rules protect both sides: the client knows what is included, and CloudOpsync only expands scope
-                after written approval.
-              </p>
-              <div className="mt-6 rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/56 p-4 text-sm leading-7 text-[var(--text-secondary)]">
-                Extra approved work: <strong className="text-[var(--text-primary)]">{extraWorkRate}</strong>
-              </div>
-            </ScrollReveal>
-
-            <StaggerReveal className="grid gap-4 sm:grid-cols-2">
-              {pricingRules.map((rule, index) => (
-                <article key={rule} className="rounded-[18px] border border-[var(--border)] bg-[#0d2338]/82 p-5 shadow-[var(--shadow-soft)]">
-                  {index < 3 ? (
-                    <ShieldCheck className="h-4 w-4 text-[#4da3ff]" aria-hidden="true" />
-                  ) : (
-                    <FileCheck2 className="h-4 w-4 text-[#7dd3fc]" aria-hidden="true" />
-                  )}
-                  <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{rule}</p>
-                </article>
-              ))}
-            </StaggerReveal>
-          </div>
-        </Container>
-      </section>
-
-      <section className="bg-[var(--background-soft)] py-16 sm:py-24">
-        <Container>
-          <ScrollReveal className="overflow-hidden rounded-[24px] border border-[var(--border)] bg-[#0d2338]/82 shadow-[var(--shadow-soft)]">
-            <div className="border-b border-[var(--border)] px-5 py-4">
-              <p className="font-mono text-xs font-semibold uppercase tracking-normal text-[var(--rose-dark)]">Complete starter price list</p>
-            </div>
+          <ScrollReveal className="overflow-hidden rounded-[28px] border border-[var(--border)] bg-white shadow-[var(--shadow-soft)]">
             <div className="overflow-x-auto">
-              <table className="min-w-[900px] text-left text-sm">
-                <thead className="bg-[#06111f]/60 text-[var(--text-primary)]">
+              <table className="min-w-[840px] text-left text-sm">
+                <thead className="bg-[var(--background-soft)] text-[var(--text-primary)]">
                   <tr>
                     <th className="px-5 py-4 font-semibold">Service</th>
-                    <th className="px-5 py-4 font-semibold">Fixed client price</th>
-                    <th className="px-5 py-4 font-semibold">Includes</th>
-                    <th className="px-5 py-4 font-semibold">Billing</th>
+                    <th className="px-5 py-4 font-semibold">Typical deliverables</th>
+                    <th className="px-5 py-4 font-semibold">Est. hours</th>
+                    <th className="px-5 py-4 font-semibold">Hourly</th>
+                    <th className="px-5 py-4 font-semibold">Target fixed price</th>
+                    <th className="px-5 py-4 font-semibold">Urgent / after-hours</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)] text-[var(--text-secondary)]">
                   {pricingPackages.map((item) => (
                     <tr key={item.service}>
                       <td className="px-5 py-4 font-semibold text-[var(--text-primary)]">{item.service}</td>
-                      <td className="px-5 py-4 text-base font-semibold text-[var(--text-primary)]">{item.fixedPrice}</td>
-                      <td className="px-5 py-4">{item.includes}</td>
-                      <td className="px-5 py-4">{item.billing}</td>
+                      <td className="px-5 py-4">{item.deliverables}</td>
+                      <td className="px-5 py-4">{item.hours}</td>
+                      <td className="px-5 py-4">{item.hourly}</td>
+                      <td className="px-5 py-4">{item.target}</td>
+                      <td className="px-5 py-4">{item.urgent}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </ScrollReveal>
+
+          <StaggerReveal className="mt-8 grid gap-4 md:grid-cols-2">
+            {pricingRules.map((rule) => (
+              <div key={rule} className="rounded-2xl border border-[var(--border)] bg-[var(--background-soft)] p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                {rule}
+              </div>
+            ))}
+          </StaggerReveal>
         </Container>
       </section>
 
-      <ContactCta title="Request a scope tied to your actual production environment." />
+      <ContactCta title="Get a quote scoped to your actual infrastructure." />
     </SiteFrame>
   );
 }

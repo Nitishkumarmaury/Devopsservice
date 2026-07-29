@@ -9,8 +9,8 @@ export const siteConfig = {
   logoFull: "/brand/CloudOpsync-removebg-preview.png",
   logoWidth: 612,
   logoHeight: 408,
-  url: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://cloudopsync.com",
-  email: "hello@cloudopsync.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://example.com",
+  email: "nitish.henceforth@gmail.com",
   location: "Remote - India / International",
   description:
     "Service-based DevOps and cloud engineering company offering CI/CD, AWS EC2 deployment, Docker, Kubernetes, monitoring, and production support for startups, SaaS teams, SMBs, and agencies.",
@@ -24,10 +24,10 @@ export const siteConfig = {
 export const navItems = [
   { label: "Services", href: "/services" },
   { label: "Solutions", href: "/solutions" },
+  { label: "Advisor", href: "/advisor" },
   { label: "Process", href: "/process" },
   { label: "Case Studies", href: "/case-studies" },
-  { label: "Resources", href: "/blog" },
-  { label: "Advisor", href: "/advisor" },
+  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;

@@ -48,7 +48,7 @@ export function WorkflowSection() {
                     className={cn(
                       "relative z-10 flex h-full min-h-[190px] flex-col rounded-2xl border p-4 transition duration-300",
                       selected
-                        ? "border-rose-300/60 bg-[linear-gradient(145deg,rgba(244,249,251,0.95),rgba(245,240,255,0.82))] shadow-[0_18px_48px_rgba(77,163,255,0.12)]"
+                        ? "border-rose-300/60 bg-[linear-gradient(145deg,rgba(244,249,251,0.95),rgba(245,240,255,0.82))] shadow-[0_18px_48px_rgba(14,165,183,0.12)]"
                         : "border-rose-100 bg-white/72",
                     )}
                   >

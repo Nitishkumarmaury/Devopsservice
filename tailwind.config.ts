@@ -3,71 +3,92 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./data/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
   theme: {
+    // ── All colors live here. Edit this block to re-theme the entire site ──
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      white: "#ffffff",
+      black: "#000000",
+
+      // Primary accent (used for active states, borders, focus rings)
+      brand: {
+        DEFAULT: "#0ea5b7",
+        dark: "#0e6675",
+        soft: "#d8edf1",
+      },
+
+      // Scroll-reveal target + active nav indicator
+      secondary: {
+        DEFAULT: "#315c94",
+        soft: "#dfe9f5",
+      },
+
+      // Page backgrounds and surface fills
+      canvas: {
+        DEFAULT: "#f5f5f0",
+        soft: "#eeede8",
+        surface: "#ffffff",
+      },
+
+      // Text and structural dark tones
+      ink: {
+        DEFAULT: "#14212f",
+        secondary: "#526173",
+        muted: "#888888",
+        navy: "#0f1f2f",
+      },
+
+      // Borders
+      border: {
+        DEFAULT: "rgba(15, 34, 48, 0.16)",
+        strong: "rgba(15, 34, 48, 0.28)",
+        active: "#0ea5b7",
+      },
+
+      // State colors
+      success: "#1f8a68",
+      warning: "#d5a645",
+      danger: "#bc5a5a",
+    },
+
+    // ── Typography ──
+    fontFamily: {
+      mono: ["var(--font-geist-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+      sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+    },
+
+    // ── Zero border-radius (sharp rectangles) ──
+    borderRadius: {
+      none: "0px",
+      sm: "2px",
+      DEFAULT: "2px",
+    },
+
+    // ── No shadows — borders define depth ──
+    boxShadow: {
+      none: "none",
+    },
+
     extend: {
-      fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
-      },
-      boxShadow: {
-        glow: "0 0 0 1px rgba(77, 163, 255, 0.16), 0 24px 80px rgba(0, 0, 0, 0.34)",
-      },
-      colors: {
-        rose: {
-          50: "#0d2338",
-          100: "#102b45",
-          200: "#17466f",
-          300: "#3b82f6",
-          400: "#60a5fa",
-          500: "#4da3ff",
-          600: "#7dbaff",
-          700: "#b9ddff",
-          800: "#d7ebff",
-          900: "#eef7ff",
-        },
-        violet: {
-          50: "#151322",
-          100: "#211d35",
-          200: "#332c55",
-          300: "#594b8d",
-          400: "#7f6bd0",
-          500: "#a592ff",
-          600: "#b8a5ff",
-          700: "#c9bcff",
-          800: "#ddd5ff",
-          900: "#f1eeff",
-        },
-        ink: {
-          950: "#030a16",
-          900: "#06111f",
-          800: "#081a2e",
-        },
-        accent: {
-          blue: "#7DD3FC",
-          cyan: "#4DA3FF",
-          violet: "#B8A5FF",
-          purple: "#B8A5FF",
-          emerald: "#4DA3FF",
-          amber: "#FFCF72",
-          rose: "#FF8A7A",
-        },
-      },
-      backgroundImage: {
-        mesh:
-          "radial-gradient(circle at 15% 20%, rgba(77, 163, 255, 0.14), transparent 32%), radial-gradient(circle at 80% 15%, rgba(125, 211, 252, 0.1), transparent 30%), radial-gradient(circle at 65% 75%, rgba(255, 138, 122, 0.08), transparent 34%), linear-gradient(180deg, rgba(6, 17, 31, 0.98), rgba(8, 26, 46, 0.98))",
-      },
+      // Scroll-driven char reveal animation
       keyframes: {
-        "border-beam": {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(420%)" },
+        "char-in": {
+          from: { color: "var(--color-ink-muted)" },
+          to: { color: "var(--color-secondary)" },
         },
-        "border-beam-reverse": {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-420%)" },
+        "page-enter": {
+          from: { opacity: "0", transform: "translateY(6px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
       animation: {
-        "border-beam": "border-beam 4s linear infinite",
-        "border-beam-reverse": "border-beam-reverse 4s linear infinite",
+        "char-in": "char-in linear both",
+        "page-enter": "page-enter 200ms ease both",
+        marquee: "marquee 34s linear infinite",
       },
     },
   },
