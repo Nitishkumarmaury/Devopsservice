@@ -1,25 +1,38 @@
 import Link from "next/link";
 import { ArrowRight, CalendarCheck, Mail, MapPin, RadioTower } from "lucide-react";
 import { seoArticles } from "@/data/seo-articles";
-import { seoMoneyPages } from "@/data/seo-pages";
+import { services } from "@/data/services";
 import { ButtonLink } from "@/components/ui/button";
 import { consultationHref, siteConfig } from "@/lib/constants";
 
 const companyLinks = [
   { label: "About", href: "/about" },
   { label: "Process", href: "/process" },
-  { label: "Contact", href: "/contact" },
   { label: "Pricing", href: "/pricing" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Advisor", href: "/advisor" },
+  { label: "Contact", href: "/contact" },
 ];
 
+const devopsServiceLinks = services
+  .filter((s) => s.category === "devops")
+  .map((s) => ({ label: s.shortTitle, href: `/services/${s.slug}` }));
+
+const devServiceLinks = services
+  .filter((s) => s.category === "development")
+  .map((s) => ({ label: s.shortTitle, href: `/services/${s.slug}` }));
+
 const resourceLinks = [
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Guides", href: "/blog" },
+  { label: "Guides & Blog", href: "/blog" },
   { label: "DevOps FAQ", href: "/faq" },
   ...seoArticles.slice(0, 3).map((article) => ({ label: article.h1, href: `/${article.slug}` })),
-  { label: "Cloud Architecture Advisor", href: "/advisor" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
+];
+
+const accountLinks = [
+  { label: "Login", href: "/login" },
+  { label: "Sign up", href: "/signup" },
 ];
 
 export function Footer() {
@@ -37,10 +50,10 @@ export function Footer() {
           <div>
             <p className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-secondary">
               <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-              Enterprise consultation
+              Free consultation
             </p>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-ink-secondary">
-              Bring your deployment, monitoring, Linux, or cloud infrastructure challenge and get a practical next step.
+              Bring your DevOps, deployment, web development, or desktop application challenge and get a practical next step.
             </p>
           </div>
           <ButtonLink href={consultationHref} variant="primary" className="shrink-0">
@@ -51,7 +64,7 @@ export function Footer() {
       </div>
 
       {/* Main footer grid */}
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-6 lg:grid-cols-[1.8fr_0.7fr_1fr_0.9fr] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-6 lg:grid-cols-[1.4fr_0.7fr_0.8fr_0.8fr_0.7fr] lg:px-8">
         {/* Brand column */}
         <div>
           <Link href="/" className="inline-flex items-center gap-3 transition hover:opacity-80">
@@ -61,7 +74,7 @@ export function Footer() {
           </Link>
           <p className="mt-2 font-mono text-xs text-ink-muted">{siteConfig.tagline}</p>
           <p className="mt-4 max-w-sm text-sm leading-6 text-ink-secondary">
-            Production deployment and managed DevOps support for Node.js, Next.js and NestJS applications on AWS and DigitalOcean.
+            Production-grade DevOps and development services — cloud infrastructure, CI/CD, web apps, and desktop tools for modern teams.
           </p>
           <div className="mt-5 flex flex-col gap-3 font-mono text-xs text-ink-muted">
             <span className="inline-flex items-center gap-2">
@@ -70,7 +83,7 @@ export function Footer() {
             </span>
             <span className="inline-flex items-center gap-2">
               <RadioTower className="h-3.5 w-3.5" aria-hidden="true" />
-              Available for remote infrastructure projects
+              Available for remote projects
             </span>
           </div>
           {socialLinks.length > 0 && (
@@ -89,11 +102,9 @@ export function Footer() {
         </div>
 
         <FooterColumn title="Company" links={companyLinks} />
-        <FooterColumn
-          title="Services"
-          links={seoMoneyPages.map((page) => ({ label: page.shortTitle, href: `/${page.slug}` }))}
-        />
-        <FooterColumn title="Resources" links={resourceLinks} />
+        <FooterColumn title="DevOps" links={devopsServiceLinks} />
+        <FooterColumn title="Development" links={devServiceLinks} />
+        <FooterColumn title="Resources" links={resourceLinks} accountLinks={accountLinks} />
       </div>
 
       {/* Bottom bar */}
@@ -115,7 +126,15 @@ export function Footer() {
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: Array<{ label: string; href: string }> }) {
+function FooterColumn({
+  title,
+  links,
+  accountLinks,
+}: {
+  title: string;
+  links: Array<{ label: string; href: string }>;
+  accountLinks?: Array<{ label: string; href: string }>;
+}) {
   return (
     <div>
       <p className="font-mono text-xs font-bold uppercase tracking-widest text-ink">{title}</p>
@@ -130,6 +149,22 @@ function FooterColumn({ title, links }: { title: string; links: Array<{ label: s
           </Link>
         ))}
       </nav>
+      {accountLinks && accountLinks.length > 0 && (
+        <>
+          <p className="mt-6 font-mono text-xs font-bold uppercase tracking-widest text-ink">Account</p>
+          <nav aria-label="Footer Account" className="mt-4 grid gap-2.5">
+            {accountLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="font-mono text-sm text-ink-secondary transition hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </>
+      )}
     </div>
   );
 }

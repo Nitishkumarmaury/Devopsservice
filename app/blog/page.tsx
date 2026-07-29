@@ -3,7 +3,6 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
-import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
@@ -43,21 +42,21 @@ export default function BlogPage() {
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <StaggerReveal className="grid gap-5 lg:grid-cols-2">
+          <StaggerReveal className="grid items-stretch gap-5 lg:grid-cols-2">
             {seoArticles.map((article) => (
-              <article key={article.slug} className="rounded-[26px] border border-[var(--border)] bg-[var(--background-soft)] p-6 shadow-[var(--shadow-soft)]">
-                <BookOpen className="h-5 w-5 text-[var(--rose-dark)]" aria-hidden="true" />
-                <p className="mt-5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">
+              <article key={article.slug} className="flex h-full flex-col border border-border bg-canvas-soft p-6">
+                <BookOpen className="h-5 w-5 text-brand" aria-hidden="true" />
+                <p className="mt-5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-brand">
                   {article.eyebrow} • {article.readingTime}
                 </p>
-                <h2 className="mt-4 text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{article.h1}</h2>
-                <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">{article.metaDescription}</p>
+                <h2 className="mt-4 font-mono text-2xl font-bold tracking-tight text-ink">{article.h1}</h2>
+                <p className="mt-4 text-sm leading-7 text-ink-secondary">{article.metaDescription}</p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {article.primaryKeywords.slice(0, 3).map((keyword) => (
                     <TechnologyTag key={keyword}>{keyword}</TechnologyTag>
                   ))}
                 </div>
-                <ButtonLink href={`/${article.slug}`} variant="ghost" className="mt-5 px-0">
+                <ButtonLink href={`/${article.slug}`} variant="ghost" className="mt-auto px-0 pt-5">
                   Read guide
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </ButtonLink>
@@ -67,7 +66,6 @@ export default function BlogPage() {
         </Container>
       </section>
 
-      <ContactCta title="Need help applying these guides to your production stack?" />
     </SiteFrame>
   );
 }

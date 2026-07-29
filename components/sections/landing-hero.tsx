@@ -13,9 +13,9 @@ const pipelineNodes = [
 ] as const;
 
 const heroSignals = [
-  "SLO-driven reliability",
-  "Controlled releases",
-  "Observable systems",
+  "Cloud infrastructure",
+  "CI/CD automation",
+  "Web & app development",
 ] as const;
 
 export function LandingHero() {
@@ -29,19 +29,19 @@ export function LandingHero() {
           {/* Left: copy */}
           <div className="min-w-0 [overflow-wrap:anywhere]">
             <p className="inline-flex items-center gap-2 border border-border px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-widest text-brand">
-              Evidence-led cloud reliability
+              DevOps · Web Dev · Desktop Apps
             </p>
 
             <h1 className="mt-6 font-mono text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
-              DevOps Consulting for{" "}
+              Infrastructure That Ships.{" "}
               <ScrollTextReveal as="span" className="block mt-1">
-                Measurable Production Reliability
+                Software That Scales.
               </ScrollTextReveal>
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-8 text-ink-secondary">
-              Cloud engineering for teams that want production changes backed by observable signals: CI/CD gates,
-              AWS deployment checks, Docker and Kubernetes readiness, monitoring baselines, and rollback paths.
+              DevOps and development services for teams that ship: cloud infrastructure, CI/CD automation,
+              Next.js web apps, full-stack applications, and cross-platform desktop tools.
             </p>
 
             {/* Primary CTAs */}
