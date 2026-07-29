@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Container } from "@/components/ui/container";
+import { GradientText } from "@/components/ui/gradient-text";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 
@@ -13,11 +14,11 @@ type PageHeroProps = {
   dark?: boolean;
 };
 
-export function PageHero({ eyebrow, title, highlight, children, actions, visual, dark = true }: Readonly<PageHeroProps>) {
+export function PageHero({ eyebrow, title, highlight, children, actions, visual, dark = false }: Readonly<PageHeroProps>) {
   const titleContent = highlight && title.includes(highlight) ? (
     <>
       {title.split(highlight)[0]}
-      <span className="text-[#4da3ff]">{highlight}</span>
+      <GradientText>{highlight}</GradientText>
       {title.split(highlight).slice(1).join(highlight)}
     </>
   ) : (
@@ -27,16 +28,16 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
   return (
     <section
       className={cn(
-        "relative overflow-hidden border-b border-[#d6ebff]/10 pt-28 sm:pt-32",
-        dark ? "bg-[linear-gradient(135deg,#06111f_0%,#081a2e_58%,#0d2338_100%)] text-white" : "bg-[var(--background)]",
+        "relative overflow-hidden pt-28 sm:pt-32",
+        dark ? "bg-[linear-gradient(135deg,#0f1f2f_0%,#123846_100%)] text-white" : "bg-[var(--background)]",
       )}
     >
       <div
         className={cn(
           "pointer-events-none absolute inset-0",
           dark
-            ? "bg-[linear-gradient(rgba(77,163,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(77,163,255,0.035)_1px,transparent_1px),radial-gradient(circle_at_18%_10%,rgba(77,163,255,0.12),transparent_32%),radial-gradient(circle_at_84%_16%,rgba(125,211,252,0.08),transparent_30%)] bg-[size:56px_56px,56px_56px,auto,auto]"
-            : "bg-[linear-gradient(rgba(77,163,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(77,163,255,0.03)_1px,transparent_1px)] bg-[size:56px_56px]",
+            ? "bg-[radial-gradient(circle_at_18%_12%,rgba(61,184,197,0.18),transparent_34%),radial-gradient(circle_at_82%_16%,rgba(213,166,69,0.13),transparent_32%)]"
+            : "bg-[radial-gradient(circle_at_16%_10%,rgba(14,165,183,0.09),transparent_32%),radial-gradient(circle_at_86%_20%,rgba(49,92,148,0.07),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.74),rgba(242,247,250,0.5))]",
         )}
       />
       <Container className="relative z-10">
@@ -44,22 +45,22 @@ export function PageHero({ eyebrow, title, highlight, children, actions, visual,
           <ScrollReveal className="min-w-0 max-w-4xl [overflow-wrap:anywhere]">
             <p
               className={cn(
-                "inline-flex rounded-lg border px-3 py-1.5 font-mono text-xs font-semibold uppercase leading-5 tracking-normal",
-                dark ? "border-[#4da3ff]/18 bg-[#4da3ff]/8 text-[#b9ddff]" : "border-[#4da3ff]/18 bg-[#4da3ff]/8 text-[var(--rose-dark)]",
+                "font-mono text-xs font-semibold uppercase leading-6 tracking-normal",
+                dark ? "text-cyan-100" : "text-[var(--rose-dark)]",
               )}
             >
               {eyebrow}
             </p>
             <h1
               className={cn(
-                "mt-5 max-w-5xl text-4xl font-semibold leading-[1.04] tracking-normal sm:text-6xl lg:text-7xl",
+                "mt-5 text-4xl font-semibold leading-[1.04] tracking-normal sm:text-6xl lg:text-7xl",
                 dark ? "text-white" : "text-[var(--text-primary)]",
               )}
             >
               {titleContent}
             </h1>
             {children ? (
-              <div className={cn("mt-6 max-w-3xl text-base leading-8 sm:text-lg", dark ? "text-[#c7d5e6]" : "text-[var(--text-secondary)]")}>
+              <div className={cn("mt-6 max-w-3xl text-base leading-8 sm:text-lg", dark ? "text-white/76" : "text-[var(--text-secondary)]")}>
                 {children}
               </div>
             ) : null}

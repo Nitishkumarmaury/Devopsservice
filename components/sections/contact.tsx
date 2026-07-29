@@ -46,9 +46,7 @@ export function ContactSection() {
       fullName: "",
       workEmail: "",
       company: "",
-      projectWebsite: "",
       projectType: "DevOps Consulting and Production Support",
-      cloudProvider: "",
       currentInfrastructure: "",
       estimatedBudget: "Not decided",
       projectTimeline: "Not decided",
@@ -65,8 +63,6 @@ export function ContactSection() {
     const projectTimeline = params.get("projectTimeline");
     const currentInfrastructure = params.get("currentInfrastructure");
     const projectDetails = params.get("projectDetails");
-    const projectWebsite = params.get("projectWebsite");
-    const cloudProvider = params.get("cloudProvider");
 
     if (requestTypes.includes(requestType as ContactFormValues["requestType"])) {
       setValue("requestType", requestType as ContactFormValues["requestType"], { shouldDirty: true, shouldValidate: true });
@@ -96,14 +92,6 @@ export function ContactSection() {
 
     if (projectDetails) {
       setValue("projectDetails", projectDetails.slice(0, 2500), { shouldDirty: true, shouldValidate: true });
-    }
-
-    if (projectWebsite) {
-      setValue("projectWebsite", projectWebsite.slice(0, 220), { shouldDirty: true, shouldValidate: true });
-    }
-
-    if (cloudProvider) {
-      setValue("cloudProvider", cloudProvider.slice(0, 120), { shouldDirty: true, shouldValidate: true });
     }
   }, [setValue]);
 
@@ -209,8 +197,8 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="aurora-section border-t border-[#d6ebff]/10 bg-[linear-gradient(180deg,#06111f_0%,#081a2e_100%)] section-rhythm">
-      <SectionGlow className="h-[560px] bg-[radial-gradient(ellipse_at_45%_0%,rgba(77,163,255,0.12),transparent_60%)]" />
+    <section id="contact" className="aurora-section border-t border-rose-100 bg-[linear-gradient(180deg,#fff_0%,#edf3f6_100%)] section-rhythm">
+      <SectionGlow className="h-[560px] bg-[radial-gradient(ellipse_at_45%_0%,rgba(14,165,183,0.14),transparent_60%)]" />
       <Container className="relative z-10">
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <FadeIn className="min-w-0">
@@ -223,10 +211,10 @@ export function ContactSection() {
               <p className="text-sm font-semibold text-[var(--text-primary)]">What to expect</p>
               <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--text-secondary)]">
                 {[
-                  "Share your requirements and current stack",
-                  "Review production risks, access, and delivery path",
-                  "Discuss a practical scope and recommended next step",
-                  "Confirm response expectations, remote availability, and engagement type during review",
+                  "Free initial scope review for qualified project requests",
+                  "30 to 45 minute technical consultation",
+                  "Practical discussion of risks, access, and delivery path",
+                  "Follow-up recommendations tailored to your stack",
                 ].map((item) => (
                   <li key={item} className="flex gap-3">
                     <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[var(--success)]" aria-hidden="true" />
@@ -266,7 +254,7 @@ export function ContactSection() {
                 <FieldError message={errors.requestType?.message} />
               </div>
               <div>
-                <label htmlFor="fullName" className="block text-sm font-medium text-[var(--text-primary)]">Name</label>
+                <label htmlFor="fullName" className="block text-sm font-medium text-[var(--text-primary)]">Full Name</label>
                 <input id="fullName" autoComplete="name" className={inputClass} {...register("fullName")} />
                 <FieldError message={errors.fullName?.message} />
               </div>
@@ -281,23 +269,13 @@ export function ContactSection() {
                 <FieldError message={errors.company?.message} />
               </div>
               <div>
-                <label htmlFor="projectWebsite" className="block text-sm font-medium text-[var(--text-primary)]">Website</label>
-                <input id="projectWebsite" type="url" inputMode="url" autoComplete="url" className={inputClass} placeholder="https://example.com" {...register("projectWebsite")} />
-                <FieldError message={errors.projectWebsite?.message} />
-              </div>
-              <div>
-                <label htmlFor="projectType" className="block text-sm font-medium text-[var(--text-primary)]">Service Needed</label>
+                <label htmlFor="projectType" className="block text-sm font-medium text-[var(--text-primary)]">Project Type</label>
                 <select id="projectType" className={inputClass} {...register("projectType")}>
                   {projectTypes.map((option) => (
                     <option key={option}>{option}</option>
                   ))}
                 </select>
                 <FieldError message={errors.projectType?.message} />
-              </div>
-              <div>
-                <label htmlFor="cloudProvider" className="block text-sm font-medium text-[var(--text-primary)]">Cloud Provider</label>
-                <input id="cloudProvider" className={inputClass} placeholder="AWS, Azure, Google Cloud, DigitalOcean, on-prem..." {...register("cloudProvider")} />
-                <FieldError message={errors.cloudProvider?.message} />
               </div>
               <div>
                 <label htmlFor="estimatedBudget" className="block text-sm font-medium text-[var(--text-primary)]">Estimated Budget</label>
@@ -320,24 +298,24 @@ export function ContactSection() {
             </div>
 
             <div className="mt-5">
-              <label htmlFor="currentInfrastructure" className="block text-sm font-medium text-[var(--text-primary)]">Current Stack</label>
+              <label htmlFor="currentInfrastructure" className="block text-sm font-medium text-[var(--text-primary)]">Current Infrastructure</label>
               <textarea
                 id="currentInfrastructure"
                 rows={4}
                 className={inputClass}
-                placeholder="AWS EC2, DigitalOcean droplet, Nginx, PM2, Docker, Kubernetes, GitHub Actions, Prometheus, Grafana..."
+                placeholder="AWS EC2, DigitalOcean droplet, Apache, Nginx, PM2, Docker, manual deployment, existing monitoring..."
                 {...register("currentInfrastructure")}
               />
               <FieldError message={errors.currentInfrastructure?.message} />
             </div>
 
             <div className="mt-5">
-              <label htmlFor="projectDetails" className="block text-sm font-medium text-[var(--text-primary)]">Delivery Goal and Risk</label>
+              <label htmlFor="projectDetails" className="block text-sm font-medium text-[var(--text-primary)]">Project Details</label>
               <textarea
                 id="projectDetails"
                 rows={6}
                 className={inputClass}
-                placeholder="Describe what you need to ship or stabilize, what feels risky, deadline constraints, access boundaries, and the outcome you want."
+                placeholder="Describe the deployment, migration, incident, monitoring need, deadline, access constraints, and desired outcome."
                 {...register("projectDetails")}
               />
               <FieldError message={errors.projectDetails?.message} />
@@ -361,7 +339,7 @@ export function ContactSection() {
 
             <AnimatedShinyButton type="submit" className="mt-7 w-full" disabled={isSubmitting} showArrow={false}>
               {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
-              {isSubmitting ? "Sending request" : "Request Consultation"}
+              {isSubmitting ? "Sending inquiry" : "Send Project Inquiry"}
             </AnimatedShinyButton>
             <p className="mt-4 text-xs leading-6 text-[var(--text-muted)]">
               Your project details are used only to prepare a practical response and next-step recommendation. You can also email {siteConfig.email}.

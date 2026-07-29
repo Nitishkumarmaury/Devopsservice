@@ -138,26 +138,26 @@ export function AdvisorWorkspace() {
   return (
     <div
       id="cloud-advisor-workspace"
-      className="relative min-w-0 scroll-mt-28 overflow-hidden rounded-[22px] border border-[#d6ebff]/12 bg-[linear-gradient(135deg,#06111f_0%,#0d2338_100%)] p-3 text-white shadow-[0_34px_120px_rgba(0,0,0,0.34),0_0_80px_rgba(77,163,255,0.08)] [overflow-wrap:anywhere] sm:p-6"
+      className="relative min-w-0 scroll-mt-28 overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(135deg,#071521_0%,#102437_56%,#172351_100%)] p-3 text-white shadow-[0_34px_120px_rgba(5,15,34,0.34),0_0_80px_rgba(14,165,183,0.12)] [overflow-wrap:anywhere] sm:rounded-[30px] sm:p-6"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_0%,rgba(77,163,255,0.14),transparent_34%),radial-gradient(circle_at_90%_16%,rgba(125,211,252,0.08),transparent_32%),radial-gradient(circle_at_68%_100%,rgba(255,138,122,0.08),transparent_34%)]" aria-hidden="true" />
-      <div className="absolute inset-0 soft-grid opacity-20" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_0%,rgba(53,214,237,0.16),transparent_34%),radial-gradient(circle_at_90%_16%,rgba(139,108,255,0.14),transparent_32%),radial-gradient(circle_at_68%_100%,rgba(255,111,145,0.08),transparent_34%)]" aria-hidden="true" />
+      <div className="absolute inset-0 soft-grid opacity-10" aria-hidden="true" />
       <div className="relative">
         <div className="mb-6 flex min-w-0 flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
-            <p className="font-mono text-xs uppercase leading-6 tracking-normal text-[#b9ddff]">Secure Planning Workspace</p>
+            <p className="font-mono text-xs uppercase leading-6 tracking-normal text-cyan-100">Secure Planning Workspace</p>
             <h3 className="mt-2 text-2xl font-semibold leading-tight tracking-normal text-white sm:text-3xl">Cloud Architecture Advisor</h3>
           </div>
           <div className="flex min-w-0 flex-wrap gap-2 text-xs">
-            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-lg border border-[#4da3ff]/20 bg-[#4da3ff]/10 px-3 py-2 leading-snug text-[#b9ddff]">
+            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-cyan-200/20 bg-cyan-200/10 px-3 py-2 leading-snug text-cyan-100">
               <Activity className="h-3.5 w-3.5" aria-hidden="true" />
               Actionable brief
             </span>
-            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-lg border border-[#7dd3fc]/20 bg-[#7dd3fc]/10 px-3 py-2 leading-snug text-[#7dd3fc]">
+            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-violet-200/20 bg-violet-200/10 px-3 py-2 leading-snug text-violet-100">
               <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
               Private by design
             </span>
-            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-lg border border-[#ff8a7a]/20 bg-[#ff8a7a]/10 px-3 py-2 leading-snug text-[#ffb8ae]">
+            <span className="inline-flex max-w-full min-w-0 items-center gap-2 rounded-full border border-pink-200/20 bg-pink-200/10 px-3 py-2 leading-snug text-pink-100">
               <Cpu className="h-3.5 w-3.5" aria-hidden="true" />
               Implementation-ready
             </span>

@@ -304,7 +304,7 @@ export function AdvisorResults({
       </div>
 
       <div className="aurora-panel min-w-0 rounded-2xl p-4 shadow-glow sm:p-5">
-        <p className="text-lg font-semibold text-[var(--text-primary)]">Review this architecture with an engineer.</p>
+        <p className="text-lg font-semibold text-[var(--text-primary)]">Need this blueprint validated and implemented?</p>
         <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
           An automated preliminary blueprint is a useful starting point. A production architecture still requires validation
           against your application, traffic, security requirements, budget, and existing systems.
@@ -316,7 +316,7 @@ export function AdvisorResults({
             onClick={() => trackAdvisorEvent("ai_consultation_clicked", { source: "professional_review" })}
           >
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            Review This Architecture
+            Request a Professional Review
           </Link>
           <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={sendToContact}>
             <Send className="h-4 w-4" aria-hidden="true" />

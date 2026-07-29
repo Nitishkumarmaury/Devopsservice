@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Activity, ArrowRight, ClipboardCheck, GitBranch, ShieldCheck } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { useElementInView } from "@/lib/hooks/use-element-in-view";
 import { cn } from "@/lib/utils";
 
@@ -49,8 +50,8 @@ const evidenceCards = [
   },
 ] as const;
 
-const ROTATION_MS = 3900;
-const MANUAL_PAUSE_MS = 6200;
+const ROTATION_MS = 4500;
+const MANUAL_PAUSE_MS = 8000;
 
 export function EvidenceScrollStack() {
   const [active, setActive] = useState(0);
@@ -88,46 +89,44 @@ export function EvidenceScrollStack() {
   };
 
   return (
-    <section ref={sectionRef} id="evidence" className="relative overflow-hidden border-y border-[#d6ebff]/10 bg-[var(--background)] py-16 sm:py-24 lg:py-32">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(77,163,255,0.08),transparent_30%),radial-gradient(circle_at_86%_18%,rgba(125,211,252,0.06),transparent_28%)]" />
-      <Container className="relative">
+    <section ref={sectionRef} id="evidence" className="border-b border-border bg-canvas py-16 sm:py-24 lg:py-32">
+      <Container>
         <div className="grid gap-10 lg:grid-cols-[0.76fr_1.24fr] lg:items-center">
-          <div className="min-w-0 [overflow-wrap:anywhere]">
-            <p className="font-mono text-xs font-semibold uppercase leading-6 tracking-normal text-[var(--rose-dark)]">
-              Evidence sequence
+          <ScrollReveal from="left" className="min-w-0 [overflow-wrap:anywhere]">
+            <p className="font-mono text-xs font-bold uppercase tracking-widest text-secondary">
+              Evidence-based delivery
             </p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-normal text-[var(--text-primary)] sm:text-5xl">
-              Observe, gate, verify, handover.
+            <h2 className="mt-4 font-mono text-3xl font-bold tracking-tight text-ink sm:text-5xl">
+              Scientific DevOps: measure, change, validate, repeat.
             </h2>
-            <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
-              Production changes should be based on observable evidence rather than assumptions. Each stage keeps
-              baselines, checks, rollback paths, and handover notes visible.
+            <p className="mt-5 text-base leading-8 text-ink-secondary">
+              Recommendations are tied to observable signals, controlled changes, and documented outcomes. Buyers can
+              review each evidence stage and see how delivery decisions are validated.
             </p>
             <ButtonLink href="/process" variant="secondary" className="mt-7">
               See the validation process
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </ButtonLink>
-          </div>
+          </ScrollReveal>
 
-          <div
+          <ScrollReveal
+            from="right"
             className={cn(
-              "relative min-w-0 overflow-hidden rounded-[22px] border border-[#d6ebff]/12 bg-[linear-gradient(135deg,#081a2e_0%,#0d2338_100%)] p-4 shadow-[0_34px_110px_rgba(0,0,0,0.3)] sm:p-6",
+              "relative min-w-0 border border-border bg-canvas-soft p-4 sm:p-5",
               (rotationHeld || !sectionInView) && "motion-held",
             )}
             style={{ "--auto-duration": `${ROTATION_MS}ms` } as CSSProperties}
             onMouseEnter={() => setRotationHeld(true)}
             onMouseLeave={() => setRotationHeld(false)}
           >
-            <div className="pointer-events-none absolute inset-0 soft-grid opacity-24" />
-
             <div className="relative mb-4 flex flex-wrap items-center justify-between gap-2">
-              <span className="rounded-lg border border-[#d6ebff]/12 bg-[#06111f]/62 px-3 py-1.5 font-mono text-xs font-semibold text-[var(--text-secondary)]">
+              <span className="border border-border bg-canvas px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-ink">
                 Evidence sequence
               </span>
             </div>
 
-            <div className="relative grid gap-5 lg:grid-cols-[1fr_0.45fr]">
-              <div className="relative min-h-[500px] overflow-hidden rounded-[18px] border border-[#d6ebff]/10 bg-[#06111f]/62 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:min-h-[440px] sm:p-5">
+            <div className="relative grid gap-px border border-border bg-border lg:grid-cols-[1fr_0.45fr]">
+              <div className="relative min-h-[500px] overflow-hidden bg-canvas p-4 sm:min-h-[440px] sm:p-5">
                 <div className="absolute inset-x-5 top-5 hidden h-28 sm:block">
                   {evidenceCards.map((item, index) => {
                     const PreviewIcon = item.icon;
@@ -138,10 +137,10 @@ export function EvidenceScrollStack() {
                         type="button"
                         onClick={() => selectCard(index)}
                         className={cn(
-                          "absolute left-0 right-0 flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition duration-300",
+                          "absolute left-0 right-0 flex items-center justify-between border px-4 py-3 text-left transition duration-300",
                           index === active
-                            ? "z-20 border-[#4da3ff]/24 bg-[#0d2338] text-[var(--text-primary)] shadow-[0_18px_48px_rgba(77,163,255,0.12)]"
-                            : "border-[var(--border)] bg-[#0d2338]/72 text-[var(--text-muted)]",
+                            ? "z-20 border-border bg-canvas-soft text-ink"
+                            : "border-border bg-canvas text-ink-muted hover:bg-canvas-soft",
                         )}
                         style={{
                           transform: `translateY(${offset * 20}px) scale(${index === active ? 1 : 1 - offset * 0.035})`,
@@ -149,11 +148,11 @@ export function EvidenceScrollStack() {
                           zIndex: evidenceCards.length - offset,
                         }}
                       >
-                        <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase leading-5 tracking-normal">
-                          <PreviewIcon className="h-4 w-4 text-[#4da3ff]" aria-hidden="true" />
+                        <span className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-widest text-secondary">
+                          <PreviewIcon className="h-4 w-4" aria-hidden="true" />
                           {item.label}
                         </span>
-                        <span className="h-1.5 w-24 rounded-full bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]" />
+                        {index === active && <span className="h-1 w-8 bg-secondary" />}
                       </button>
                     );
                   })}
@@ -163,26 +162,25 @@ export function EvidenceScrollStack() {
                   <motion.article
                     key={card.title}
                     aria-live="polite"
-                    initial={reduceMotion ? false : { opacity: 0, y: 24, scale: 0.98 }}
-                    animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-                    exit={reduceMotion ? undefined : { opacity: 0, y: -18, scale: 0.98 }}
-                    transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                    initial={reduceMotion ? false : { opacity: 0, x: 24 }}
+                    animate={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+                    exit={reduceMotion ? undefined : { opacity: 0, x: -18 }}
+                    transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
                     className="relative z-30 grid min-w-0 gap-5 pt-0 sm:pt-28 md:grid-cols-[0.82fr_1fr] md:items-center"
                   >
-                    <div className="relative h-56 min-w-0 overflow-hidden rounded-[24px] bg-[var(--navy)] shadow-[0_24px_70px_rgba(15,34,48,0.16)] md:h-72">
+                    <div className="relative h-56 min-w-0 overflow-hidden border border-border bg-ink-navy md:h-72">
                       <Image src={card.image} alt={card.alt} fill sizes="(min-width: 1024px) 28vw, 100vw" className="object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#06111f]/72 via-transparent to-transparent" />
                     </div>
                     <div className="min-w-0 [overflow-wrap:anywhere]">
-                      <div className="inline-flex items-center gap-2 rounded-lg border border-[#4da3ff]/20 bg-[#4da3ff]/10 px-3 py-2 font-mono text-xs font-semibold uppercase leading-5 tracking-normal text-[#b9ddff]">
+                      <div className="inline-flex items-center gap-2 border border-border bg-canvas-surface px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-widest text-secondary">
                         <Icon className="h-4 w-4" aria-hidden="true" />
                         {card.label}
                       </div>
-                      <h3 className="mt-4 text-2xl font-semibold tracking-normal text-[var(--text-primary)] sm:text-3xl">{card.title}</h3>
-                      <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)] sm:text-base sm:leading-8">{card.text}</p>
+                      <h3 className="mt-4 font-mono text-xl font-bold leading-tight tracking-tight text-ink sm:text-2xl">{card.title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-ink-secondary">{card.text}</p>
                       <div className="mt-5 flex flex-wrap gap-2">
                         {card.proof.map((item) => (
-                          <span key={item} className="rounded-lg border border-[var(--border)] bg-[#0d2338]/78 px-3 py-1.5 font-mono text-xs font-semibold text-[var(--text-secondary)]">
+                          <span key={item} className="border border-border bg-canvas px-2 py-1 font-mono text-xs text-ink-secondary">
                             {item}
                           </span>
                         ))}
@@ -192,7 +190,7 @@ export function EvidenceScrollStack() {
                 </AnimatePresence>
               </div>
 
-              <div className="grid min-w-0 gap-2 sm:grid-cols-4 lg:grid-cols-1">
+              <div className="grid min-w-0 gap-px bg-border sm:grid-cols-4 lg:grid-cols-1">
                 {evidenceCards.map((item, index) => {
                   const StepIcon = item.icon;
                   const selected = active === index;
@@ -202,23 +200,23 @@ export function EvidenceScrollStack() {
                       type="button"
                       onClick={() => selectCard(index)}
                       className={cn(
-                        "relative min-w-0 overflow-hidden rounded-2xl border p-4 text-left transition duration-200",
+                        "relative min-w-0 overflow-hidden p-4 text-left transition duration-200",
                         selected
-                          ? "border-[#4da3ff]/24 bg-[#0d2338] text-[var(--text-primary)] shadow-[0_16px_42px_rgba(77,163,255,0.12)]"
-                          : "border-[#d6ebff]/10 bg-[#0d2338]/52 text-[var(--text-muted)] hover:bg-[#12304b]",
+                          ? "bg-canvas text-ink"
+                          : "bg-canvas-soft text-ink-muted hover:bg-canvas hover:text-ink",
                       )}
                     >
-                      <span className="grid h-10 w-10 place-items-center rounded-xl border border-[#4da3ff]/18 bg-[#4da3ff]/10 text-[var(--rose-dark)]">
+                      <span className="flex h-8 w-8 items-center justify-center border border-border bg-canvas text-secondary">
                         <StepIcon className="h-4 w-4" aria-hidden="true" />
                       </span>
-                      <span className="mt-3 block text-sm font-semibold leading-6">{item.label}</span>
-                      {selected ? <span className="auto-progress absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]" /> : null}
+                      <span className="mt-3 block font-mono text-xs font-bold uppercase tracking-widest">{item.label}</span>
+                      {selected ? <span className="absolute inset-y-0 left-0 w-1 bg-secondary" /> : null}
                     </button>
                   );
                 })}
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </Container>
     </section>

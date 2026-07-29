@@ -71,7 +71,7 @@ export function BlueprintRoadmap({ phases }: Readonly<BlueprintRoadmapProps>) {
                 className={cn(
                   "min-h-24 min-w-0 rounded-xl border p-3 text-left transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400",
                   selected
-                    ? "border-rose-200 bg-rose-50 text-rose-900 shadow-[0_16px_40px_rgba(77,163,255,0.12)]"
+                    ? "border-rose-200 bg-rose-50 text-rose-900 shadow-[0_16px_40px_rgba(14,165,183,0.12)]"
                     : "border-rose-100 bg-white/72 text-[var(--text-secondary)] hover:bg-rose-50 hover:text-[var(--text-primary)]",
                 )}
               >
