@@ -11,7 +11,7 @@ const faviconIcons = [
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | DevOps and Cloud Engineering Services`,
+    default: `${siteConfig.name} | DevOps and Development Services`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -93,6 +93,9 @@ export const jsonLd = [
       "Managed cloud services",
       "Infrastructure monitoring",
       "Production troubleshooting",
+      "Full-stack web application development",
+      "Next.js and React web development",
+      "Desktop application development",
     ],
     founder: {
       "@type": "Person",

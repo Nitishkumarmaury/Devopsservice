@@ -3,7 +3,8 @@ export type Service = {
   shortTitle: string;
   title: string;
   description: string;
-  icon: "cloud" | "pipeline" | "container" | "kubernetes" | "monitoring" | "security" | "performance" | "migration";
+  category: "devops" | "development";
+  icon: "cloud" | "pipeline" | "container" | "kubernetes" | "monitoring" | "security" | "performance" | "migration" | "code" | "desktop" | "layers";
   visual: string;
   details: string[];
   technologies: string[];
@@ -26,6 +27,7 @@ export const services: Service[] = [
     title: "DevOps Consulting and Production Support",
     description:
       "Practical architecture, deployment planning, incident prevention, and hands-on production support for growing teams.",
+    category: "devops",
     icon: "performance",
     visual: "Audit, plan, implement, validate, handover",
     details: ["Production readiness reviews", "Release and rollback planning", "Startup and agency support"],
@@ -56,6 +58,7 @@ export const services: Service[] = [
     title: "AWS and DigitalOcean Cloud Infrastructure",
     description:
       "Reliable cloud server setup with networking, domains, firewalls, backups, resource sizing, and clean access.",
+    category: "devops",
     icon: "cloud",
     visual: "Compute, DNS, proxy, SSL, backups",
     details: ["AWS EC2 and DigitalOcean droplets", "Server migration and resizing", "Cloud firewall and DNS setup"],
@@ -86,6 +89,7 @@ export const services: Service[] = [
     title: "CI/CD Pipeline Automation",
     description:
       "Build and release workflows that reduce manual deployment risk and make repeatable releases easier.",
+    category: "devops",
     icon: "pipeline",
     visual: "Build, test, package, deploy, validate",
     details: ["GitHub Actions, GitLab CI, Bitbucket", "Secure SSH deployment pipelines", "Health checks and rollback notes"],
@@ -116,6 +120,7 @@ export const services: Service[] = [
     title: "Next.js, NestJS and Node.js Deployment",
     description:
       "Production deployment for modern JavaScript apps with PM2, Nginx or Apache, SSL, and environment setup.",
+    category: "devops",
     icon: "migration",
     visual: "App build, PM2, proxy, SSL, release",
     details: ["Next.js and NestJS production builds", "PM2 startup and recovery", "Zero-downtime deployment planning"],
@@ -146,6 +151,7 @@ export const services: Service[] = [
     title: "Docker and Container Deployment",
     description:
       "Containerize applications, prepare Docker Compose setups, and assess Kubernetes readiness with measured scope.",
+    category: "devops",
     icon: "container",
     visual: "Dockerfile, compose, volumes, logs",
     details: ["Node.js and full-stack containers", "MongoDB and MySQL container setup", "Docker-to-Kubernetes assessment"],
@@ -176,6 +182,7 @@ export const services: Service[] = [
     title: "Linux Server Management and Security",
     description:
       "Ubuntu administration, SSH hardening, permissions, package updates, firewalls, logs, and production health checks.",
+    category: "devops",
     icon: "security",
     visual: "SSH, UFW, users, logs, patches",
     details: ["Linux server hardening", "CPU, RAM and disk troubleshooting", "Apache, Nginx and Caddy support"],
@@ -206,6 +213,7 @@ export const services: Service[] = [
     title: "Monitoring, Grafana and Alerting",
     description:
       "Dashboards, health checks, uptime probes, resource metrics, and alert routes that make production visible.",
+    category: "devops",
     icon: "monitoring",
     visual: "Prometheus, Grafana, exporters, alerts",
     details: ["Node and Blackbox Exporter", "PM2 and web-server monitoring", "Email alert integration"],
@@ -236,6 +244,7 @@ export const services: Service[] = [
     title: "Managed DevOps and Emergency Support",
     description:
       "Monthly maintenance, urgent troubleshooting, backup checks, deployment assistance, and infrastructure reports.",
+    category: "devops",
     icon: "kubernetes",
     visual: "Monitor, patch, support, report",
     details: ["Website and API outage triage", "SSL, DNS and CI/CD failure resolution", "Monthly DevOps care package"],
@@ -256,6 +265,99 @@ export const services: Service[] = [
       {
         question: "Is emergency support always available?",
         answer: "Emergency windows depend on availability and agreed scope. Urgent work uses a defined response window and handover.",
+      },
+    ],
+    relatedCaseStudySlug: "production-performance-investigation",
+  },
+  {
+    slug: "web-development",
+    shortTitle: "Web Development",
+    title: "Web Development (Next.js & React)",
+    description:
+      "Fast, SEO-optimised web applications built with Next.js and React — from landing pages to full product UIs.",
+    category: "development",
+    icon: "code",
+    visual: "Design, build, optimise, deploy, iterate",
+    details: ["Next.js App Router and React SPA builds", "Performance-first UI with Core Web Vitals focus", "SEO-optimised pages with structured data"],
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel", "Supabase"],
+    relatedPackage: "Web Development Project",
+    problems: ["Outdated or slow web presence", "No developer to build the frontend", "Need a production-ready site fast"],
+    includes: ["UI design implementation", "Responsive layout and accessibility", "Performance optimisation and deployment"],
+    notIncluded: ["Unscoped CMS migrations", "Full backend API development without agreement", "Guaranteed SEO ranking results"],
+    approach: ["Clarify scope, pages, and content", "Build component system and pages", "Deploy and validate performance"],
+    examples: ["Marketing site with blog and CMS", "SaaS landing page and pricing page", "Portfolio or product showcase"],
+    clientInputs: ["Design files or brand guide", "Content and copy", "Domain and hosting access", "Feature list and priorities"],
+    afterImplementation: ["Production deployment", "CMS setup notes", "Performance report and next iteration options"],
+    faq: [
+      {
+        question: "Can you build a CMS-backed site?",
+        answer: "Yes. Next.js integrates well with headless CMS options like Sanity, Contentful, and others depending on the content requirements.",
+      },
+      {
+        question: "Will the site be fast and SEO-friendly?",
+        answer: "Yes. Core Web Vitals, semantic HTML, structured data, and metadata are built into the standard delivery.",
+      },
+    ],
+    relatedCaseStudySlug: "automated-cicd-deployment",
+  },
+  {
+    slug: "application-development",
+    shortTitle: "App Development",
+    title: "Full-Stack Application Development",
+    description:
+      "End-to-end product development for web apps — frontend UI, backend API, database, auth, and deployment.",
+    category: "development",
+    icon: "layers",
+    visual: "UI, API, database, auth, deploy",
+    details: ["React frontend with Next.js or Vite", "NestJS or Node.js REST and GraphQL APIs", "PostgreSQL, MongoDB, and Supabase integrations"],
+    technologies: ["React", "NestJS", "Node.js", "PostgreSQL", "Supabase", "Docker"],
+    relatedPackage: "Full-Stack Development",
+    problems: ["No team to build the product end-to-end", "Backend and frontend not aligned", "Need a scalable architecture from the start"],
+    includes: ["Frontend UI and routing", "Backend API and database schema", "Authentication, environment setup, and deployment"],
+    notIncluded: ["Unbounded feature scope", "Mobile native app builds", "Ongoing product management"],
+    approach: ["Define scope, data model, and user flows", "Build API and frontend in parallel", "Integrate, test, and deploy"],
+    examples: ["SaaS MVP with dashboard and billing", "Internal tool with role-based access", "API platform with admin UI"],
+    clientInputs: ["Product requirements or PRD", "Wireframes or design files", "API contracts or existing backend", "Deployment environment details"],
+    afterImplementation: ["Deployed application", "API documentation", "Handover notes and maintenance guide"],
+    faq: [
+      {
+        question: "Can you take a project from idea to launch?",
+        answer: "Yes. With a clear scope, we can take a well-defined MVP from design to deployed product.",
+      },
+      {
+        question: "What databases do you work with?",
+        answer: "PostgreSQL, MySQL, MongoDB, and Supabase are all supported depending on the project needs.",
+      },
+    ],
+    relatedCaseStudySlug: "automated-cicd-deployment",
+  },
+  {
+    slug: "desktop-application",
+    shortTitle: "Desktop Apps",
+    title: "Desktop Application Development",
+    description:
+      "Cross-platform desktop applications using Electron or Tauri — built with web technologies for Windows, macOS, and Linux.",
+    category: "development",
+    icon: "desktop",
+    visual: "Design, build, package, distribute",
+    details: ["Electron and Tauri cross-platform builds", "System tray, notifications, and OS integrations", "Auto-update and installer packaging"],
+    technologies: ["Electron", "Tauri", "React", "TypeScript", "Rust", "SQLite"],
+    relatedPackage: "Desktop Application Project",
+    problems: ["Need a desktop tool for internal or client use", "Web app doesn't meet OS-level requirements", "No experience packaging and distributing apps"],
+    includes: ["Cross-platform desktop app build", "OS integration (tray, notifications, filesystem)", "Installer and packaging for distribution"],
+    notIncluded: ["Native iOS or Android apps", "App Store submission without agreed scope", "Unscoped feature additions post-delivery"],
+    approach: ["Define OS targets, features, and distribution method", "Build application UI and native integrations", "Package, test, and prepare for distribution"],
+    examples: ["Internal business tool for Windows and macOS", "Developer utility with system tray access", "Data entry app with offline SQLite storage"],
+    clientInputs: ["Feature requirements", "Target OS and user base", "Design files or wireframes", "Distribution method (direct, store, internal)"],
+    afterImplementation: ["Packaged installer files", "Update mechanism setup", "Handover and maintenance notes"],
+    faq: [
+      {
+        question: "Is Electron or Tauri better for my use case?",
+        answer: "Electron is mature and widely compatible. Tauri is lighter and faster with a smaller bundle size. The choice depends on your team's stack and performance requirements.",
+      },
+      {
+        question: "Can the app work offline?",
+        answer: "Yes. Both Electron and Tauri support local storage, SQLite, and offline-first data patterns.",
       },
     ],
     relatedCaseStudySlug: "production-performance-investigation",

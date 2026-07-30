@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { ButtonLink } from "@/components/ui/button";
-import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
@@ -34,27 +33,27 @@ export default function SolutionsPage() {
         production stability.
       </PageHero>
 
-      <section className="bg-[var(--background-soft)] py-16 sm:py-24">
+      <section className="border-b border-border bg-canvas-soft py-16 sm:py-24">
         <Container>
-          <StaggerReveal className="grid gap-5 lg:grid-cols-2">
+          <StaggerReveal className="grid items-stretch gap-5 lg:grid-cols-2">
             {solutionGroups.map((solution) => (
-              <article key={solution.name} className="rounded-[28px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
-                <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{solution.name}</h2>
-                <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{solution.summary}</p>
+              <article key={solution.name} className="flex flex-col border border-border bg-canvas-surface p-6 h-full">
+                <h2 className="font-mono text-2xl font-bold tracking-tight text-ink">{solution.name}</h2>
+                <p className="mt-3 text-sm leading-6 text-ink-secondary">{solution.summary}</p>
                 <div className="mt-6 grid gap-5 md:grid-cols-2">
                   <div>
-                    <p className="text-sm font-semibold text-[var(--text-primary)]">Needs</p>
-                    <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--text-secondary)]">
+                    <p className="font-mono text-sm font-semibold text-ink">Needs</p>
+                    <ul className="mt-3 grid gap-2 text-sm leading-6 text-ink-secondary">
                       {solution.needs.map((need) => (
                         <li key={need} className="flex gap-2">
-                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--success)]" aria-hidden="true" />
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
                           {need}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[var(--text-primary)]">Recommended services</p>
+                    <p className="font-mono text-sm font-semibold text-ink">Recommended services</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {solution.services.map((service) => (
                         <TechnologyTag key={service}>{service}</TechnologyTag>
@@ -67,8 +66,6 @@ export default function SolutionsPage() {
           </StaggerReveal>
         </Container>
       </section>
-
-      <ContactCta title="Find the service mix that fits your current stage." />
     </SiteFrame>
   );
 }

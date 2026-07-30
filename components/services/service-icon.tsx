@@ -7,6 +7,9 @@ import {
   GitBranch,
   LockKeyhole,
   ServerCog,
+  Code2,
+  Monitor,
+  Layers,
 } from "lucide-react";
 import type { Service } from "@/data/services";
 
@@ -19,6 +22,9 @@ const iconMap = {
   security: LockKeyhole,
   performance: Gauge,
   migration: ServerCog,
+  code: Code2,
+  desktop: Monitor,
+  layers: Layers,
 };
 
 export function ServiceIcon({ icon }: Readonly<{ icon: Service["icon"] }>) {

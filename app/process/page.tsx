@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { ButtonLink } from "@/components/ui/button";
-import { ContactCta } from "@/components/ui/contact-cta";
 import { PageHero } from "@/components/ui/page-hero";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
 import { engagementProcess } from "@/data/landing";
@@ -85,7 +84,6 @@ export default function ProcessPage() {
         layout="detailed"
       />
 
-      <ContactCta title="Move from unclear production risk to a scoped next step." />
     </SiteFrame>
   );
 }

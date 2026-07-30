@@ -9,17 +9,26 @@ import { CalendarCheck, ChevronDown, Menu, X } from "lucide-react";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { ServiceIcon } from "@/components/services/service-icon";
 import { ButtonLink } from "@/components/ui/button";
-import { seoMoneyPages } from "@/data/seo-pages";
+import { services } from "@/data/services";
 import { consultationHref, navItems, siteConfig } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useIsTouchDevice, usePrefersReducedMotion } from "@/lib/hooks/use-interaction-capabilities";
 
-const serviceLinks = seoMoneyPages.map((page) => ({
-  title: page.shortTitle,
-  description: page.metaDescription,
-  href: `/${page.slug}`,
-  icon: page.icon,
+const devopsServices = services.filter((s) => s.category === "devops").map((s) => ({
+  title: s.shortTitle,
+  description: s.description,
+  href: `/services/${s.slug}`,
+  icon: s.icon,
 }));
+
+const devServices = services.filter((s) => s.category === "development").map((s) => ({
+  title: s.shortTitle,
+  description: s.description,
+  href: `/services/${s.slug}`,
+  icon: s.icon,
+}));
+
+const allServiceHrefs = services.map((s) => `/services/${s.slug}`);
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -34,13 +43,10 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const progressRef = useRef<HTMLDivElement>(null);
   const scrolledRef = useRef(false);
-  const scrollLockRef = useRef<number | null>(null);
   const isTouchDevice = useIsTouchDevice();
   const reduceMotion = usePrefersReducedMotion();
-  const loginHref = `/login?next=${encodeURIComponent(pathname || "/")}`;
-  const signupHref = `/signup?next=${encodeURIComponent(pathname || "/")}`;
   const servicesActive =
-    isActivePath(pathname, "/services") || serviceLinks.some((service) => isActivePath(pathname, service.href));
+    isActivePath(pathname, "/services") || allServiceHrefs.some((href) => isActivePath(pathname, href));
 
   const closeMobileMenu = useCallback(() => {
     setOpen(false);
@@ -89,21 +95,11 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
 
   useEffect(() => {
     if (!open) return;
-    const scrollY = window.scrollY;
     const { style } = document.body;
-    const previous = {
-      left: style.left, overflow: style.overflow, position: style.position,
-      right: style.right, top: style.top, width: style.width,
-    };
-    scrollLockRef.current = scrollY;
-    style.position = "fixed"; style.top = `-${scrollY}px`;
-    style.left = "0"; style.right = "0"; style.width = "100%"; style.overflow = "hidden";
+    const previousOverflow = style.overflow;
+    style.overflow = "hidden";
     return () => {
-      style.position = previous.position; style.top = previous.top;
-      style.left = previous.left; style.right = previous.right;
-      style.width = previous.width; style.overflow = previous.overflow;
-      window.scrollTo(0, scrollLockRef.current ?? scrollY);
-      scrollLockRef.current = null;
+      style.overflow = previousOverflow;
     };
   }, [open]);
 
@@ -111,7 +107,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-200",
-        scrolled ? "border-border bg-canvas/95 backdrop-blur-sm" : "border-transparent bg-canvas/80",
+        open ? "border-border bg-canvas" : scrolled ? "border-border bg-canvas/95 backdrop-blur-sm" : "border-transparent bg-canvas/80",
       )}
     >
       {/* Scroll progress bar */}
@@ -178,32 +174,64 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                       animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                       exit={reduceMotion ? undefined : { opacity: 0, y: 6 }}
                       transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute left-0 top-[calc(100%+0.5rem)] z-[80] w-[580px] max-w-[calc(100vw-2rem)] border border-border bg-canvas-surface p-3"
+                      className="absolute left-0 top-[calc(100%+0.5rem)] z-[80] w-[680px] max-w-[calc(100vw-2rem)] border border-border bg-canvas-surface p-4"
                     >
-                      <div className="grid gap-1 sm:grid-cols-2">
-                        {serviceLinks.map((service) => (
-                          <Link
-                            key={service.href}
-                            role="menuitem"
-                            href={service.href}
-                            onClick={() => setServicesOpen(false)}
-                            className="group grid min-w-0 grid-cols-[2rem_1fr] gap-3 border border-transparent px-3 py-2.5 transition hover:border-border hover:bg-canvas-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
-                          >
-                            <span className="grid h-8 w-8 shrink-0 place-items-center border border-border text-brand">
-                              <ServiceIcon icon={service.icon} />
-                            </span>
-                            <span className="min-w-0">
-                              <span className="block truncate font-mono text-sm font-semibold text-ink">{service.title}</span>
-                              <span className="mt-0.5 block truncate text-xs leading-5 text-ink-muted">{service.description}</span>
-                            </span>
-                          </Link>
-                        ))}
+                      {/* Two-column layout: DevOps | Development */}
+                      <div className="grid grid-cols-2 gap-px bg-border">
+                        {/* DevOps column */}
+                        <div className="bg-canvas-surface p-3">
+                          <p className="mb-2 px-2 font-mono text-[10px] font-bold uppercase tracking-widest text-brand">
+                            DevOps &amp; Infrastructure
+                          </p>
+                          <div className="grid gap-0.5">
+                            {devopsServices.map((service) => (
+                              <Link
+                                key={service.href}
+                                role="menuitem"
+                                href={service.href}
+                                onClick={() => setServicesOpen(false)}
+                                className="group grid min-w-0 grid-cols-[1.75rem_1fr] gap-2.5 border border-transparent px-2 py-2 transition hover:border-border hover:bg-canvas-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
+                              >
+                                <span className="grid h-7 w-7 shrink-0 place-items-center border border-border text-brand">
+                                  <ServiceIcon icon={service.icon} />
+                                </span>
+                                <span className="min-w-0">
+                                  <span className="block truncate font-mono text-xs font-semibold text-ink">{service.title}</span>
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                        {/* Development column */}
+                        <div className="bg-canvas-surface p-3">
+                          <p className="mb-2 px-2 font-mono text-[10px] font-bold uppercase tracking-widest text-secondary">
+                            Development
+                          </p>
+                          <div className="grid gap-0.5">
+                            {devServices.map((service) => (
+                              <Link
+                                key={service.href}
+                                role="menuitem"
+                                href={service.href}
+                                onClick={() => setServicesOpen(false)}
+                                className="group grid min-w-0 grid-cols-[1.75rem_1fr] gap-2.5 border border-transparent px-2 py-2 transition hover:border-border hover:bg-canvas-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
+                              >
+                                <span className="grid h-7 w-7 shrink-0 place-items-center border border-border text-secondary">
+                                  <ServiceIcon icon={service.icon} />
+                                </span>
+                                <span className="min-w-0">
+                                  <span className="block truncate font-mono text-xs font-semibold text-ink">{service.title}</span>
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                       <Link
                         href="/services"
                         role="menuitem"
                         onClick={() => setServicesOpen(false)}
-                        className="mt-2 flex items-center justify-center border border-border bg-canvas-soft px-4 py-2.5 font-mono text-sm font-semibold text-ink transition hover:bg-canvas-soft hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
+                        className="mt-3 flex items-center justify-center border border-border bg-canvas-soft px-4 py-2.5 font-mono text-sm font-semibold text-ink transition hover:bg-canvas-soft hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand"
                       >
                         View all services →
                       </Link>
@@ -229,20 +257,9 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
           )}
         </nav>
 
-        {/* Desktop actions */}
+        {/* Desktop actions — Consultation only (Login/Signup moved to footer) */}
         <div className="hidden shrink-0 items-center gap-2 xl:flex">
-          {isAuthenticated ? (
-            <LogoutButton />
-          ) : (
-            <>
-              <ButtonLink href={loginHref} variant="ghost" className="px-3">
-                Login
-              </ButtonLink>
-              <ButtonLink href={signupHref} variant="secondary" className="px-3">
-                Sign up
-              </ButtonLink>
-            </>
-          )}
+          {isAuthenticated && <LogoutButton />}
           <ButtonLink href={consultationHref} variant="primary" className="shrink-0 gap-2 px-4">
             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
             Consultation
@@ -304,7 +321,23 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                             >
                               View all services →
                             </Link>
-                            {serviceLinks.map((service) => (
+                            <p className="border-b border-border bg-canvas-soft px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-brand">
+                              DevOps &amp; Infrastructure
+                            </p>
+                            {devopsServices.map((service) => (
+                              <Link
+                                key={service.href}
+                                href={service.href}
+                                onClick={closeMobileMenu}
+                                className="flex min-h-11 items-center border-b border-border px-3 py-2 font-mono text-sm text-ink-secondary last:border-0 hover:bg-canvas-soft hover:text-ink"
+                              >
+                                {service.title}
+                              </Link>
+                            ))}
+                            <p className="border-b border-t border-border bg-canvas-soft px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-secondary">
+                              Development
+                            </p>
+                            {devServices.map((service) => (
                               <Link
                                 key={service.href}
                                 href={service.href}
@@ -340,17 +373,8 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                   <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                   Book a Consultation
                 </ButtonLink>
-                {isAuthenticated ? (
+                {isAuthenticated && (
                   <LogoutButton className="mt-1 w-full" />
-                ) : (
-                  <>
-                    <ButtonLink href={signupHref} onClick={closeMobileMenu} variant="secondary" className="w-full justify-center">
-                      Sign up
-                    </ButtonLink>
-                    <ButtonLink href={loginHref} onClick={closeMobileMenu} variant="ghost" className="w-full justify-center">
-                      Login
-                    </ButtonLink>
-                  </>
                 )}
               </div>
             </div>

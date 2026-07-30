@@ -13,6 +13,7 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 type ServiceShowcaseProps = {
   services: readonly Service[];
   className?: string;
+  category?: "devops" | "development";
 };
 
 export function ServiceShowcase({ services, className }: Readonly<ServiceShowcaseProps>) {
