@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { ContactCta } from "@/components/ui/contact-cta";
 import { PageHero } from "@/components/ui/page-hero";
 import { CaseStudyShowcase } from "@/components/sections/case-study-showcase";
 import { caseStudies, caseStudyCategories } from "@/data/case-studies";
@@ -22,6 +23,7 @@ export default function CaseStudiesPage() {
 
       <CaseStudyShowcase studies={caseStudies} categories={caseStudyCategories} />
 
+      <ContactCta title="Discuss a similar production challenge." />
     </SiteFrame>
   );
 }

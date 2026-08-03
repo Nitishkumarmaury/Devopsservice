@@ -6,13 +6,24 @@ export function createPageMetadata({
   description,
   path,
   noIndex = false,
+  openGraphType = "website",
+  publishedTime,
+  modifiedTime,
+  authors,
+  tags,
 }: {
   title: string;
   description: string;
   path: string;
   noIndex?: boolean;
+  openGraphType?: "website" | "article" | "profile";
+  publishedTime?: string;
+  modifiedTime?: string;
+  authors?: string[];
+  tags?: string[];
 }): Metadata {
   const url = `${siteConfig.url}${path}`;
+  const isArticle = openGraphType === "article";
 
   return {
     title,
@@ -29,7 +40,15 @@ export function createPageMetadata({
       description,
       url,
       siteName: siteConfig.name,
-      type: "website",
+      type: openGraphType,
+      ...(isArticle
+        ? {
+            publishedTime,
+            modifiedTime,
+            authors,
+            tags,
+          }
+        : {}),
       images: [
         {
           url: "/opengraph-image",

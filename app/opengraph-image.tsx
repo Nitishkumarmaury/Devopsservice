@@ -26,7 +26,7 @@ export default function Image() {
         Cloud infrastructure engineered for speed, reliability, and scale.
       </div>
       <div style={{ fontSize: 28, color: "#cbd5e1", maxWidth: 860 }}>
-        DevOps, CI/CD, monitoring, cloud architecture, web development, and application engineering.
+        DevOps, CI/CD, monitoring, cloud architecture, and production support.
       </div>
     </div>,
     size,

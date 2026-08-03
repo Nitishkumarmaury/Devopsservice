@@ -35,16 +35,4 @@ export const solutionGroups = [
     needs: ["Reliable support window", "Deployment assistance", "Monthly health checks", "Clear communication"],
     services: ["Managed DevOps Support", "DevOps Consulting", "CI/CD Automation", "Monitoring"],
   },
-  {
-    name: "Teams building a web product",
-    summary: "Get the frontend, backend, and infrastructure built together — from first line of code to production deployment.",
-    needs: ["Web or app UI", "Backend API and database", "CI/CD and cloud deployment", "Scalable architecture"],
-    services: ["Web Development", "App Development", "CI/CD Automation", "Cloud Infrastructure"],
-  },
-  {
-    name: "Businesses needing a desktop tool",
-    summary: "Replace manual workflows with a cross-platform desktop application built with modern web technologies.",
-    needs: ["Windows and macOS support", "Offline-capable storage", "OS-level integrations", "Packaged distribution"],
-    services: ["Desktop Apps", "App Development", "Application Deployment"],
-  },
 ] as const;

@@ -46,53 +46,73 @@ export function ProcessTimeline({
     <section
       className={cn(
         "relative overflow-hidden py-16 sm:py-24 lg:py-32",
-        dark ? "bg-ink-navy text-white section-grid" : "bg-canvas-soft",
+        dark
+          ? "bg-[linear-gradient(135deg,#06111f_0%,#0d2338_100%)] text-white"
+          : "bg-[var(--background-soft)]",
       )}
     >
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0",
+          dark
+            ? "bg-[radial-gradient(circle_at_18%_10%,rgba(77,163,255,0.14),transparent_32%),radial-gradient(circle_at_84%_18%,rgba(125,211,252,0.08),transparent_30%)]"
+            : "bg-[radial-gradient(circle_at_18%_10%,rgba(77,163,255,0.08),transparent_32%),radial-gradient(circle_at_84%_22%,rgba(125,211,252,0.06),transparent_30%)]",
+        )}
+      />
       <Container className="relative">
         <SectionHeader eyebrow={eyebrow} title={title} dark={dark}>
           {description}
         </SectionHeader>
 
-        <ol ref={timelineRef} className={cn("relative mt-12 grid gap-px", detailed ? "gap-5 lg:gap-6" : "border border-border lg:grid-cols-6")}>
-          {/* Scroll-driven progress line for compact layout */}
-          {!detailed && (
-            <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px overflow-hidden bg-border lg:block">
-              <motion.div
-                className="h-full w-full bg-secondary"
-                style={{ scaleX: reduceMotion ? 1 : scrollYProgress, transformOrigin: "left" }}
-              />
-            </div>
-          )}
-
+        <ol ref={timelineRef} className={cn("relative mt-12 grid gap-5", detailed ? "lg:gap-6" : "lg:grid-cols-6")}>
+          <div
+            className={cn(
+              "pointer-events-none hidden overflow-hidden bg-[#4da3ff]/12 lg:block",
+              detailed ? "absolute left-6 top-8 h-[calc(100%-4rem)] w-px" : "absolute left-[8.33%] right-[8.33%] top-10 h-px",
+            )}
+          >
+            <motion.div
+              className={cn(
+                "h-full w-full bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]",
+                detailed && "bg-gradient-to-b",
+              )}
+              style={
+                detailed
+                  ? { scaleY: reduceMotion ? 1 : scrollYProgress, transformOrigin: "top" }
+                  : { scaleX: reduceMotion ? 1 : scrollYProgress, transformOrigin: "left" }
+              }
+            />
+          </div>
           {steps.map((step, index) => (
-            <ScrollReveal key={step.title} as="li" delay={index * 0.07} className="relative h-full min-w-0" from="left">
+            <ScrollReveal key={step.title} as="li" delay={index * 0.07} className="relative min-w-0">
               <article
                 className={cn(
-                  "relative h-full min-w-0 border-l-2 p-5 [overflow-wrap:anywhere] sm:p-6",
+                  "relative h-full min-w-0 rounded-[24px] border p-5 shadow-[var(--shadow-soft)] [overflow-wrap:anywhere] sm:p-6",
                   detailed && "lg:grid lg:grid-cols-[0.38fr_1fr] lg:gap-6 lg:p-7",
                   dark
-                    ? "border-secondary/40 bg-white/5"
-                    : "border-secondary bg-canvas-surface",
+                    ? "border-white/10 bg-white/[0.075] text-white shadow-[0_24px_80px_rgba(0,0,0,0.2)]"
+                    : "border-[var(--border)] bg-white",
                 )}
               >
                 <div className="min-w-0">
                   <span
                     className={cn(
-                      "inline-block border px-2 py-1 font-mono text-xs font-bold",
-                      dark ? "border-secondary/40 text-secondary" : "border-secondary text-secondary",
+                      "grid h-12 w-12 place-items-center rounded-xl border font-mono text-sm font-semibold",
+                      dark
+                        ? "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[#b9ddff]"
+                        : "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[var(--rose-dark)]",
                     )}
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <FileCheck2
-                    className={cn("absolute right-5 top-5 h-4 w-4", dark ? "text-white/20" : "text-ink-muted")}
+                    className={cn("absolute right-5 top-5 h-5 w-5", dark ? "text-white/32" : "text-[var(--text-muted)]")}
                     aria-hidden="true"
                   />
-                  <h3 className={cn("mt-4 font-mono text-base font-semibold leading-7", dark ? "text-white" : "text-ink")}>
+                  <h3 className={cn("mt-5 text-xl font-semibold leading-7 tracking-normal", dark ? "text-white" : "text-[var(--text-primary)]")}>
                     {step.title}
                   </h3>
-                  <p className={cn("mt-2 text-sm leading-6", dark ? "text-white/60" : "text-ink-secondary")}>
+                  <p className={cn("mt-3 text-sm leading-6", dark ? "text-white/66" : "text-[var(--text-secondary)]")}>
                     {step.deliverable}
                   </p>
                 </div>
@@ -118,16 +138,11 @@ function TimelineDetail({ title, text, dark }: Readonly<{ title: string; text?: 
   if (!text) return null;
 
   return (
-    <ScrollReveal
-      className={cn(
-        "min-w-0 border p-4",
-        dark ? "border-white/10 bg-white/5" : "border-border bg-canvas-soft",
-      )}
-    >
-      <p className={cn("font-mono text-xs font-bold uppercase tracking-widest", dark ? "text-secondary" : "text-secondary")}>
+    <ScrollReveal className={cn("min-w-0 rounded-2xl border p-4", dark ? "border-white/10 bg-black/10" : "border-[var(--border)] bg-[var(--background-soft)]")}>
+      <p className={cn("text-xs font-semibold uppercase leading-5 tracking-normal", dark ? "text-cyan-100" : "text-[var(--rose-dark)]")}>
         {title}
       </p>
-      <p className={cn("mt-2 text-sm leading-6", dark ? "text-white/60" : "text-ink-secondary")}>{text}</p>
+      <p className={cn("mt-2 text-sm leading-6", dark ? "text-white/64" : "text-[var(--text-secondary)]")}>{text}</p>
     </ScrollReveal>
   );
 }

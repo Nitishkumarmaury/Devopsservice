@@ -53,10 +53,12 @@ export function AboutSection() {
                 <FileCheck2 className="h-4 w-4 text-cyan-200" aria-hidden="true" />
                 Handover-focused delivery
               </div>
-              <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 text-sm text-slate-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
-                <Mail className="h-4 w-4 text-cyan-200" aria-hidden="true" />
-                {siteConfig.email}
-              </a>
+              {siteConfig.emails.map((email) => (
+                <a key={email} href={`mailto:${email}`} className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 text-sm text-slate-300 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-300">
+                  <Mail className="h-4 w-4 text-cyan-200" aria-hidden="true" />
+                  {email}
+                </a>
+              ))}
               <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 text-sm text-slate-300">
                 <MapPin className="h-4 w-4 text-cyan-200" aria-hidden="true" />
                 {siteConfig.location}

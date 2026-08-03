@@ -17,7 +17,7 @@ type ResetPasswordResponse = {
 };
 
 const inputClass =
-  "premium-focus mt-2 block w-full rounded-xl border border-rose-200/70 bg-white px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_12px_32px_rgba(65,39,71,0.08)] outline-none transition placeholder:text-[var(--text-muted)]";
+  "premium-focus mt-2 block w-full rounded-xl border border-[#d6ebff]/16 bg-[#06111f]/82 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_32px_rgba(0,0,0,0.18)] outline-none transition placeholder:text-[var(--text-muted)]";
 
 export function ResetPasswordForm({ token }: Readonly<ResetPasswordFormProps>) {
   const [password, setPassword] = useState("");

@@ -59,10 +59,22 @@ const toolCategories = [
     summary: "Practical database and cache support around deployment, connection handling, backups, and runtime setup.",
     items: ["MongoDB", "MySQL", "Redis", "Backups", "Connection Strings", "Migrations"].map((label) => ({ label, kind: "tool" as const })),
   },
+  {
+    title: "Application Stack",
+    eyebrow: "Modern apps",
+    summary: "Production deployment support for JavaScript application runtimes and related server processes.",
+    items: ["Next.js", "React", "Node.js", "NestJS", "Environment Variables", "Process Manager"].map((label) => ({ label, kind: "tool" as const })),
+  },
+  {
+    title: "Security",
+    eyebrow: "Operational hygiene",
+    summary: "Practical hardening, access review, certificates, firewalls, updates, and server maintenance.",
+    items: ["Linux", "SSH", "UFW", "SSL", "DNS", "Package Updates"].map((label) => ({ label, kind: "tool" as const })),
+  },
 ] as const;
 
-const ROTATION_MS = 4500;
-const MANUAL_PAUSE_MS = 8000;
+const ROTATION_MS = 3400;
+const MANUAL_PAUSE_MS = 6200;
 
 export function TechnologyGrid() {
   const [active, setActive] = useState<(typeof toolCategories)[number]["title"]>(toolCategories[0].title);
@@ -106,8 +118,9 @@ export function TechnologyGrid() {
   };
 
   return (
-    <section ref={sectionRef} className="border-b border-t border-border bg-canvas py-16 sm:py-24 lg:py-32">
-      <Container>
+    <section ref={sectionRef} className="relative overflow-hidden border-y border-[#d6ebff]/10 bg-[var(--background-soft)] py-16 sm:py-24 lg:py-32">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(77,163,255,0.08),transparent_30%),radial-gradient(circle_at_84%_20%,rgba(125,211,252,0.06),transparent_28%)]" />
+      <Container className="relative">
         <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <SectionHeader eyebrow="Services and tools" title="A clear view of services and delivery tools.">
             Review core services and the supporting tool categories behind production deployment, monitoring,
@@ -116,41 +129,43 @@ export function TechnologyGrid() {
 
           <div
             className={cn(
-              "relative min-w-0 border border-border bg-canvas-surface p-4 sm:p-5",
+              "relative min-w-0 overflow-hidden rounded-[22px] border border-[#d6ebff]/12 bg-[linear-gradient(135deg,#081a2e_0%,#0d2338_100%)] p-4 shadow-[0_30px_100px_rgba(0,0,0,0.3)] sm:p-5",
               (rotationHeld || !sectionInView) && "motion-held",
             )}
             style={{ "--auto-duration": `${ROTATION_MS}ms` } as CSSProperties}
             onMouseEnter={() => setRotationHeld(true)}
             onMouseLeave={() => setRotationHeld(false)}
           >
-            <div className="relative grid min-w-0 gap-px border border-border bg-border lg:grid-cols-[14rem_1fr]">
-              <div className="grid min-w-0 grid-cols-2 gap-px bg-border sm:grid-cols-3 lg:grid-cols-1 lg:grid-rows-7">
+            <div className="pointer-events-none absolute inset-0 soft-grid opacity-30" />
+
+            <div className="relative grid min-w-0 gap-4 lg:grid-cols-[14rem_1fr]">
+              <div className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">
                 {toolCategories.map((item, index) => (
                   <motion.button
                     key={item.title}
                     type="button"
                     onClick={() => activate(item.title)}
-                    initial={reduceMotion ? false : { opacity: 0, x: -24 }}
-                    whileInView={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+                    initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+                    whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.18, margin: "0px 0px -72px 0px" }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.06 }}
                     className={cn(
-                      "group relative flex min-w-0 flex-1 items-center px-4 py-3 text-left font-mono text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
+                      "group relative min-w-0 overflow-hidden rounded-xl border px-3 py-3 text-left text-sm font-semibold leading-snug transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]",
                       active === item.title
-                        ? "bg-canvas text-secondary font-bold"
-                        : "bg-canvas-soft text-ink-secondary hover:bg-canvas hover:text-ink",
+                        ? "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[var(--text-primary)] shadow-[0_14px_34px_rgba(77,163,255,0.12)]"
+                        : "border-transparent bg-[#06111f]/46 text-[var(--text-muted)] hover:bg-[#12304b] hover:text-[var(--text-primary)]",
                     )}
                   >
                     <span className="relative z-10 flex min-w-0 items-center gap-2">
-                      <span className="font-bold text-secondary opacity-70">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="font-mono text-[11px] text-[var(--rose-dark)]">{String(index + 1).padStart(2, "0")}</span>
                       <span className="truncate">{item.title}</span>
                     </span>
-                    {active === item.title ? <span className="absolute inset-y-0 left-0 w-1 bg-secondary" /> : null}
+                    {active === item.title ? <span className="auto-progress absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#4da3ff] via-[#7dd3fc] to-[#ff8a7a]" /> : null}
                   </motion.button>
                 ))}
               </div>
 
-              <div className="min-w-0 bg-canvas p-5 sm:p-6">
+              <div className="min-w-0 rounded-[18px] border border-[#d6ebff]/10 bg-[#06111f]/58 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:p-6">
                 <motion.div
                   key={category.title}
                   aria-live="polite"
@@ -161,39 +176,39 @@ export function TechnologyGrid() {
                 >
                   <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                     <div className="min-w-0">
-                      <p className="font-mono text-xs font-bold uppercase tracking-widest text-secondary">
+                      <p className="font-mono text-xs font-semibold uppercase leading-5 tracking-normal text-[var(--rose-dark)]">
                         {category.eyebrow}
                       </p>
-                      <h3 className="mt-3 font-mono text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
+                      <h3 className="mt-2 text-2xl font-semibold leading-tight tracking-normal text-[var(--text-primary)] sm:text-3xl">
                         {category.title}
                       </h3>
-                      <p className="mt-3 max-w-2xl text-sm leading-7 text-ink-secondary">{category.summary}</p>
+                      <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">{category.summary}</p>
                     </div>
                   </div>
 
-                  <div className="mt-6 grid min-w-0 gap-px border border-border bg-border sm:grid-cols-2 xl:grid-cols-3">
+                  <div className="mt-6 grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-3">
                     {category.items.map((item, index) => (
                       <motion.div
-                         key={`${category.title}-${item.label}`}
-                         initial={reduceMotion ? false : { opacity: 0 }}
-                         animate={reduceMotion ? undefined : { opacity: 1 }}
-                         transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1], delay: index * 0.025 }}
-                         className="flex h-full flex-col bg-canvas-soft"
+                        key={`${category.title}-${item.label}`}
+                        initial={reduceMotion ? false : { opacity: 0 }}
+                        animate={reduceMotion ? undefined : { opacity: 1 }}
+                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1], delay: index * 0.025 }}
+                        className="min-w-0"
                       >
                         {item.kind === "service" ? (
-                          <div className="flex h-full min-w-0 items-center gap-3 p-3 transition hover:bg-canvas">
-                            <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-border text-secondary">
+                          <div className="group flex min-h-16 min-w-0 items-center gap-3 rounded-xl border border-[var(--border)] bg-[#0d2338]/88 p-3 shadow-[0_16px_42px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:border-[#4da3ff]/24">
+                            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[#4da3ff]/18 bg-[#4da3ff]/10 text-[var(--rose-dark)]">
                               <ServiceIcon icon={item.icon} />
                             </span>
                             <span className="min-w-0">
-                              <span className="block truncate font-mono text-xs font-bold text-ink">{item.label}</span>
-                              <span className="mt-1 block truncate text-xs text-ink-muted">{item.detail}</span>
+                              <span className="block truncate text-sm font-semibold text-[var(--text-primary)]">{item.label}</span>
+                              <span className="mt-1 block truncate text-xs text-[var(--text-muted)]">{item.detail}</span>
                             </span>
                           </div>
                         ) : (
                           <BrandIcon3D
                             name={item.label}
-                            className="h-full w-full justify-start rounded-none border-0 bg-transparent px-4 py-3 transition hover:bg-canvas"
+                            className="min-h-16 w-full justify-start rounded-xl border-[var(--border)] bg-[#0d2338]/88 px-3 py-3 transition hover:-translate-y-0.5 hover:border-[#4da3ff]/24 hover:shadow-[0_18px_42px_rgba(77,163,255,0.1)]"
                           />
                         )}
                       </motion.div>
@@ -203,12 +218,12 @@ export function TechnologyGrid() {
               </div>
             </div>
 
-            <div className="relative mt-4 overflow-hidden border border-border bg-canvas-soft py-3">
+            <div className="relative mt-4 overflow-hidden rounded-xl border border-[#d6ebff]/10 bg-[#06111f]/46 py-3">
               <div className="capability-marquee flex w-max items-center gap-3 px-3">
                 {[...services, ...services].map((service, index) => (
                   <span
                     key={`${service.slug}-${index}`}
-                    className="inline-flex h-10 shrink-0 items-center gap-2 border border-border bg-canvas px-3 text-xs font-semibold text-ink-secondary"
+                    className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-[#4da3ff]/16 bg-[#0d2338]/82 px-3 py-2 text-xs font-semibold text-[var(--text-secondary)] shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
                   >
                     <ServiceIcon icon={service.icon} />
                     {service.shortTitle}

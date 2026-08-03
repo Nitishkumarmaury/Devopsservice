@@ -4,26 +4,24 @@ import { Children, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-type Direction = "up" | "down" | "left" | "right";
-
 type StaggerRevealProps = {
   children: ReactNode;
   className?: string;
   itemClassName?: string;
   stagger?: number;
   delay?: number;
-  from?: Direction;
-  distance?: number;
 };
 
-function getInitial(from: Direction, distance: number) {
-  switch (from) {
-    case "left":  return { opacity: 0, x: -distance, y: 0 };
-    case "right": return { opacity: 0, x:  distance, y: 0 };
-    case "down":  return { opacity: 0, y:  distance, x: 0 };
-    case "up":
-    default:      return { opacity: 0, y: distance, x: 0 };
+function getRevealKey(child: ReactNode) {
+  if (typeof child === "string" || typeof child === "number") {
+    return String(child);
   }
+
+  if (child && typeof child === "object" && "key" in child && child.key != null) {
+    return String(child.key);
+  }
+
+  return "reveal-item";
 }
 
 export function StaggerReveal({
@@ -32,8 +30,6 @@ export function StaggerReveal({
   itemClassName,
   stagger = 0.08,
   delay = 0,
-  from = "up",
-  distance = 24,
 }: Readonly<StaggerRevealProps>) {
   const reduceMotion = useReducedMotion();
   const items = Children.toArray(children).filter(Boolean);
@@ -42,16 +38,17 @@ export function StaggerReveal({
     <div className={cn(className)}>
       {items.map((child, index) => (
         <motion.div
-          key={index}
+          key={getRevealKey(child)}
           className={cn("min-w-0", itemClassName)}
-          initial={reduceMotion ? false : getInitial(from, distance)}
-          whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, y: 0 }}
-          viewport={{ once: true, amount: 0.18, margin: "0px 0px -72px 0px" }}
+          initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.96 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.16, margin: "0px 0px -88px 0px" }}
           transition={{
-            duration: 0.7,
-            ease: [0.61, 1, 0.88, 1],
+            duration: 0.58,
+            ease: [0.22, 1, 0.36, 1],
             delay: delay + index * stagger,
           }}
+          style={reduceMotion ? undefined : { transformOrigin: "center bottom" }}
         >
           {child}
         </motion.div>

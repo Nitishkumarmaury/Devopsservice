@@ -713,6 +713,696 @@ export const seoLandingPages: SeoLandingPage[] = [
       },
     ],
   },
+  {
+    slug: "cloud-computing-services",
+    shortTitle: "Cloud Computing",
+    title: "Cloud Computing Services and Managed Cloud Support",
+    metaDescription:
+      "Cloud computing services for architecture, migration, DevOps, security, monitoring, cost control and managed operations.",
+    h1: "Cloud Computing Services",
+    eyebrow: "Enterprise cloud",
+    intro:
+      "Cloud computing services for organizations that need practical architecture, migration, deployment automation, monitoring, security readiness, cost control, and managed cloud operations across modern platforms.",
+    icon: "cloud",
+    serviceType: "Cloud computing services",
+    contactProjectType: "Cloud Infrastructure",
+    primaryKeywords: ["Cloud computing services", "cloud services", "cloud solutions", "managed cloud services"],
+    tools: ["AWS", "Azure", "Google Cloud", "Kubernetes", "Terraform", "OpenTelemetry"],
+    problems: [
+      "Cloud decisions are spread across hosting, deployment, security, cost, and monitoring without one operating model.",
+      "The organization needs to modernize infrastructure while keeping production stable.",
+      "Teams need cloud guidance that connects architecture decisions to daily delivery and support.",
+    ],
+    deliverables: [
+      "Cloud service roadmap covering architecture, migration, DevOps, observability, security, and cost priorities.",
+      "Implementation support for cloud environments, networking, deployment flow, and production validation.",
+      "Managed cloud recommendations for support cadence, monitoring, backups, and incident response.",
+    ],
+    approach: [
+      "Review current workloads, providers, teams, compliance expectations, and operational pain points.",
+      "Design the smallest reliable cloud path that improves scalability, security, cost visibility, and delivery speed.",
+      "Implement in stages with validation checks, documentation, and clear handover.",
+    ],
+    useCases: ["Cloud modernization", "Managed cloud operations", "Global cloud infrastructure planning"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/multi-application-production-deployment",
+    faq: [
+      {
+        question: "What do cloud computing services include?",
+        answer:
+          "They can include cloud architecture, migration, DevOps automation, server management, Kubernetes guidance, monitoring, security readiness, cost review, backup planning, and managed support.",
+      },
+      {
+        question: "Can cloud services start with an audit?",
+        answer:
+          "Yes. A cloud audit is often the best first step because it clarifies workload risk, cost signals, access boundaries, deployment gaps, and monitoring needs.",
+      },
+    ],
+  },
+  {
+    slug: "cloud-infrastructure-services",
+    shortTitle: "Cloud Infrastructure",
+    title: "Cloud Infrastructure Services for Production Teams",
+    metaDescription:
+      "Cloud infrastructure services for servers, networking, DNS, SSL, monitoring, backups, CI/CD and production operations.",
+    h1: "Cloud Infrastructure Services",
+    eyebrow: "Infrastructure engineering",
+    intro:
+      "Cloud infrastructure services for teams that need reliable servers, networking, DNS, SSL, deployment automation, backups, monitoring, access controls, and production operations.",
+    icon: "cloud",
+    serviceType: "Cloud infrastructure services",
+    contactProjectType: "AWS and DigitalOcean Cloud Infrastructure",
+    primaryKeywords: ["Cloud infrastructure services", "cloud infrastructure", "cloud hosting", "cloud operations"],
+    tools: ["AWS EC2", "DigitalOcean", "Nginx", "Apache", "DNS", "SSL"],
+    problems: [
+      "Servers, domains, SSL, firewalls, backups, and deployments are configured inconsistently.",
+      "Infrastructure changes happen without clear validation or ownership.",
+      "Production reliability depends on undocumented commands and manual checks.",
+    ],
+    deliverables: [
+      "Cloud server and networking setup or cleanup with secure access, DNS, SSL, and process management.",
+      "Deployment and validation notes for application routes, logs, health checks, and restart behavior.",
+      "Monitoring, backup, firewall, and support recommendations for ongoing operations.",
+    ],
+    approach: [
+      "Map the current cloud resources, domains, runtime needs, and risk areas.",
+      "Stabilize the infrastructure layer before adding advanced cloud services.",
+      "Validate access, uptime, deployment, and recovery steps with practical handover notes.",
+    ],
+    useCases: ["Production server setup", "Cloud infrastructure cleanup", "Domain and SSL migration"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/multi-application-production-deployment",
+    faq: [
+      {
+        question: "Which cloud providers do you support?",
+        answer:
+          "Common engagements include AWS, DigitalOcean, Azure, Google Cloud, Oracle Cloud, Linode, Vultr, and Linux-based hosting where production operations need improvement.",
+      },
+      {
+        question: "Can cloud infrastructure work include CI/CD?",
+        answer:
+          "Yes. Infrastructure setup often includes deployment workflow review, secret handling, build commands, release validation, and rollback notes.",
+      },
+    ],
+  },
+  {
+    slug: "cloud-migration-services",
+    shortTitle: "Cloud Migration",
+    title: "Cloud Migration Services for SaaS and Enterprises",
+    metaDescription:
+      "Cloud migration services for SaaS and web apps with discovery, architecture, data planning, DNS, CI/CD, rollback and monitoring.",
+    h1: "Cloud Migration Services",
+    eyebrow: "Migration planning",
+    intro:
+      "Cloud migration services for SaaS products, web applications, APIs, and production workloads that need dependency discovery, architecture planning, data safety, DNS cutover, deployment validation, and post-migration monitoring.",
+    icon: "migration",
+    serviceType: "Cloud migration services",
+    contactProjectType: "Cloud Consulting and Migration",
+    primaryKeywords: ["Cloud migration services", "cloud migration", "cloud migration experts", "cloud modernization"],
+    tools: ["AWS", "Azure", "Google Cloud", "MongoDB", "PostgreSQL", "DNS"],
+    problems: [
+      "The current hosting setup is fragile, underdocumented, or hard to scale.",
+      "Application dependencies, data, DNS, SSL, and background jobs are not fully mapped.",
+      "The team needs migration without unnecessary downtime or guesswork.",
+    ],
+    deliverables: [
+      "Migration readiness assessment covering dependencies, data, DNS, downtime tolerance, and rollback.",
+      "Target architecture and migration sequence for cloud infrastructure, deployment, monitoring, and support.",
+      "Cutover validation checklist with post-migration health, logs, backup, and alert checks.",
+    ],
+    approach: [
+      "Discover workloads, dependencies, access, storage, databases, network paths, and operational constraints.",
+      "Plan staged migration with backups, DNS TTL strategy, health checks, and rollback points.",
+      "Execute the migration with monitoring and document the new operating model.",
+    ],
+    useCases: ["VPS to cloud migration", "Database migration planning", "SaaS infrastructure modernization"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/multi-application-production-deployment",
+    faq: [
+      {
+        question: "How do you reduce risk during cloud migration?",
+        answer:
+          "Risk is reduced through dependency discovery, backups, DNS planning, staged validation, monitoring, rollback notes, and a clear post-cutover support window.",
+      },
+      {
+        question: "Can you migrate from one cloud provider to another?",
+        answer:
+          "Yes. Provider-to-provider migration can be scoped after reviewing workloads, data transfer, networking, DNS, identity, deployment, and downtime constraints.",
+      },
+    ],
+  },
+  {
+    slug: "cloud-architecture-design",
+    shortTitle: "Cloud Architecture",
+    title: "Cloud Architecture Design Services",
+    metaDescription:
+      "Cloud architecture design for scalable, secure and observable AWS, Azure, Google Cloud, hybrid and multicloud systems.",
+    h1: "Cloud Architecture Design Services",
+    eyebrow: "Architecture design",
+    intro:
+      "Cloud architecture design for teams that need scalable, secure, observable, cost-aware infrastructure across public cloud, hybrid cloud, multicloud, Kubernetes, serverless, and managed services.",
+    icon: "cloud",
+    serviceType: "Cloud architecture design",
+    contactProjectType: "Cloud Architecture Design",
+    primaryKeywords: ["Cloud architecture", "cloud architecture design", "cloud solutions", "cloud transformation"],
+    tools: ["VPC", "Load Balancer", "API Gateway", "Kubernetes", "Serverless", "Observability"],
+    problems: [
+      "Architecture decisions are made reactively as traffic, incidents, and cloud costs grow.",
+      "Security, networking, deployment, and observability are not designed as one system.",
+      "The team needs a target architecture that can actually be implemented and operated.",
+    ],
+    deliverables: [
+      "Cloud architecture review and target-state design with workload, network, security, and deployment notes.",
+      "Implementation roadmap covering migration sequence, monitoring, cost signals, and resilience priorities.",
+      "Architecture handover that explains tradeoffs, dependencies, and future improvement paths.",
+    ],
+    approach: [
+      "Clarify application goals, traffic patterns, data needs, compliance expectations, and team capacity.",
+      "Design architecture around reliability, security, cost, operability, and future change.",
+      "Translate architecture into deployable phases with validation and handover.",
+    ],
+    useCases: ["SaaS cloud architecture", "Hybrid cloud design", "High availability planning"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/multi-application-production-deployment",
+    faq: [
+      {
+        question: "Does cloud architecture design include implementation?",
+        answer:
+          "It can. Some engagements deliver architecture only, while others continue into cloud setup, CI/CD, monitoring, migration, or managed support.",
+      },
+      {
+        question: "Can architecture include compliance readiness?",
+        answer:
+          "Yes. The design can account for access control, logging, backups, encryption, change tracking, and documentation needed for readiness conversations.",
+      },
+    ],
+  },
+  {
+    slug: "platform-engineering-services",
+    shortTitle: "Platform Engineering",
+    title: "Platform Engineering Services",
+    metaDescription:
+      "Platform engineering services for internal developer platforms, CI/CD, GitOps, Kubernetes, IaC, observability and automation.",
+    h1: "Platform Engineering Services",
+    eyebrow: "Platform engineering",
+    intro:
+      "Platform engineering services for teams that want reusable delivery workflows, self-service infrastructure patterns, stronger developer experience, and safer production operations.",
+    icon: "kubernetes",
+    serviceType: "Platform engineering services",
+    contactProjectType: "Platform Engineering",
+    primaryKeywords: ["Platform engineering", "platform automation", "enterprise DevOps", "DevOps solutions"],
+    tools: ["Kubernetes", "GitOps", "ArgoCD", "FluxCD", "Terraform", "CI/CD"],
+    problems: [
+      "Developers need faster delivery, but infrastructure work is inconsistent and hard to reuse.",
+      "CI/CD, environments, secrets, observability, and deployment patterns differ across teams.",
+      "Platform work is being attempted without a clear product mindset or operating model.",
+    ],
+    deliverables: [
+      "Platform engineering assessment covering delivery workflows, environments, automation, and team needs.",
+      "Reusable implementation patterns for CI/CD, infrastructure provisioning, observability, and release validation.",
+      "Platform roadmap with ownership, adoption, documentation, and support recommendations.",
+    ],
+    approach: [
+      "Identify the highest-friction developer and operations workflows.",
+      "Standardize repeatable platform capabilities without hiding critical production responsibility.",
+      "Document usage patterns, guardrails, and support paths for adoption.",
+    ],
+    useCases: ["Internal developer platform planning", "GitOps adoption", "Reusable CI/CD templates"],
+    relatedServiceHref: "/services/devops-consulting",
+    relatedCaseStudyHref: "/case-studies/automated-cicd-deployment",
+    faq: [
+      {
+        question: "Is platform engineering only for large enterprises?",
+        answer:
+          "No. Smaller teams can use platform engineering principles by standardizing deployment, infrastructure, environment, and observability patterns before building a full platform.",
+      },
+      {
+        question: "Can platform engineering include Kubernetes?",
+        answer:
+          "Yes, when Kubernetes is justified. Platform work can also start with CI/CD, templates, infrastructure as code, monitoring, and documentation.",
+      },
+    ],
+  },
+  {
+    slug: "infrastructure-as-code-services",
+    shortTitle: "IaC and Terraform",
+    title: "Infrastructure as Code and Terraform Consulting",
+    metaDescription:
+      "Infrastructure as code services with Terraform, OpenTofu and Ansible for repeatable cloud provisioning and automation.",
+    h1: "Infrastructure as Code and Terraform Consulting",
+    eyebrow: "Infrastructure automation",
+    intro:
+      "Infrastructure as code services for teams that need repeatable cloud provisioning, safer reviews, cleaner environment setup, and automation using Terraform, OpenTofu, Ansible, and CI/CD workflows.",
+    icon: "pipeline",
+    serviceType: "Infrastructure as code services",
+    contactProjectType: "Infrastructure as Code Services",
+    primaryKeywords: ["Infrastructure as Code", "Terraform consulting", "Terraform experts", "OpenTofu"],
+    tools: ["Terraform", "OpenTofu", "Ansible", "GitHub Actions", "State management", "Policy checks"],
+    problems: [
+      "Cloud resources are created manually and drift from documented architecture.",
+      "Environment setup is slow, inconsistent, or risky to reproduce.",
+      "Infrastructure changes lack review, state management, and rollback thinking.",
+    ],
+    deliverables: [
+      "Infrastructure as code assessment and implementation plan for cloud resources and environments.",
+      "Terraform, OpenTofu, or Ansible modules and workflows aligned with team skill and risk level.",
+      "Documentation for state, variables, secrets, review process, and future maintenance.",
+    ],
+    approach: [
+      "Choose the right automation scope based on current infrastructure maturity.",
+      "Codify high-value resources first, with state handling and review guardrails.",
+      "Validate provisioning and document the operating model before expanding coverage.",
+    ],
+    useCases: ["Terraform module setup", "OpenTofu migration planning", "Ansible server automation"],
+    relatedServiceHref: "/services/cicd-automation",
+    relatedCaseStudyHref: "/case-studies/automated-cicd-deployment",
+    faq: [
+      {
+        question: "Can you work with Terraform and OpenTofu?",
+        answer:
+          "Yes. The engagement can include Terraform or OpenTofu planning, module structure, state review, variables, CI/CD integration, and migration considerations.",
+      },
+      {
+        question: "Is Ansible still useful with Terraform?",
+        answer:
+          "Yes. Terraform is usually stronger for provisioning cloud resources, while Ansible can help with configuration management and server automation.",
+      },
+    ],
+  },
+  {
+    slug: "devsecops-consulting",
+    shortTitle: "DevSecOps",
+    title: "DevSecOps Consulting and Cloud Security Services",
+    metaDescription:
+      "DevSecOps consulting for cloud security, CI/CD controls, IAM, secrets, server hardening and compliance readiness.",
+    h1: "DevSecOps Consulting and Cloud Security Services",
+    eyebrow: "Security in delivery",
+    intro:
+      "DevSecOps consulting for teams that need security built into cloud operations, CI/CD workflows, access control, secrets management, server hardening, monitoring, and compliance readiness.",
+    icon: "security",
+    serviceType: "DevSecOps consulting",
+    contactProjectType: "DevSecOps Consulting",
+    primaryKeywords: ["DevSecOps consulting", "cloud security services", "cloud compliance", "zero trust"],
+    tools: ["IAM", "Secrets management", "Cloud firewall", "Linux hardening", "CI/CD checks", "Vault"],
+    problems: [
+      "Security is reviewed late, after infrastructure and deployment decisions are already in production.",
+      "Access, secrets, firewall rules, logs, and approvals are not consistently managed.",
+      "The team needs compliance readiness without confusing it with a formal audit.",
+    ],
+    deliverables: [
+      "DevSecOps review covering CI/CD, access, secrets, server hardening, logs, and cloud exposure.",
+      "Prioritized security improvements for delivery workflows and production operations.",
+      "Readiness notes for SOC 2, ISO 27001, HIPAA, GDPR, or PCI conversations where applicable.",
+    ],
+    approach: [
+      "Review current delivery and infrastructure controls before adding new tools.",
+      "Close practical risk gaps around access, secrets, patching, network exposure, and logging.",
+      "Document what was improved, what remains, and which formal compliance work is separate.",
+    ],
+    useCases: ["Cloud security review", "CI/CD security controls", "Compliance readiness cleanup"],
+    relatedServiceHref: "/services/linux-server-security",
+    relatedCaseStudyHref: "/case-studies/production-performance-investigation",
+    faq: [
+      {
+        question: "Is DevSecOps the same as a compliance audit?",
+        answer:
+          "No. DevSecOps improves security practices in delivery and operations. Formal SOC 2, ISO 27001, HIPAA, GDPR, or PCI audits require qualified audit processes.",
+      },
+      {
+        question: "Can security work start with CI/CD?",
+        answer:
+          "Yes. CI/CD is often a useful starting point for secret handling, approval rules, dependency checks, image checks, and deployment validation.",
+      },
+    ],
+  },
+  {
+    slug: "sre-consulting-services",
+    shortTitle: "SRE",
+    title: "SRE Consulting and Incident Response Services",
+    metaDescription:
+      "SRE consulting for reliability, observability, SLOs, incident response, runbooks, disaster recovery and production support.",
+    h1: "SRE Consulting and Incident Response Services",
+    eyebrow: "Reliability engineering",
+    intro:
+      "SRE consulting for teams that need clearer reliability targets, observability, incident response, runbooks, disaster recovery thinking, and production support practices.",
+    icon: "monitoring",
+    serviceType: "Site reliability engineering consulting",
+    contactProjectType: "Production Troubleshooting",
+    primaryKeywords: ["Site Reliability Engineering", "SRE consulting", "incident response", "cloud reliability"],
+    tools: ["SLOs", "Prometheus", "Grafana", "Logs", "Runbooks", "Disaster recovery"],
+    problems: [
+      "Production incidents repeat because symptoms are fixed without operational learning.",
+      "The team lacks clear uptime signals, ownership, runbooks, or response paths.",
+      "Reliability work is not prioritized against business impact and delivery pressure.",
+    ],
+    deliverables: [
+      "Reliability review covering monitoring, alerts, incident response, runbooks, and recovery gaps.",
+      "SLO and service health recommendations for the most important user-facing systems.",
+      "Incident response notes and improvement backlog for support and engineering teams.",
+    ],
+    approach: [
+      "Identify critical services, failure modes, current signals, and response responsibilities.",
+      "Improve observability and runbooks before introducing complex SRE ceremonies.",
+      "Turn incidents into prioritized reliability and recovery improvements.",
+    ],
+    useCases: ["Incident response setup", "SLO planning", "Production reliability review"],
+    relatedServiceHref: "/services/monitoring-observability",
+    relatedCaseStudyHref: "/case-studies/centralized-infrastructure-monitoring",
+    faq: [
+      {
+        question: "Do small teams need SRE practices?",
+        answer:
+          "Yes, but scaled appropriately. Small teams often benefit most from clear health checks, alert routing, runbooks, backup validation, and release safety.",
+      },
+      {
+        question: "Can SRE consulting include emergency troubleshooting?",
+        answer:
+          "Yes, when scope, access, risk, and response expectations are clear. Emergency work should still include notes and follow-up recommendations.",
+      },
+    ],
+  },
+  {
+    slug: "cloud-cost-optimization",
+    shortTitle: "Cloud Cost",
+    title: "Cloud Cost Optimization and FinOps Services",
+    metaDescription:
+      "Cloud cost optimization and FinOps services for AWS, Azure and Google Cloud sizing, waste reduction and budget visibility.",
+    h1: "Cloud Cost Optimization and FinOps Services",
+    eyebrow: "FinOps",
+    intro:
+      "Cloud cost optimization and FinOps services for teams that need better visibility into AWS, Azure, Google Cloud, logs, storage, backups, sizing, scaling, and operational waste.",
+    icon: "performance",
+    serviceType: "Cloud cost optimization services",
+    contactProjectType: "Cloud Infrastructure",
+    primaryKeywords: ["FinOps", "cloud cost optimization", "AWS cost optimization", "Azure cost optimization"],
+    tools: ["AWS Cost Explorer", "Budgets", "Resource sizing", "Autoscaling", "Storage lifecycle", "Monitoring"],
+    problems: [
+      "Cloud spend is rising without clear connection to traffic, reliability, or product needs.",
+      "Unused resources, oversized servers, logs, backups, and storage policies are not regularly reviewed.",
+      "Cost reduction efforts risk breaking performance because production signals are weak.",
+    ],
+    deliverables: [
+      "Cloud cost review covering compute, storage, backups, logs, monitoring, traffic, and unused resources.",
+      "Optimization backlog ranked by savings potential, reliability risk, and implementation effort.",
+      "Budget visibility and monitoring recommendations for ongoing cost governance.",
+    ],
+    approach: [
+      "Review spend patterns together with architecture, traffic, uptime, and support needs.",
+      "Separate safe cleanup from changes that require performance testing or business approval.",
+      "Implement measured optimizations with monitoring and rollback awareness.",
+    ],
+    useCases: ["AWS cost review", "Startup cloud budget cleanup", "FinOps operating model"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/production-performance-investigation",
+    faq: [
+      {
+        question: "Can cost optimization reduce reliability?",
+        answer:
+          "It can if done carelessly. Good FinOps work uses monitoring, traffic context, backup needs, and business risk to avoid false savings.",
+      },
+      {
+        question: "Do you support AWS, Azure, and Google Cloud cost reviews?",
+        answer:
+          "Yes. Cost reviews can be scoped for AWS, Azure, Google Cloud, DigitalOcean, or hybrid hosting depending on available billing and infrastructure access.",
+      },
+    ],
+  },
+  {
+    slug: "ai-infrastructure-services",
+    shortTitle: "AI Infrastructure",
+    title: "AI Infrastructure and MLOps Consulting",
+    metaDescription:
+      "AI infrastructure consulting for LLM deployment, GPU planning, MLOps, model serving, observability and cloud operations.",
+    h1: "AI Infrastructure and MLOps Consulting",
+    eyebrow: "AI infrastructure",
+    intro:
+      "AI infrastructure consulting for teams planning LLM deployment, GPU workloads, model serving, MLOps pipelines, observability, cost control, and secure cloud operations.",
+    icon: "kubernetes",
+    serviceType: "AI infrastructure consulting",
+    contactProjectType: "Cloud Architecture Design",
+    primaryKeywords: ["AI infrastructure", "LLM infrastructure", "GPU cloud", "MLOps"],
+    tools: ["GPU instances", "Kubernetes", "Model serving", "Vector storage", "Monitoring", "CI/CD"],
+    problems: [
+      "AI prototypes need a production path for deployment, monitoring, security, and cost control.",
+      "GPU, model serving, data access, and scaling decisions are being made without operations planning.",
+      "The team needs a practical bridge from experiment to reliable cloud service.",
+    ],
+    deliverables: [
+      "AI infrastructure readiness review covering workload shape, GPU needs, deployment, security, and observability.",
+      "MLOps and model-serving architecture notes with scaling, rollback, and monitoring considerations.",
+      "Cloud operations plan for cost signals, access, incident response, and handover.",
+    ],
+    approach: [
+      "Clarify model workload, latency needs, data sensitivity, traffic, and budget constraints.",
+      "Design deployment and operations around reliability, security, observability, and cost visibility.",
+      "Validate the production path before scaling expensive AI infrastructure.",
+    ],
+    useCases: ["LLM deployment planning", "GPU cloud architecture", "MLOps production readiness"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/centralized-infrastructure-monitoring",
+    faq: [
+      {
+        question: "Can AI infrastructure start without Kubernetes?",
+        answer:
+          "Yes. Some AI workloads can start with simpler cloud deployment patterns before Kubernetes is justified by scale, isolation, or operations needs.",
+      },
+      {
+        question: "What should be monitored for LLM infrastructure?",
+        answer:
+          "Useful signals include latency, error rate, queue depth, resource usage, GPU utilization, cost, logs, model endpoint health, and dependency failures.",
+      },
+    ],
+  },
+  {
+    slug: "observability-services",
+    shortTitle: "Observability",
+    title: "Observability Services with Prometheus and Grafana",
+    metaDescription:
+      "Observability services for monitoring, logging, tracing, Prometheus, Grafana, OpenTelemetry, alerts and incident visibility.",
+    h1: "Observability Services",
+    eyebrow: "Monitoring and telemetry",
+    intro:
+      "Observability services for teams that need monitoring, logging, tracing, uptime checks, dashboards, alerting, OpenTelemetry readiness, and clearer production incident visibility.",
+    icon: "monitoring",
+    serviceType: "Observability services",
+    contactProjectType: "Monitoring, Grafana and Alerting",
+    primaryKeywords: ["Observability", "cloud monitoring", "Prometheus", "Grafana"],
+    tools: ["Prometheus", "Grafana", "OpenTelemetry", "ELK Stack", "Node Exporter", "Blackbox Exporter"],
+    problems: [
+      "Incidents are hard to diagnose because metrics, logs, uptime checks, and application health are disconnected.",
+      "Alerts are noisy, missing, or not tied to practical response notes.",
+      "The team cannot easily explain what changed before production behavior degraded.",
+    ],
+    deliverables: [
+      "Monitoring and observability plan covering metrics, logs, traces, uptime checks, dashboards, and alerts.",
+      "Prometheus, Grafana, OpenTelemetry, or log pipeline implementation support where appropriate.",
+      "Runbook notes for interpreting signals and responding to common production failures.",
+    ],
+    approach: [
+      "Define the service health signals that matter to users and support teams.",
+      "Install lightweight telemetry first, then improve dashboards and alerts based on real operating needs.",
+      "Validate signal quality and remove noise so monitoring stays useful.",
+    ],
+    useCases: ["Prometheus Grafana setup", "OpenTelemetry readiness", "Logging and alert cleanup"],
+    relatedServiceHref: "/services/monitoring-observability",
+    relatedCaseStudyHref: "/case-studies/centralized-infrastructure-monitoring",
+    faq: [
+      {
+        question: "What is the difference between monitoring and observability?",
+        answer:
+          "Monitoring tracks known signals such as uptime and resource usage. Observability helps teams investigate unknown failures using connected metrics, logs, traces, and context.",
+      },
+      {
+        question: "Can observability be added gradually?",
+        answer:
+          "Yes. Many teams start with uptime checks, server metrics, dashboards, and alert routing before adding traces or deeper application instrumentation.",
+      },
+    ],
+  },
+  {
+    slug: "disaster-recovery-cloud-backup",
+    shortTitle: "Disaster Recovery",
+    title: "Disaster Recovery and Cloud Backup Services",
+    metaDescription:
+      "Disaster recovery and cloud backup services for continuity planning, restore checks, failover notes and production resilience.",
+    h1: "Disaster Recovery and Cloud Backup Services",
+    eyebrow: "Business continuity",
+    intro:
+      "Disaster recovery and cloud backup services for teams that need safer backup strategy, restore validation, failover planning, recovery notes, and business continuity awareness.",
+    icon: "security",
+    serviceType: "Disaster recovery and cloud backup services",
+    contactProjectType: "Cloud Infrastructure",
+    primaryKeywords: ["Disaster recovery", "business continuity", "cloud backup", "backup solutions"],
+    tools: ["Backups", "Object storage", "Database dumps", "Restore checks", "DNS", "Runbooks"],
+    problems: [
+      "Backups exist but nobody has recently tested restore behavior.",
+      "Failure scenarios, recovery ownership, DNS decisions, and data-loss tolerance are unclear.",
+      "The business needs practical continuity planning before an incident happens.",
+    ],
+    deliverables: [
+      "Backup and recovery review covering data, files, databases, configuration, retention, and restore process.",
+      "Disaster recovery notes for likely failure modes, response sequence, and validation checks.",
+      "Recommendations for backup automation, monitoring, storage, and support responsibilities.",
+    ],
+    approach: [
+      "Identify critical systems, data sources, recovery expectations, and acceptable downtime.",
+      "Review backup coverage and test restore steps where scope and access allow.",
+      "Document recovery runbooks and improvement priorities for continuity planning.",
+    ],
+    useCases: ["Backup strategy review", "Restore validation", "Cloud recovery planning"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/production-performance-investigation",
+    faq: [
+      {
+        question: "Is having backups enough for disaster recovery?",
+        answer:
+          "No. Disaster recovery also needs restore validation, ownership, runbooks, monitoring, DNS planning, and realistic expectations for downtime and data loss.",
+      },
+      {
+        question: "Can you review existing backups?",
+        answer:
+          "Yes. Existing backup jobs, retention, storage, database dumps, restore commands, and monitoring can be reviewed and improved.",
+      },
+    ],
+  },
+  {
+    slug: "google-cloud-consulting-services",
+    shortTitle: "Google Cloud",
+    title: "Google Cloud Consulting Services",
+    metaDescription:
+      "Google Cloud consulting for cloud architecture, migration, CI/CD, Kubernetes, monitoring, security and cost optimization.",
+    h1: "Google Cloud Consulting Services",
+    eyebrow: "Google Cloud",
+    intro:
+      "Google Cloud consulting for teams planning cloud architecture, migration, Kubernetes, CI/CD, monitoring, security readiness, and practical cloud operations.",
+    icon: "cloud",
+    serviceType: "Google Cloud consulting services",
+    contactProjectType: "Google Cloud Consulting",
+    primaryKeywords: ["Google Cloud consulting", "GCP consulting", "Google Cloud cost optimization", "cloud consulting company"],
+    tools: ["Google Cloud", "GKE", "Cloud Run", "Cloud Functions", "Cloud SQL", "Cloud Monitoring"],
+    problems: [
+      "Google Cloud services are being adopted without a clear deployment and operations model.",
+      "The team needs help choosing between GKE, Cloud Run, Compute Engine, and managed services.",
+      "Monitoring, IAM, cost, and release workflows need practical review.",
+    ],
+    deliverables: [
+      "Google Cloud architecture and workload review with deployment, IAM, monitoring, and cost notes.",
+      "Migration or implementation plan for Compute Engine, GKE, Cloud Run, or managed services.",
+      "Operational handover covering release flow, logs, alerts, backups, and support.",
+    ],
+    approach: [
+      "Review current workload and Google Cloud constraints before selecting services.",
+      "Design around reliability, security, cost, and team operating capability.",
+      "Validate deployment and monitoring before handover.",
+    ],
+    useCases: ["GCP migration planning", "GKE readiness", "Cloud Run deployment review"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/multi-application-production-deployment",
+    faq: [
+      {
+        question: "Can you compare Google Cloud with AWS or Azure?",
+        answer:
+          "Yes. Provider choice can be reviewed against workload needs, existing accounts, team familiarity, compliance expectations, cost signals, and managed service fit.",
+      },
+      {
+        question: "Can Google Cloud consulting include Kubernetes?",
+        answer:
+          "Yes. GKE and Kubernetes planning can be included when orchestration is justified by the workload and team operations model.",
+      },
+    ],
+  },
+  {
+    slug: "digitalocean-consulting",
+    shortTitle: "DigitalOcean",
+    title: "DigitalOcean Consulting and Deployment Services",
+    metaDescription:
+      "DigitalOcean consulting for Droplets, app deployment, databases, DNS, SSL, monitoring, backups and DevOps automation.",
+    h1: "DigitalOcean Consulting and Deployment Services",
+    eyebrow: "DigitalOcean",
+    intro:
+      "DigitalOcean consulting for startups and SMBs that need practical Droplet setup, app deployment, managed database planning, DNS, SSL, monitoring, backups, and CI/CD automation.",
+    icon: "cloud",
+    serviceType: "DigitalOcean consulting services",
+    contactProjectType: "AWS and DigitalOcean Cloud Infrastructure",
+    primaryKeywords: ["DigitalOcean consulting", "DigitalOcean deployment", "Linode consulting", "Vultr consulting"],
+    tools: ["DigitalOcean", "Droplets", "Ubuntu", "Nginx", "PM2", "Backups"],
+    problems: [
+      "A VPS is running production, but deployment, SSL, monitoring, and backups are not cleanly managed.",
+      "The team needs a cost-aware cloud setup without unnecessary enterprise complexity.",
+      "Server maintenance and release steps rely on one person or undocumented commands.",
+    ],
+    deliverables: [
+      "DigitalOcean server setup or review covering runtime, DNS, SSL, firewall, process manager, and backups.",
+      "Deployment workflow and validation checklist for web apps, APIs, and background services.",
+      "Monitoring and maintenance recommendations for ongoing operations.",
+    ],
+    approach: [
+      "Review the current Droplet, app stack, database needs, access, and production risk.",
+      "Stabilize the Linux server, proxy, SSL, deployment, and monitoring basics.",
+      "Document operating commands, checks, and future scaling paths.",
+    ],
+    useCases: ["DigitalOcean production setup", "Droplet migration", "Startup VPS hardening"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/multi-application-production-deployment",
+    faq: [
+      {
+        question: "Is DigitalOcean suitable for production apps?",
+        answer:
+          "Yes, for many startups and SMB workloads when server setup, security basics, backups, monitoring, and deployment operations are handled properly.",
+      },
+      {
+        question: "Can you also work with Linode or Vultr?",
+        answer:
+          "Yes. Similar Linux server, DNS, SSL, monitoring, backup, and deployment principles apply to Linode, Vultr, and other VPS providers.",
+      },
+    ],
+  },
+  {
+    slug: "oracle-cloud-consulting-services",
+    shortTitle: "Oracle Cloud",
+    title: "Oracle Cloud and OCI Consulting Services",
+    metaDescription:
+      "Oracle Cloud consulting for OCI infrastructure, migration planning, Linux servers, networking, monitoring and DevOps operations.",
+    h1: "Oracle Cloud and OCI Consulting Services",
+    eyebrow: "Oracle Cloud",
+    intro:
+      "Oracle Cloud and OCI consulting for teams that need infrastructure planning, migration review, Linux server operations, networking, monitoring, deployment automation, and practical cloud support.",
+    icon: "cloud",
+    serviceType: "Oracle Cloud consulting services",
+    contactProjectType: "Cloud Infrastructure",
+    primaryKeywords: ["Oracle Cloud consulting", "OCI consulting", "cloud consulting", "cloud infrastructure"],
+    tools: ["Oracle Cloud", "OCI Compute", "Linux", "Networking", "Load Balancer", "Monitoring"],
+    problems: [
+      "OCI resources need clearer architecture, access, networking, deployment, and monitoring decisions.",
+      "A workload is moving to Oracle Cloud and needs migration risk planning.",
+      "The team wants cloud operations support without adding unnecessary complexity.",
+    ],
+    deliverables: [
+      "OCI infrastructure review covering compute, network, access, deployment, observability, and backup needs.",
+      "Migration or setup plan with validation, rollback, and support considerations.",
+      "Operational notes for Linux servers, web routing, monitoring, and release workflow.",
+    ],
+    approach: [
+      "Review workload needs and OCI account constraints before designing infrastructure changes.",
+      "Prioritize stable compute, networking, access, monitoring, and deployment operations.",
+      "Validate production behavior and document handover details.",
+    ],
+    useCases: ["OCI migration review", "Oracle Cloud server setup", "Hybrid cloud operations"],
+    relatedServiceHref: "/services/cloud-infrastructure",
+    relatedCaseStudyHref: "/case-studies/multi-application-production-deployment",
+    faq: [
+      {
+        question: "Can OCI consulting include Linux server management?",
+        answer:
+          "Yes. OCI engagements can include Linux server setup, proxying, SSL, monitoring, deployment automation, backups, and operational handover.",
+      },
+      {
+        question: "Can Oracle Cloud be part of a hybrid architecture?",
+        answer:
+          "Yes. Hybrid design can be reviewed around workloads, networking, DNS, data movement, identity, monitoring, and support responsibilities.",
+      },
+    ],
+  },
 ];
 
 export const seoMoneyPages = seoLandingPages;
