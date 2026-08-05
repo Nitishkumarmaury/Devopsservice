@@ -211,32 +211,34 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                       animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                       exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
                       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] w-[620px] max-w-[calc(100vw-2rem)] rounded-[18px] border border-[#d6ebff]/14 bg-[#0d2338] p-3 shadow-[0_34px_90px_rgba(0,0,0,0.42)] ring-1 ring-white/5"
+                      className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] flex max-h-[calc(100dvh-7.5rem)] w-[620px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-[18px] border border-[#d6ebff]/14 bg-[#0d2338] p-3 shadow-[0_34px_90px_rgba(0,0,0,0.42)] ring-1 ring-white/5"
                     >
-                      <div className="grid gap-2 sm:grid-cols-2">
-                        {serviceLinks.map((service) => (
-                          <Link
-                            key={service.href}
-                            role="menuitem"
-                            href={service.href}
-                            onClick={() => setServicesOpen(false)}
-                            className="group grid min-w-0 grid-cols-[2.25rem_1fr] gap-3 rounded-xl border border-transparent bg-[#081a2e]/70 px-3 py-2.5 transition hover:border-[#4da3ff]/20 hover:bg-[#12304b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
-                          >
-                            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-[#4da3ff]/16 bg-[#4da3ff]/10 text-[#4da3ff]">
-                              <ServiceIcon icon={service.icon} />
-                            </span>
-                            <span className="min-w-0">
-                              <span className="block truncate text-sm font-semibold text-[var(--text-primary)]">{service.title}</span>
-                              <span className="mt-0.5 block truncate text-xs leading-5 text-[var(--text-muted)]">{service.description}</span>
-                            </span>
-                          </Link>
-                        ))}
+                      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1">
+                        <div className="grid gap-2 sm:grid-cols-2">
+                          {serviceLinks.map((service) => (
+                            <Link
+                              key={service.href}
+                              role="menuitem"
+                              href={service.href}
+                              onClick={() => setServicesOpen(false)}
+                              className="group grid min-w-0 grid-cols-[2.25rem_1fr] gap-3 rounded-xl border border-transparent bg-[#081a2e]/70 px-3 py-2.5 transition hover:border-[#4da3ff]/20 hover:bg-[#12304b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
+                            >
+                              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-[#4da3ff]/16 bg-[#4da3ff]/10 text-[#4da3ff]">
+                                <ServiceIcon icon={service.icon} />
+                              </span>
+                              <span className="min-w-0">
+                                <span className="block truncate text-sm font-semibold text-[var(--text-primary)]">{service.title}</span>
+                                <span className="mt-0.5 block truncate text-xs leading-5 text-[var(--text-muted)]">{service.description}</span>
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                       <Link
                         href="/services"
                         role="menuitem"
                         onClick={() => setServicesOpen(false)}
-                        className="mt-2 flex items-center justify-center rounded-xl border border-[#4da3ff]/14 bg-[#4da3ff]/10 px-4 py-3 text-sm font-semibold text-[#e5f2ff] transition hover:bg-[#4da3ff]/14 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
+                        className="mt-2 flex shrink-0 items-center justify-center rounded-xl border border-[#4da3ff]/14 bg-[#4da3ff]/10 px-4 py-3 text-sm font-semibold text-[#e5f2ff] transition hover:bg-[#4da3ff]/14 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
                       >
                         View all services
                       </Link>
