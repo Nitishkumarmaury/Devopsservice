@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export function CursorGlow() {
+  const glowRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const finePointer = window.matchMedia("(pointer: fine)").matches;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -14,8 +16,9 @@ export function CursorGlow() {
 
     const updateGlow = () => {
       frame = 0;
-      document.documentElement.style.setProperty("--cursor-x", `${x}px`);
-      document.documentElement.style.setProperty("--cursor-y", `${y}px`);
+      if (glowRef.current) {
+        glowRef.current.style.background = `radial-gradient(520px circle at ${x}px ${y}px, rgba(77, 163, 255, 0.07), rgba(125, 211, 252, 0.035) 22%, transparent 45%)`;
+      }
     };
 
     const handleMove = (event: PointerEvent) => {
@@ -36,11 +39,13 @@ export function CursorGlow() {
 
   return (
     <div
+      ref={glowRef}
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 hidden lg:block"
       style={{
         background:
-          "radial-gradient(520px circle at var(--cursor-x, 50%) var(--cursor-y, 20%), rgba(77, 163, 255, 0.07), rgba(125, 211, 252, 0.035) 22%, transparent 45%)",
+          "radial-gradient(520px circle at 50% 20%, rgba(77, 163, 255, 0.07), rgba(125, 211, 252, 0.035) 22%, transparent 45%)",
+        willChange: "background",
       }}
     />
   );

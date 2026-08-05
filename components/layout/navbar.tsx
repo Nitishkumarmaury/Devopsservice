@@ -47,12 +47,16 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
 
   useEffect(() => {
     let frame = 0;
+    let maxScroll = 1;
+
+    const calculateMaxScroll = () => {
+      maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    };
 
     const update = () => {
       frame = 0;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
       const nextScrolled = window.scrollY > 12;
-      const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
 
       if (scrolledRef.current !== nextScrolled) {
         scrolledRef.current = nextScrolled;
@@ -69,9 +73,15 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
       frame = window.requestAnimationFrame(update);
     };
 
+    calculateMaxScroll();
     update();
+
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("resize", () => {
+      calculateMaxScroll();
+      scheduleUpdate();
+    });
+
     return () => {
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
