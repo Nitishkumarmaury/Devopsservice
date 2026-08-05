@@ -1,5 +1,5 @@
 import { Activity, ArrowRight, Cloud, CloudCog, Container as ContainerIcon, GitBranch, LockKeyhole, ShieldCheck, Workflow } from "lucide-react";
-import Lightfall from "@/components/visuals/lightfall";
+import LightfallLoader from "@/components/visuals/lightfall-loader";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -22,7 +22,7 @@ function HeroVisual() {
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       <AuroraBackground className="opacity-95" />
       <div className="absolute inset-y-0 right-[-14%] w-[92rem] max-w-[115vw] opacity-60">
-        <Lightfall
+        <LightfallLoader
           colors={["#A6C8FF", "#35D6ED", "#B25CFF"]}
           backgroundColor="#f6f8fa"
           speed={0.42}
