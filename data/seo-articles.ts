@@ -77,6 +77,92 @@ export const seoArticles: SeoArticle[] = [
     ],
   },
   {
+    slug: "devops-deployment-checklist",
+    title: "Comprehensive DevOps Deployment Checklist: From Code to Production",
+    metaDescription:
+      "A practical, step-by-step DevOps deployment checklist covering CI/CD, build validation, health checks, rollback, and post-deploy monitoring for reliable production releases.",
+    h1: "DevOps Deployment Checklist",
+    eyebrow: "Deployment guide",
+    intro:
+      "This checklist helps engineering teams move code to production safely and repeatably. It covers pre-deploy validation, CI/CD, infrastructure checks, rollout strategies, and post-deploy monitoring so deployments are predictable and recoverable.",
+    readingTime: "12 min read",
+    publishedAt: "2026-08-05",
+    updatedAt: "2026-08-05",
+    primaryKeywords: ["DevOps deployment checklist", "deployment checklist", "CI/CD checklist", "production deploy checklist"],
+    takeaways: [
+      "Prepare releases with automated pipelines and deterministic builds.",
+      "Validate health, observability, and rollback plans before cutover.",
+      "Run small canary rollouts, monitor signals, and have a fast rollback path ready.",
+    ],
+    sections: [
+      {
+        heading: "Before You Build: gating and readiness",
+        body:
+          "Define the release window, set maintenance notices if needed, and confirm ownership for the deployment. Ensure the backlog, required access, and time-boxed rollback windows are agreed upfront.",
+        bullets: [
+          "Document the deployment owner and on-call contacts",
+          "Confirm database migration plans and compatibility",
+          "Ensure secrets, env vars, and feature flags are set and tested",
+        ],
+      },
+      {
+        heading: "CI/CD and Build Validation",
+        body:
+          "Automate build and test steps so the artifact that reaches production is identical to the one validated in CI. Keep the pipeline fast and deterministic.",
+        bullets: [
+          "Run unit, integration, and smoke tests in CI",
+          "Produce immutable build artifacts with versioned tags",
+          "Fail fast on flakiness and flaky-test isolation",
+        ],
+      },
+      {
+        heading: "Pre-deploy health checks",
+        body:
+          "Before routing traffic, validate application and infra health in a staging environment that mirrors production where possible.",
+        bullets: [
+          "Verify health endpoints and readiness probes",
+          "Check metrics baseline for latency, CPU, memory",
+          "Run a small production-like smoke test against staging",
+        ],
+      },
+      {
+        heading: "Deployment and rollout strategies",
+        body:
+          "Choose a rollout strategy that matches your risk profile: blue/green, canary, or rolling. Keep release size small and prefer frequent, small releases over large, risky deploys.",
+        bullets: [
+          "Prefer canary releases to limit blast radius",
+          "Automate traffic shifting with observability gates",
+          "Always have an automated rollback or fast undo path",
+        ],
+      },
+      {
+        heading: "Post-deploy observability and verification",
+        body:
+          "Monitor key signals immediately after deployment and keep validation checks running for the entire monitoring window.",
+        bullets: [
+          "Watch error rates, request latency, and saturation metrics",
+          "Validate external integrations and background jobs",
+          "Keep a short feedback loop between on-call, devs, and release owner",
+        ],
+      },
+      {
+        heading: "Rollback and incident runbook",
+        body:
+          "If things go wrong, follow a documented rollback runbook that minimizes state inconsistency and data loss. Practice rollbacks in non-production to ensure they work.",
+        bullets: [
+          "Document step-by-step rollback commands and pre-conditions",
+          "Automate DB rollback only when safe — prefer forward-compatible migrations",
+          "Record post-incident notes and update the checklist",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { label: "DevOps consulting services", href: "/devops-consulting-services" },
+      { label: "CI/CD consulting", href: "/ci-cd-consulting" },
+      { label: "Monitoring and alerting", href: "/monitoring-alerting" },
+    ],
+  },
+  {
     slug: "cloud-migration-best-practices",
     title: "Cloud Migration Best Practices for SaaS and Web Applications",
     metaDescription:
