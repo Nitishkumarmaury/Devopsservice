@@ -211,9 +211,9 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                       animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                       exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
                       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] flex max-h-[calc(100dvh-7.5rem)] w-[620px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-[18px] border border-[#d6ebff]/14 bg-[#0d2338] p-3 shadow-[0_34px_90px_rgba(0,0,0,0.42)] ring-1 ring-white/5"
+                      className="absolute left-0 top-[calc(100%+0.75rem)] z-[80] flex h-[calc(100dvh-7.5rem)] max-h-[44rem] w-[620px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-[18px] border border-[#d6ebff]/14 bg-[#0d2338] p-3 shadow-[0_34px_90px_rgba(0,0,0,0.42)] ring-1 ring-white/5"
                     >
-                      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1">
+                      <div className="min-h-0 flex-1 overflow-y-scroll overscroll-contain pr-1 [scrollbar-gutter:stable]">
                         <div className="grid gap-2 sm:grid-cols-2">
                           {serviceLinks.map((service) => (
                             <Link
@@ -309,7 +309,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="mobile-navigation-panel overflow-y-auto border-t border-[#d6ebff]/14 bg-[#06111f]/96 px-5 py-5 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-xl xl:hidden"
+            className="mobile-navigation-panel overflow-y-auto overscroll-contain touch-pan-y border-t border-[#d6ebff]/14 bg-[#06111f]/96 px-5 py-5 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-xl xl:hidden"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-2">
               {navItems.map((item) =>
@@ -333,24 +333,26 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                           transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
                           className="overflow-hidden"
                         >
-                          <div className="grid gap-1 px-2 pb-2">
-                            <Link
-                              href="/services"
-                              onClick={closeMobileMenu}
-                              className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-[#e5f2ff] hover:bg-[#12304b]"
-                            >
-                              View all services
-                            </Link>
-                            {serviceLinks.map((service) => (
+                          <div className="max-h-[50dvh] overflow-y-auto overscroll-contain touch-pan-y px-2 pb-2">
+                            <div className="grid gap-1">
                               <Link
-                                key={service.href}
-                                href={service.href}
+                                href="/services"
                                 onClick={closeMobileMenu}
-                                className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[#12304b] hover:text-[var(--text-primary)]"
+                                className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm font-semibold text-[#e5f2ff] hover:bg-[#12304b]"
                               >
-                                {service.title}
+                                View all services
                               </Link>
-                            ))}
+                              {serviceLinks.map((service) => (
+                                <Link
+                                  key={service.href}
+                                  href={service.href}
+                                  onClick={closeMobileMenu}
+                                  className="flex min-h-11 items-center rounded-lg px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[#12304b] hover:text-[var(--text-primary)]"
+                                >
+                                  {service.title}
+                                </Link>
+                              ))}
+                            </div>
                           </div>
                         </motion.div>
                       ) : null}
