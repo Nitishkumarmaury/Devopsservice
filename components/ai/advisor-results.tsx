@@ -269,22 +269,20 @@ export function AdvisorResults({
   return (
     <div className="min-w-0 space-y-5 [overflow-wrap:anywhere]">
       <div className="aurora-panel min-w-0 rounded-2xl p-4 sm:p-5">
-        <div className="flex min-w-0 flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-          <div className="min-w-0">
-            <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Executive Summary</p>
-            <h3 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">Preliminary cloud blueprint</h3>
-            <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{blueprint.executiveSummary}</p>
-          </div>
-          <div className="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
-            <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={copyBlueprint}>
+        <div className="min-w-0">
+          <p className="font-mono text-[11px] uppercase leading-5 tracking-[0.14em] text-rose-700 sm:tracking-[0.18em]">Executive Summary</p>
+          <h3 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">Preliminary cloud blueprint</h3>
+          <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{blueprint.executiveSummary}</p>
+        </div>
+        <div className="mt-5 grid min-w-0 grid-cols-1 gap-2 border-t border-white/10 pt-4 sm:grid-cols-2">
+          <Button type="button" variant="secondary" className="w-full" onClick={copyBlueprint}>
               {copyState === "copied" ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
               {copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy"}
-            </Button>
-            <Button type="button" variant="secondary" className="w-full sm:w-auto" onClick={downloadBlueprint}>
-              <Download className="h-4 w-4" aria-hidden="true" />
-              Download
-            </Button>
-          </div>
+          </Button>
+          <Button type="button" variant="secondary" className="w-full" onClick={downloadBlueprint}>
+            <Download className="h-4 w-4" aria-hidden="true" />
+            Download
+          </Button>
         </div>
       </div>
 
