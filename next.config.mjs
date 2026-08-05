@@ -36,10 +36,6 @@ const nextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
-    // During local debugging, disable Next.js image optimization so external
-    // images are loaded directly by the browser. Remove or set to false for
-    // production or when image optimization is functioning.
-    unoptimized: true,
   },
   allowedDevOrigins: ["127.0.0.1", "localhost", "*.trycloudflare.com"],
   async headers() {
