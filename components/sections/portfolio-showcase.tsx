@@ -21,6 +21,7 @@ export function PortfolioShowcase({
 }: Readonly<PortfolioShowcaseProps>) {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = projects[activeIndex];
+  const [failedSrcs, setFailedSrcs] = useState<Set<string>>(new Set());
 
   return (
     <section
@@ -84,9 +85,10 @@ export function PortfolioShowcase({
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <div className={`absolute inset-0 bg-gradient-to-br ${active.gradient} opacity-60`} />
                     <Image
-                      src={active.screenshot}
+                      src={failedSrcs.has(active.screenshot) ? "/portfolio-fallback.svg" : active.screenshot}
                       alt={`${active.name} - ${active.tagline}`}
                       fill
+                      onError={() => setFailedSrcs((prev) => new Set(prev).add(active.screenshot))}
                       className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, 55vw"
                       loading="lazy"
@@ -179,9 +181,10 @@ export function PortfolioShowcase({
             >
               <div className="relative aspect-[16/9] overflow-hidden">
                 <Image
-                  src={project.screenshot}
+                  src={failedSrcs.has(project.screenshot) ? "/portfolio-fallback.svg" : project.screenshot}
                   alt={project.name}
                   fill
+                  onError={() => setFailedSrcs((prev) => new Set(prev).add(project.screenshot))}
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
                   sizes="(max-width: 640px) 50vw, 20vw"
                   loading="lazy"
