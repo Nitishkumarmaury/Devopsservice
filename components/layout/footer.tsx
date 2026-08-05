@@ -53,7 +53,7 @@ export function Footer() {
               height={siteConfig.logoHeight}
               className="h-20 w-auto object-contain sm:h-24"
               style={{ filter: "brightness(0) invert(1)" }}
-              unoptimized
+              
             />
             <span className="text-sm text-white/64">{siteConfig.tagline}</span>
           </Link>

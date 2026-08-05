@@ -22,7 +22,7 @@ export function AboutSection() {
                     width={siteConfig.logoWidth}
                     height={siteConfig.logoHeight}
                     className="h-28 w-auto object-contain sm:h-32"
-                    unoptimized
+                   
                   />
                 </div>
                 <p className="mt-5 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">Founded by {siteConfig.founder}</p>

@@ -167,7 +167,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
             className="h-12 w-auto object-contain sm:h-14"
             style={{ filter: "brightness(0) invert(1)" }}
             priority
-            unoptimized
+            
           />
           <span className="sr-only">
             {siteConfig.name}
