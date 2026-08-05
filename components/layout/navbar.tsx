@@ -141,7 +141,12 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
         <Link
           href="/"
           aria-label="CloudOpsync"
-          onClick={closeMobileMenu}
+          onClick={() => {
+            closeMobileMenu();
+            if (pathname === "/") {
+              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            }
+          }}
           className="inline-flex min-h-[4.75rem] min-w-[7.25rem] shrink-0 flex-col items-start justify-center rounded-lg border border-transparent bg-transparent px-0 py-1 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4da3ff] sm:min-h-[5rem] sm:min-w-[7.7rem] xl:mr-4"
         >
           <Image

@@ -46,6 +46,22 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.cloudopsync.com" }],
+        destination: "https://cloudopsync.com/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "devopsservice.vercel.app" }],
+        destination: "https://cloudopsync.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   outputFileTracingRoot: projectRoot,
   turbopack: {
     root: projectRoot,

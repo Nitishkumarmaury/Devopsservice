@@ -1,0 +1,27 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.cloudopsync.com"
+        }
+      ],
+      "destination": "https://cloudopsync.com/:path",
+      "permanent": true
+    },
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "devopsservice.vercel.app"
+        }
+      ],
+      "destination": "https://cloudopsync.com/:path",
+      "permanent": true
+    }
+  ]
+}

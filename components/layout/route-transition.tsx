@@ -15,6 +15,10 @@ export function RouteTransition({ children }: Readonly<{ children: ReactNode }>)
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
+
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div

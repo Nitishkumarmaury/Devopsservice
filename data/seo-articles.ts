@@ -29,8 +29,8 @@ export const seoArticles: SeoArticle[] = [
     intro:
       "DevOps is a practical way to connect software delivery, infrastructure, automation, monitoring, and operations so teams can ship changes faster without losing production control.",
     readingTime: "7 min read",
-    publishedAt: "2026-07-09",
-    updatedAt: "2026-07-09",
+    publishedAt: "2025-07-09",
+    updatedAt: "2025-07-09",
     primaryKeywords: ["What is DevOps", "DevOps best practices", "DevOps benefits", "DevOps consulting services"],
     takeaways: [
       "DevOps is not just a job title or a tool list; it is a delivery and operations practice.",
@@ -86,8 +86,8 @@ export const seoArticles: SeoArticle[] = [
     intro:
       "Cloud migration works best when teams treat it as a controlled production change, not a last-minute server move. The migration plan should protect users, data, deployments, and observability.",
     readingTime: "8 min read",
-    publishedAt: "2026-07-09",
-    updatedAt: "2026-07-09",
+    publishedAt: "2025-07-09",
+    updatedAt: "2025-07-09",
     primaryKeywords: ["Cloud migration strategies", "cloud consulting services", "AWS migration consultant", "managed cloud services"],
     takeaways: [
       "Start with dependency discovery before choosing cloud services.",
@@ -137,8 +137,8 @@ export const seoArticles: SeoArticle[] = [
     intro:
       "DevSecOps extends DevOps by making security part of delivery and operations instead of a separate review after production decisions have already been made.",
     readingTime: "6 min read",
-    publishedAt: "2026-07-09",
-    updatedAt: "2026-07-09",
+    publishedAt: "2025-07-09",
+    updatedAt: "2025-07-09",
     primaryKeywords: ["DevOps vs DevSecOps", "DevOps security", "DevOps best practices", "CI/CD security"],
     takeaways: [
       "DevOps focuses on faster and more reliable software delivery.",
@@ -189,8 +189,8 @@ export const seoArticles: SeoArticle[] = [
     intro:
       "DevOps automation tools are useful only when they reduce real operational friction. The right tool depends on the release process, infrastructure model, team skill, and production risk.",
     readingTime: "7 min read",
-    publishedAt: "2026-07-09",
-    updatedAt: "2026-07-09",
+    publishedAt: "2025-07-09",
+    updatedAt: "2025-07-09",
     primaryKeywords: ["DevOps automation tools", "Infrastructure as Code services", "CI/CD pipeline consulting", "DevOps automation services"],
     takeaways: [
       "CI/CD tools should make releases repeatable, observable, and easier to recover.",
