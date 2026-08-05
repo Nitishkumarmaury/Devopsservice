@@ -108,6 +108,8 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
     clientIndustry: "Cloud Infrastructure & Monitoring",
     screenshot: "https://images.unsplash.com/photo-1463171120286-a21ff46dcdd7?q=80&w=1200&auto=format&fit=crop",
+    // Replaced a 404'ing Unsplash image with a valid image URL
+    screenshot: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
     gradient: "from-blue-500/20 via-indigo-500/10 to-purple-500/20",
     accentColor: "#3b82f6",
   },
