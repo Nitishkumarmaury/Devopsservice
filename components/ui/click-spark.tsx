@@ -84,6 +84,12 @@ export function ClickSpark({
       return;
     }
 
+    // Pause drawing when the page is hidden to save CPU
+    if (typeof document !== "undefined" && document.hidden) {
+      animationRef.current = null;
+      return;
+    }
+
     const viewport = window.visualViewport;
     const width = viewport?.width ?? window.innerWidth;
     const height = viewport?.height ?? window.innerHeight;
@@ -152,13 +158,25 @@ export function ClickSpark({
       });
     };
 
+    const handleVisibility = () => {
+      if (!document.hidden) {
+        // ensure canvas sizing and resume any pending animation
+        resizeCanvas();
+        if (sparksRef.current.length > 0 && !animationRef.current) {
+          animationRef.current = requestAnimationFrame(drawFrame);
+        }
+      }
+    };
+
     resizeCanvas();
     window.addEventListener("resize", scheduleResize);
     window.visualViewport?.addEventListener("resize", scheduleResize);
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       window.removeEventListener("resize", scheduleResize);
       window.visualViewport?.removeEventListener("resize", scheduleResize);
+      document.removeEventListener("visibilitychange", handleVisibility);
 
       if (resizeFrameRef.current) {
         cancelAnimationFrame(resizeFrameRef.current);

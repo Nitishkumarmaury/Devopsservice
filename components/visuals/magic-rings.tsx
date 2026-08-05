@@ -403,7 +403,18 @@ export default function MagicRings({
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
     visibilityObserver?.observe(container);
-    window.addEventListener("resize", resize);
+
+    // debounce resize using requestAnimationFrame
+    let resizeFrame = 0;
+    const scheduleResize = () => {
+      if (resizeFrame) return;
+      resizeFrame = window.requestAnimationFrame(() => {
+        resizeFrame = 0;
+        resize();
+      });
+    };
+
+    window.addEventListener("resize", scheduleResize);
     container.addEventListener("mousemove", onMouseMove);
     container.addEventListener("mouseenter", onMouseEnter);
     container.addEventListener("mouseleave", onMouseLeave);
@@ -418,7 +429,7 @@ export default function MagicRings({
       window.cancelAnimationFrame(animationId);
       resizeObserver.disconnect();
       visibilityObserver?.disconnect();
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", scheduleResize);
       container.removeEventListener("mousemove", onMouseMove);
       container.removeEventListener("mouseenter", onMouseEnter);
       container.removeEventListener("mouseleave", onMouseLeave);
