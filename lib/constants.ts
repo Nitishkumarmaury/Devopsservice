@@ -9,7 +9,14 @@ export const siteConfig = {
   logoFull: "/brand/CloudOpsync-removebg-preview.png",
   logoWidth: 612,
   logoHeight: 408,
-  url: process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://cloudopsync.com",
+  // Normalize site URL: prefer NEXT_PUBLIC_SITE_URL but avoid showing Vercel preview host in sitemaps.
+  // If NEXT_PUBLIC_SITE_URL points to a preview domain (devopsservice.vercel.app), fall back to the canonical domain.
+  url: (() => {
+    const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+    if (!envUrl) return "https://cloudopsync.com";
+    if (envUrl.includes("devopsservice.vercel.app")) return "https://cloudopsync.com";
+    return envUrl;
+  })(),
   email: "support@cloudopsync.com",
   supportEmail: "support@cloudopsync.com",
   infoEmail: "info@cloudopsync.com",
