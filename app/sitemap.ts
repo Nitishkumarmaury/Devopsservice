@@ -16,7 +16,6 @@ const staticRoutes: SitemapRoute[] = [
   { path: "", changeFrequency: "daily", priority: 1.0 },
   { path: "/services", changeFrequency: "weekly", priority: 0.9 },
   { path: "/solutions", changeFrequency: "weekly", priority: 0.8 },
-  { path: "/advisor", changeFrequency: "monthly", priority: 0.7 },
   { path: "/process", changeFrequency: "monthly", priority: 0.7 },
   { path: "/case-studies", changeFrequency: "weekly", priority: 0.8 },
   { path: "/blog", changeFrequency: "daily", priority: 0.8 },
