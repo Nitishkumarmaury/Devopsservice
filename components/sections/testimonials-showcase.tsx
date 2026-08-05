@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, ChevronLeft, ChevronRight, Cloud, Cpu, Layers, MessageSquarePlus, Quote, Star } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ChevronRight, Cloud, Cpu, Eye, Layers, MessageSquarePlus, Quote, Star } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { WriteReviewModal } from "@/components/sections/write-review-modal";
+import { ViewReviewModal } from "@/components/sections/view-review-modal";
 import type { Testimonial } from "@/data/testimonials";
 
 type TestimonialsShowcaseProps = {
@@ -67,14 +68,20 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
   const [items, setItems] = useState<Testimonial[]>(initialTestimonials);
   const [filterCategory, setFilterCategory] = useState<string>("All");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Write Review Modal
+  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+
+  // View Full Review Modal
+  const [viewingReviewIndex, setViewingReviewIndex] = useState<number | null>(null);
+
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Fetch live stored reviews on mount
+  // Fetch live stored reviews from API / MongoDB
   useEffect(() => {
     async function loadReviews() {
       try {
-        const res = await fetch("/api/reviews");
+        const res = await fetch("/api/reviews", { cache: "no-store" });
         const data = await res.json();
         if (data.success && Array.isArray(data.reviews) && data.reviews.length > 0) {
           setItems(data.reviews);
@@ -120,6 +127,7 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
   if (activeList.length === 0) return null;
 
   const current = activeList[activeIndex] || activeList[0];
+  const selectedFullReview = viewingReviewIndex !== null ? activeList[viewingReviewIndex] : null;
 
   return (
     <section
@@ -170,7 +178,7 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
 
             <button
               type="button"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsWriteModalOpen(true)}
               className="ml-0 sm:ml-2 inline-flex items-center gap-2 rounded-xl border border-[#ffcf72]/40 bg-[#ffcf72]/12 px-4 py-2 text-xs font-semibold text-[#ffcf72] shadow-[0_0_20px_rgba(255,207,114,0.15)] transition hover:bg-[#ffcf72] hover:text-[#06111f]"
             >
               <MessageSquarePlus className="h-3.5 w-3.5" aria-hidden="true" />
@@ -203,19 +211,31 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
 
               <div className="flex items-start gap-4">
                 <Quote className="mt-1 h-8 w-8 shrink-0 text-[#4da3ff]/40" aria-hidden="true" />
-                <div className="min-w-0">
-                  <blockquote className="text-base leading-8 text-[var(--text-primary)] sm:text-lg sm:leading-8">
+                <div className="min-w-0 flex-1">
+                  <blockquote className="line-clamp-4 text-base leading-8 text-[var(--text-primary)] sm:text-lg sm:leading-8">
                     &ldquo;{current.quote}&rdquo;
                   </blockquote>
-                  <div className="mt-6 flex items-center gap-4 border-t border-[#d6ebff]/10 pt-5">
-                    <AvatarCircle initials={current.avatar} index={activeIndex} />
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-[var(--text-primary)]">{current.name}</p>
-                      <p className="mt-0.5 text-sm text-[var(--text-muted)]">
-                        {current.position}, <span className="text-white font-medium">{current.company}</span>
-                      </p>
-                      <p className="mt-0.5 text-xs text-[#4da3ff] font-mono">{current.project}</p>
+
+                  <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#d6ebff]/10 pt-5">
+                    <div className="flex items-center gap-4">
+                      <AvatarCircle initials={current.avatar} index={activeIndex} />
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-[var(--text-primary)]">{current.name}</p>
+                        <p className="mt-0.5 text-sm text-[var(--text-muted)]">
+                          {current.position}, <span className="text-white font-medium">{current.company}</span>
+                        </p>
+                        <p className="mt-0.5 text-xs text-[#4da3ff] font-mono">{current.project}</p>
+                      </div>
                     </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setViewingReviewIndex(activeIndex)}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-[#4da3ff]/30 bg-[#4da3ff]/10 px-3.5 py-2 text-xs font-semibold text-[#b9ddff] hover:bg-[#4da3ff]/20 transition"
+                    >
+                      <Eye className="h-3.5 w-3.5" />
+                      Read Full Review
+                    </button>
                   </div>
                 </div>
               </div>
@@ -276,16 +296,17 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
             <button
               key={`${testimonial.name}-${testimonial.company}-${index}`}
               type="button"
+              className={[
+                "group flex cursor-pointer flex-col justify-between rounded-[20px] border p-5 text-left transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#4da3ff]/70 focus:ring-offset-2 focus:ring-offset-[#0d2338]",
+                activeIndex === index
+                  ? "border-[#4da3ff]/40 bg-[#0d2338] shadow-[0_0_32px_rgba(77,163,255,0.12)]"
+                  : "border-[#d6ebff]/10 bg-[#0d2338]/60 hover:border-[#4da3ff]/30 hover:bg-[#12304b]",
+              ].join(" ")}
               onClick={() => {
                 setActiveIndex(index);
+                setViewingReviewIndex(index);
                 resetInterval();
               }}
-              className={[
-                "group rounded-[18px] border p-5 text-left transition-all duration-300 flex flex-col justify-between",
-                activeIndex === index
-                  ? "border-[#4da3ff]/30 bg-[#0d2338] shadow-[0_0_32px_rgba(77,163,255,0.1)]"
-                  : "border-[#d6ebff]/10 bg-[#0d2338]/60 hover:border-[#4da3ff]/20 hover:bg-[#12304b]",
-              ].join(" ")}
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
@@ -295,6 +316,10 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
                 <p className="line-clamp-3 text-sm leading-6 text-[var(--text-secondary)]">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
+                <span className="mt-2 inline-flex items-center gap-1 font-mono text-[11px] text-[#4da3ff] opacity-80 group-hover:opacity-100 group-hover:underline">
+                  <Eye className="h-3 w-3" />
+                  Click to read full comment
+                </span>
               </div>
 
               <div className="mt-4 flex items-center gap-3 border-t border-[#d6ebff]/8 pt-3">
@@ -313,9 +338,36 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
 
       {/* Review Submission Modal */}
       <WriteReviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isWriteModalOpen}
+        onClose={() => setIsWriteModalOpen(false)}
         onSuccess={handleReviewAdded}
+      />
+
+      {/* View Full Review Details Modal */}
+      <ViewReviewModal
+        review={selectedFullReview}
+        isOpen={viewingReviewIndex !== null}
+        onClose={() => setViewingReviewIndex(null)}
+        currentIndex={viewingReviewIndex ?? undefined}
+        totalCount={activeList.length}
+        onPrev={() => {
+          setViewingReviewIndex((prev) => {
+            if (prev === null) return null;
+            const nextIndex = (prev - 1 + activeList.length) % activeList.length;
+            setActiveIndex(nextIndex);
+            return nextIndex;
+          });
+          resetInterval();
+        }}
+        onNext={() => {
+          setViewingReviewIndex((prev) => {
+            if (prev === null) return null;
+            const nextIndex = (prev + 1) % activeList.length;
+            setActiveIndex(nextIndex);
+            return nextIndex;
+          });
+          resetInterval();
+        }}
       />
     </section>
   );

@@ -43,6 +43,7 @@ AI_PROVIDER_PROJECT_REFERENCE=327005939382
 MONGODB_URI=
 AUTH_DB_NAME=Devopsservice
 AUTH_USERS_COLLECTION=users
+REVIEWS_COLLECTION=reviews
 AUTH_BOOTSTRAP_USERNAME=
 AUTH_BOOTSTRAP_PASSWORD=
 AUTH_SESSION_SECRET=
@@ -54,6 +55,8 @@ UPSTASH_REDIS_REST_TOKEN=
 ```
 
 The contact API route validates requests server-side and keeps provider credentials out of client code. `CONTACT_EMAIL_PROVIDER=brevo` sends contact inquiries through Brevo transactional email using `CONTACT_PROVIDER_API_KEY`. When `BREVO_CONTACT_LIST_IDS` is set, website leads are also added to those Brevo contact lists and saved with a CRM deal and note.
+
+Client reviews are stored in the `reviews` collection of the same MongoDB database as authentication records. Keep `MONGODB_URI` and `AUTH_DB_NAME` set on the production host. In production, a review is never reported as published unless MongoDB confirms the save.
 
 Use Brevo transactional SMTP for production contact and password reset emails. Campaign and test-campaign sends are intentionally not used, because Brevo can add unsubscribe UI or a test subject prefix to those messages.
 

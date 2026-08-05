@@ -9,14 +9,32 @@ export function getMongoClient() {
     throw new Error("MONGODB_URI is not configured.");
   }
 
-  clientPromise ??= new MongoClient(uri).connect();
+  if (!clientPromise) {
+    clientPromise = new MongoClient(uri).connect().catch((error) => {
+      // Do not leave a rejected connection promise cached forever. A later
+      // request can reconnect after a brief database or network outage.
+      clientPromise = undefined;
+      throw error;
+    });
+  }
+
   return clientPromise;
+}
+
+function getDatabaseName() {
+  // Keep reviews in the same database as the existing authentication data.
+  return process.env.AUTH_DB_NAME || "Devopsservice";
 }
 
 export async function getAuthCollection() {
   const client = await getMongoClient();
-  const dbName = process.env.AUTH_DB_NAME || "Devopsservice";
+  const dbName = getDatabaseName();
   const collectionName = process.env.AUTH_USERS_COLLECTION || "users";
 
   return client.db(dbName).collection(collectionName);
+}
+
+export async function getReviewsCollection() {
+  const client = await getMongoClient();
+  return client.db(getDatabaseName()).collection(process.env.REVIEWS_COLLECTION || "reviews");
 }

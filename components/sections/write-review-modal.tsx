@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { CheckCircle2, Cloud, Cpu, Layers, MessageSquarePlus, Star, X } from "lucide-react";
 import type { Testimonial } from "@/data/testimonials";
+
+type ReviewCategory = "Cloud Infrastructure" | "Deployment Services" | "Cloud & Deployment";
 
 type WriteReviewModalProps = {
   isOpen: boolean;
@@ -11,70 +13,106 @@ type WriteReviewModalProps = {
   onSuccess: (updatedReviews: Testimonial[]) => void;
 };
 
+type ReviewSubmissionResponse = {
+  success: boolean;
+  error?: string;
+  message?: string;
+  reviews?: Testimonial[];
+};
+
+const categories: { id: ReviewCategory; label: string; Icon: typeof Cloud }[] = [
+  { id: "Cloud Infrastructure", label: "Cloud", Icon: Cloud },
+  { id: "Deployment Services", label: "Deployment", Icon: Cpu },
+  { id: "Cloud & Deployment", label: "Both", Icon: Layers },
+];
+
+const inputClassName =
+  "w-full rounded-lg border border-[#d6ebff]/12 bg-[#06111f]/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 outline-none transition focus:border-[#4da3ff] focus:ring-2 focus:ring-[#4da3ff]/15";
+
 export function WriteReviewModal({ isOpen, onClose, onSuccess }: Readonly<WriteReviewModalProps>) {
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
   const [project, setProject] = useState("");
-  const [serviceCategory, setServiceCategory] = useState<"Cloud Infrastructure" | "Deployment Services" | "Cloud & Deployment">("Cloud & Deployment");
+  const [serviceCategory, setServiceCategory] = useState<ReviewCategory>("Cloud & Deployment");
   const [rating, setRating] = useState(5);
   const [hoverRating, setHoverRating] = useState(0);
   const [quote, setQuote] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !company || !quote) {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
+  const resetForm = () => {
+    setName("");
+    setPosition("");
+    setCompany("");
+    setProject("");
+    setServiceCategory("Cloud & Deployment");
+    setRating(5);
+    setQuote("");
+    setErrorMsg("");
+    setSuccessMsg("");
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!name.trim() || !company.trim() || !quote.trim()) {
       setErrorMsg("Please fill out your name, company, and review message.");
       return;
     }
 
     setLoading(true);
     setErrorMsg("");
-    setSuccessMsg("");
 
     try {
-      const res = await fetch("/api/reviews", {
+      const response = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          position: position || "Client Partner",
+          position,
           company,
-          project: project || "Cloud & Deployment Engagement",
+          project,
           serviceCategory,
           rating,
           quote,
           industry: "Software & Technology",
         }),
       });
+      const data = (await response.json().catch(() => null)) as ReviewSubmissionResponse | null;
 
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to submit review");
+      if (!response.ok || !data?.success) {
+        throw new Error(data?.error || "Unable to submit your review right now.");
       }
 
-      setSuccessMsg(data.message || "Thank you! Your review has been formatted and published.");
-      if (data.reviews) {
-        onSuccess(data.reviews);
-      }
+      if (Array.isArray(data.reviews)) onSuccess(data.reviews);
+      setSuccessMsg(data.message || "Thank you! Your review is now live.");
 
-      setTimeout(() => {
-        setName("");
-        setPosition("");
-        setCompany("");
-        setProject("");
-        setRating(5);
-        setQuote("");
-        setSuccessMsg("");
+      window.setTimeout(() => {
+        resetForm();
         onClose();
-      }, 1800);
-    } catch (err: any) {
-      setErrorMsg(err.message || "An unexpected error occurred. Please try again.");
+      }, 1600);
+    } catch (error) {
+      setErrorMsg(error instanceof Error ? error.message : "An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -83,205 +121,196 @@ export function WriteReviewModal({ isOpen, onClose, onSuccess }: Readonly<WriteR
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-          {/* Backdrop */}
+        <div className="fixed inset-0 z-[110] grid place-items-center p-2 sm:p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#06111f]/85 backdrop-blur-md"
+            className="absolute inset-0 bg-[#06111f]/90 backdrop-blur-lg"
           />
 
-          {/* Modal Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="write-review-title"
+            initial={{ opacity: 0, scale: 0.97, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-xl overflow-hidden rounded-[24px] border border-[#d6ebff]/14 bg-[#0d2338] p-6 shadow-[0_32px_96px_rgba(0,0,0,0.6)] sm:p-8"
+            exit={{ opacity: 0, scale: 0.97, y: 12 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="relative z-10 w-full max-w-2xl max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain rounded-2xl border border-[#d6ebff]/14 bg-[#0d2338] p-4 shadow-[0_32px_120px_rgba(0,0,0,0.7)] sm:max-h-[calc(100dvh-2rem)] sm:p-5"
           >
-            {/* Close button */}
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-5 top-5 grid h-8 w-8 place-items-center rounded-lg text-[var(--text-muted)] hover:bg-[#12304b] hover:text-white"
-            >
-              <X className="h-5 w-5" aria-hidden="true" />
-            </button>
-
-            <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-xl border border-[#4da3ff]/20 bg-[#4da3ff]/10 text-[#4da3ff]">
-                <MessageSquarePlus className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <div>
-                <h3 className="text-xl font-semibold text-white">Write a Client Review</h3>
-                <p className="text-xs text-[var(--text-muted)]">Share feedback on Cloud Services or Deployment Services delivered</p>
+            <div className="flex items-start justify-between gap-4 border-b border-[#d6ebff]/10 pb-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-[#4da3ff]/20 bg-[#4da3ff]/10 text-[#4da3ff]">
+                  <MessageSquarePlus className="h-4 w-4" aria-hidden="true" />
+                </span>
+                <div>
+                  <h3 id="write-review-title" className="text-lg font-semibold text-white">
+                    Write a client review
+                  </h3>
+                  <p className="mt-0.5 text-xs text-[var(--text-muted)]">A few details are all we need.</p>
+                </div>
               </div>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={onClose}
+                aria-label="Close review form"
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-[#d6ebff]/12 bg-[#06111f]/60 text-white/70 transition hover:bg-[#12304b] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#4da3ff]/50"
+              >
+                <X className="h-4 w-4" aria-hidden="true" />
+              </button>
             </div>
 
             {successMsg ? (
-              <div className="my-8 flex flex-col items-center justify-center rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6 text-center">
-                <CheckCircle2 className="h-12 w-12 text-emerald-400" />
-                <p className="mt-3 text-lg font-semibold text-white">{successMsg}</p>
-                <p className="mt-1 text-xs text-emerald-200/80">Your review is formatted & verified live on the website.</p>
+              <div className="my-6 flex flex-col items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-5 text-center">
+                <CheckCircle2 className="h-10 w-10 text-emerald-400" />
+                <p className="mt-2 text-base font-semibold text-white">{successMsg}</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <form onSubmit={handleSubmit} className="mt-4 grid gap-3">
                 {errorMsg && (
-                  <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-xs text-red-300">
+                  <div role="alert" className="rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-xs text-red-200">
                     {errorMsg}
                   </div>
                 )}
 
-                {/* Service Category Selection */}
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
-                    Select Service Provided *
-                  </label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[
-                      { id: "Cloud Infrastructure", label: "Cloud Services", Icon: Cloud },
-                      { id: "Deployment Services", label: "Deployment", Icon: Cpu },
-                      { id: "Cloud & Deployment", label: "Both Services", Icon: Layers },
-                    ].map((cat) => (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        onClick={() => setServiceCategory(cat.id as any)}
-                        className={[
-                          "flex flex-col items-center justify-center rounded-xl border p-2.5 text-center transition-all",
-                          serviceCategory === cat.id
-                            ? "border-[#4da3ff] bg-[#4da3ff]/15 text-white shadow-[0_0_16px_rgba(77,163,255,0.2)]"
-                            : "border-[#d6ebff]/12 bg-[#06111f]/60 text-[var(--text-secondary)] hover:border-[#4da3ff]/30 hover:text-white",
-                        ].join(" ")}
-                      >
-                        <cat.Icon className={`h-4 w-4 mb-1 ${serviceCategory === cat.id ? "text-[#4da3ff]" : "text-gray-400"}`} />
-                        <span className="text-xs font-semibold">{cat.label}</span>
-                      </button>
-                    ))}
-                  </div>
+                <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+                  <fieldset>
+                    <legend className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+                      Service provided
+                    </legend>
+                    <div className="grid grid-cols-3 gap-2">
+                      {categories.map(({ id, label, Icon }) => (
+                        <button
+                          key={id}
+                          type="button"
+                          onClick={() => setServiceCategory(id)}
+                          className={[
+                            "inline-flex min-h-10 items-center justify-center gap-1 rounded-lg border px-2 py-2 text-[11px] font-semibold transition focus:outline-none focus:ring-2 focus:ring-[#4da3ff]/50",
+                            serviceCategory === id
+                              ? "border-[#4da3ff] bg-[#4da3ff]/15 text-white"
+                              : "border-[#d6ebff]/12 bg-[#06111f]/60 text-[var(--text-secondary)] hover:border-[#4da3ff]/30 hover:text-white",
+                          ].join(" ")}
+                        >
+                          <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+                      Rating
+                    </legend>
+                    <div className="flex h-10 items-center rounded-lg border border-[#d6ebff]/12 bg-[#06111f]/60 px-1.5">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          aria-label={`${star} star${star === 1 ? "" : "s"}`}
+                          onClick={() => setRating(star)}
+                          onMouseEnter={() => setHoverRating(star)}
+                          onMouseLeave={() => setHoverRating(0)}
+                          className="p-0.5 transition-transform hover:scale-110 focus:outline-none"
+                        >
+                          <Star
+                            className={[
+                              "h-5 w-5",
+                              star <= (hoverRating || rating) ? "fill-[#ffcf72] text-[#ffcf72]" : "fill-[#06111f] text-slate-600",
+                            ].join(" ")}
+                            aria-hidden="true"
+                          />
+                        </button>
+                      ))}
+                      <span className="ml-1 border-l border-[#d6ebff]/10 pl-2 font-mono text-xs text-[#ffcf72]">{rating}/5</span>
+                    </div>
+                  </fieldset>
                 </div>
 
-                {/* Rating Select */}
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-1.5">
-                    Rating *
-                  </label>
-                  <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        onClick={() => setRating(star)}
-                        onMouseEnter={() => setHoverRating(star)}
-                        onMouseLeave={() => setHoverRating(0)}
-                        className="p-1 transition-transform hover:scale-110 focus:outline-none"
-                      >
-                        <Star
-                          className={`h-7 w-7 ${
-                            star <= (hoverRating || rating)
-                              ? "fill-[#ffcf72] text-[#ffcf72]"
-                              : "fill-[#06111f] text-gray-600"
-                          }`}
-                        />
-                      </button>
-                    ))}
-                    <span className="ml-2 font-mono text-sm text-[#ffcf72]">{rating}.0 / 5.0</span>
-                  </div>
-                </div>
-
-                {/* Grid Inputs */}
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="review-name" className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                      Full Name *
-                    </label>
+                  <label className="text-xs font-medium text-[var(--text-secondary)]">
+                    Full name *
                     <input
-                      id="review-name"
                       type="text"
                       required
-                      placeholder="e.g. Alex Morgan"
+                      maxLength={100}
+                      autoComplete="name"
+                      placeholder="Alex Morgan"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/80 px-3.5 py-2 text-sm text-white placeholder-gray-500 focus:border-[#4da3ff] focus:outline-none"
+                      onChange={(event) => setName(event.target.value)}
+                      className={`mt-1 ${inputClassName}`}
                     />
-                  </div>
-                  <div>
-                    <label htmlFor="review-position" className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                      Position / Title
-                    </label>
+                  </label>
+                  <label className="text-xs font-medium text-[var(--text-secondary)]">
+                    Position / title
                     <input
-                      id="review-position"
                       type="text"
-                      placeholder="e.g. CTO / Engineering Lead"
+                      maxLength={120}
+                      placeholder="CTO"
                       value={position}
-                      onChange={(e) => setPosition(e.target.value)}
-                      className="w-full rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/80 px-3.5 py-2 text-sm text-white placeholder-gray-500 focus:border-[#4da3ff] focus:outline-none"
+                      onChange={(event) => setPosition(event.target.value)}
+                      className={`mt-1 ${inputClassName}`}
                     />
-                  </div>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="review-company" className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                      Company / Organization *
-                    </label>
+                  </label>
+                  <label className="text-xs font-medium text-[var(--text-secondary)]">
+                    Company *
                     <input
-                      id="review-company"
                       type="text"
                       required
-                      placeholder="e.g. TechCorp"
+                      maxLength={120}
+                      autoComplete="organization"
+                      placeholder="Company name"
                       value={company}
-                      onChange={(e) => setCompany(e.target.value)}
-                      className="w-full rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/80 px-3.5 py-2 text-sm text-white placeholder-gray-500 focus:border-[#4da3ff] focus:outline-none"
+                      onChange={(event) => setCompany(event.target.value)}
+                      className={`mt-1 ${inputClassName}`}
                     />
-                  </div>
-                  <div>
-                    <label htmlFor="review-project" className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                      Project Delivered
-                    </label>
-                    <input
-                      id="review-project"
-                      type="text"
-                      placeholder="e.g. AWS Migration & CI/CD Pipeline"
-                      value={project}
-                      onChange={(e) => setProject(e.target.value)}
-                      className="w-full rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/80 px-3.5 py-2 text-sm text-white placeholder-gray-500 focus:border-[#4da3ff] focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Review Text */}
-                <div>
-                  <label htmlFor="review-quote" className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                    Your Feedback & Detailed Review *
                   </label>
-                  <textarea
-                    id="review-quote"
-                    required
-                    rows={4}
-                    placeholder="Describe how CloudOpsync executed your cloud architecture, server deployment, CI/CD pipeline, monitoring, or production support..."
-                    value={quote}
-                    onChange={(e) => setQuote(e.target.value)}
-                    className="w-full rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/80 px-3.5 py-2 text-sm text-white placeholder-gray-500 focus:border-[#4da3ff] focus:outline-none resize-none"
-                  />
+                  <label className="text-xs font-medium text-[var(--text-secondary)]">
+                    Project delivered
+                    <input
+                      type="text"
+                      maxLength={160}
+                      placeholder="AWS migration"
+                      value={project}
+                      onChange={(event) => setProject(event.target.value)}
+                      className={`mt-1 ${inputClassName}`}
+                    />
+                  </label>
                 </div>
 
-                {/* Actions */}
-                <div className="mt-4 flex items-center justify-end gap-3 pt-2">
+                <label className="text-xs font-medium text-[var(--text-secondary)]">
+                  <span className="flex items-center justify-between gap-3">
+                    Your feedback *
+                    <span className="font-normal text-[var(--text-muted)]">{quote.length}/5000</span>
+                  </span>
+                  <textarea
+                    required
+                    rows={3}
+                    maxLength={5000}
+                    placeholder="Tell us about the work and results…"
+                    value={quote}
+                    onChange={(event) => setQuote(event.target.value)}
+                    className={`mt-1 min-h-24 resize-y ${inputClassName}`}
+                  />
+                </label>
+
+                <div className="flex items-center justify-end gap-2 border-t border-[#d6ebff]/10 pt-3">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/60 px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#12304b]"
+                    className="rounded-lg border border-[#d6ebff]/12 bg-[#06111f]/60 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-[#12304b]"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="rounded-xl border border-[#4da3ff]/50 bg-[#4da3ff] px-5 py-2.5 text-xs font-semibold text-[#06111f] shadow-[0_12px_32px_rgba(77,163,255,0.25)] transition hover:bg-[#b9ddff] disabled:opacity-50"
+                    className="rounded-lg border border-[#4da3ff]/50 bg-[#4da3ff] px-4 py-2 text-xs font-semibold text-[#06111f] shadow-[0_8px_20px_rgba(77,163,255,0.2)] transition hover:bg-[#b9ddff] disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {loading ? "Formatting & Submitting..." : "Submit Review"}
+                    {loading ? "Submitting…" : "Submit review"}
                   </button>
                 </div>
               </form>
