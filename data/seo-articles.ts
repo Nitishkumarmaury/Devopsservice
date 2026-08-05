@@ -77,6 +77,80 @@ export const seoArticles: SeoArticle[] = [
     ],
   },
   {
+    slug: "ci-cd-best-practices",
+    title: "CI/CD Best Practices: Reliable Pipelines for Production",
+    metaDescription:
+      "Best practices for CI/CD pipelines: deterministic builds, secrets handling, test strategies, deployment gating and rollback plans to keep production reliable.",
+    h1: "CI/CD Best Practices",
+    eyebrow: "Pipeline guide",
+    intro:
+      "Practical CI/CD best practices that reduce deployment risk, enforce reproducible builds, and ensure safe rollouts across environments.",
+    readingTime: "10 min read",
+    publishedAt: "2026-08-05",
+    updatedAt: "2026-08-05",
+    primaryKeywords: ["CI/CD best practices", "pipeline best practices", "deploy automation"],
+    takeaways: ["Deterministic builds", "Secrets and artifact handling", "Automated rollbacks and health gates"],
+    sections: [
+      {
+        heading: "Deterministic builds",
+        body: "Pin dependencies, lock files, and produce immutable artifacts that are promoted between environments instead of rebuilt in each stage.",
+      },
+      {
+        heading: "Testing pyramid",
+        body: "Automate unit, integration, and smoke tests in CI and keep the pipeline fast by isolating flaky tests and running heavier suites on gated runners.",
+      },
+      {
+        heading: "Secrets and credential handling",
+        body: "Use encrypted secret stores or host-integrated secrets (e.g., GitHub Secrets) and avoid leaking credentials into logs or artifact metadata.",
+      },
+      {
+        heading: "Deployment gating",
+        body: "Gate production rollouts on health signals, automated smoke tests, and canary metrics rather than manual approvals where possible.",
+      },
+    ],
+    relatedLinks: [
+      { label: "CI/CD consulting", href: "/ci-cd-consulting" },
+      { label: "DevOps deployment checklist", href: "/devops-deployment-checklist" },
+    ],
+  },
+  {
+    slug: "kubernetes-readiness-checklist",
+    title: "Kubernetes Readiness Checklist: When to Move to Kubernetes",
+    metaDescription:
+      "A practical checklist to decide Kubernetes readiness: architecture, operational practices, observability, and cost considerations before migration.",
+    h1: "Kubernetes Readiness Checklist",
+    eyebrow: "Kubernetes guide",
+    intro:
+      "Kubernetes can be powerful but also expensive to operate. This checklist helps teams decide whether Kubernetes is the right next step and how to prepare for migration.",
+    readingTime: "11 min read",
+    publishedAt: "2026-08-05",
+    updatedAt: "2026-08-05",
+    primaryKeywords: ["Kubernetes readiness", "move to Kubernetes", "k8s migration checklist"],
+    takeaways: ["Kubernetes is for operational scale", "Prepare observability and IaC", "Cost and team readiness matter"],
+    sections: [
+      {
+        heading: "Operational cost and team readiness",
+        body: "Kubernetes requires platform engineering knowledge, predictable operational budgets, and a commitment to monitoring and incident response.",
+      },
+      {
+        heading: "Application architecture",
+        body: "Check that your app is decomposed into services with clear resource boundaries, statelessness where possible, and well-defined storage needs.",
+      },
+      {
+        heading: "Observability and SLOs",
+        body: "Ensure metrics, traces, logs, and alerting are in place so you can operate a cluster at scale and detect regressions quickly.",
+      },
+      {
+        heading: "Infrastructure as code",
+        body: "Define cluster, network, and service manifests as code and plan cluster upgrades and backup/recovery processes before migration.",
+      },
+    ],
+    relatedLinks: [
+      { label: "Docker and Kubernetes consulting", href: "/docker-kubernetes-consulting" },
+      { label: "Cloud consulting services", href: "/cloud-consulting-services" },
+    ],
+  },
+  {
     slug: "devops-deployment-checklist",
     title: "Comprehensive DevOps Deployment Checklist: From Code to Production",
     metaDescription:
