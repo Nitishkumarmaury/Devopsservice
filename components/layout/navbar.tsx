@@ -207,6 +207,12 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                   {servicesOpen ? (
                     <motion.div
                       role="menu"
+                      onMouseEnter={() => {
+                        if (!isTouchDevice) setServicesOpen(true);
+                      }}
+                      onMouseLeave={() => {
+                        if (!isTouchDevice) setServicesOpen(false);
+                      }}
                       initial={reduceMotion ? false : { opacity: 0, y: 8 }}
                       animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                       exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}

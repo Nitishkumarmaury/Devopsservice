@@ -87,6 +87,7 @@ html {
   -webkit-text-size-adjust: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
@@ -100,8 +101,9 @@ body {
   background-size: auto, auto, 72px 72px, 72px 72px, auto;
   color: var(--text);
   overflow-x: hidden;
+  overflow-y: auto;
   min-height: 100svh;
-  overscroll-behavior-x: none;
+  overscroll-behavior: auto;
   text-rendering: optimizeLegibility;
   width: 100%;
 }
