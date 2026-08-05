@@ -14,6 +14,11 @@ export const metadata = defaultMetadata;
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
+      <head>
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="preload" as="image" href="/brand/CloudOpsync-removebg-preview.png" />
+      </head>
       <body className="command-shell min-h-screen bg-[var(--background)] font-sans text-[var(--text-primary)] antialiased">
         <SmoothScroll />
         <a href="#main" className="skip-link">
