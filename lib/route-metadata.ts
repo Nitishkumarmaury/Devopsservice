@@ -26,6 +26,7 @@ export function createPageMetadata({
   const isArticle = openGraphType === "article";
 
   return {
+    metadataBase: new URL(siteConfig.url),
     title,
     description,
     alternates: {

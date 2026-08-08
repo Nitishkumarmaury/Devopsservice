@@ -12,9 +12,11 @@ export const siteConfig = {
   // Normalize site URL: prefer NEXT_PUBLIC_SITE_URL but avoid showing Vercel preview host in sitemaps.
   // If NEXT_PUBLIC_SITE_URL points to a preview domain (devopsservice.vercel.app), fall back to the canonical domain.
   url: (() => {
-    const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-    if (!envUrl) return "https://cloudopsync.com";
-    if (envUrl.includes("devopsservice.vercel.app")) return "https://cloudopsync.com";
+    let envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+    if (!envUrl || envUrl.includes("devopsservice.vercel.app")) return "https://cloudopsync.com";
+    if (envUrl.startsWith("http://")) {
+      envUrl = envUrl.replace(/^http:\/\//, "https://");
+    }
     return envUrl;
   })(),
   email: "support@cloudopsync.com",
