@@ -1,0 +1,519 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useForm, useWatch, type Path } from "react-hook-form";
+import { AdvisorPrivacyNotice } from "@/components/ai/advisor-privacy-notice";
+import { Button } from "@/components/ui/button";
+import MagicRings from "@/components/visuals/magic-rings";
+import {
+  advisorRequestSchema,
+  applicationTypeOptions,
+  challengePromptOptions,
+  cloudPlatformOptions,
+  environmentOptions,
+  requirementOptions,
+  type AdvisorRequest,
+} from "@/lib/ai/advisor-schema";
+import { cn } from "@/lib/utils";
+
+type AdvisorFormProps = {
+  initialValues?: AdvisorRequest;
+  isSubmitting: boolean;
+  onSubmit: (values: AdvisorRequest) => void;
+};
+
+type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+const steps = [
+  "Application",
+  "Infrastructure",
+  "Traffic / Scale",
+  "Reliability",
+  "Security",
+  "Current Problems",
+  "Recommendations",
+] as const;
+const stepAccentClass = [
+  "border-[#4da3ff]/28 bg-[#4da3ff]/10 text-[#b9ddff] shadow-[0_14px_34px_rgba(77,163,255,0.1)]",
+  "border-[#7dd3fc]/24 bg-[#7dd3fc]/10 text-[#7dd3fc] shadow-[0_14px_34px_rgba(125,211,252,0.08)]",
+  "border-[#b8a5ff]/24 bg-[#b8a5ff]/10 text-[#d7ceff] shadow-[0_14px_34px_rgba(184,165,255,0.08)]",
+  "border-[#ff8a7a]/24 bg-[#ff8a7a]/10 text-[#ffb8ae] shadow-[0_14px_34px_rgba(255,138,122,0.08)]",
+  "border-[#ffcf72]/24 bg-[#ffcf72]/10 text-[#ffe0a3] shadow-[0_14px_34px_rgba(255,207,114,0.08)]",
+  "border-[#7dd3fc]/24 bg-[#7dd3fc]/10 text-[#7dd3fc] shadow-[0_14px_34px_rgba(125,211,252,0.08)]",
+  "border-[#4da3ff]/28 bg-[#4da3ff]/10 text-[#b9ddff] shadow-[0_14px_34px_rgba(77,163,255,0.1)]",
+] as const;
+
+const defaultValues: AdvisorRequest = {
+  projectName: "",
+  applicationType: "SaaS Platform",
+  technologyStack: "",
+  database: "",
+  currentHostingProvider: "",
+  expectedMonthlyUsers: "",
+  expectedConcurrentUsers: "",
+  currentServerConfiguration: "",
+  preferredCloudPlatform: "No preference",
+  environments: "Development, staging, and production",
+  requirements: ["CI/CD automation", "Docker containerization", "Monitoring and alerts", "Automatic backups"],
+  challenges: "",
+  privacyAccepted: false,
+  website: "",
+};
+
+const stepFields: Record<Step, Path<AdvisorRequest>[]> = {
+  0: ["projectName", "applicationType", "technologyStack", "database"],
+  1: ["currentHostingProvider", "currentServerConfiguration", "preferredCloudPlatform", "environments"],
+  2: ["expectedMonthlyUsers", "expectedConcurrentUsers"],
+  3: ["requirements"],
+  4: ["requirements"],
+  5: ["challenges"],
+  6: ["privacyAccepted"],
+};
+
+const inputClass =
+  "premium-focus mt-2 block w-full min-w-0 rounded-xl border border-[#d6ebff]/16 !bg-[#06111f]/82 px-4 py-3.5 text-sm text-[var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_12px_32px_rgba(0,0,0,0.18)] outline-none transition placeholder:text-[var(--text-muted)]";
+
+const labelClass = "block text-sm font-medium text-[var(--text-primary)]";
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} className="mt-2 text-sm text-amber-700">
+      {message}
+    </p>
+  );
+}
+
+function StepHeader({ step }: { step: Step }) {
+  return (
+    <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0">
+        <p className="font-mono text-xs uppercase leading-6 tracking-normal text-[#b9ddff]">Step {step + 1} of 7</p>
+        <h3 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">{steps[step]}</h3>
+      </div>
+      <div className="grid w-full grid-cols-7 gap-2 sm:w-auto" aria-label="Advisor progress">
+        {steps.map((label, index) => (
+          <span
+            key={label}
+            className={cn(
+              "h-2.5 min-w-0 rounded-full transition sm:w-10",
+              index <= step ? "bg-[#4da3ff] shadow-[0_0_18px_rgba(77,163,255,0.18)]" : "bg-[#d6ebff]/10",
+            )}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function AdvisorForm({ initialValues, isSubmitting, onSubmit }: Readonly<AdvisorFormProps>) {
+  const [step, setStep] = useState<Step>(0);
+  const [direction, setDirection] = useState(1);
+  const reduceMotion = useReducedMotion();
+  const formDefaults = useMemo(() => initialValues ?? defaultValues, [initialValues]);
+
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm<AdvisorRequest>({
+    resolver: zodResolver(advisorRequestSchema),
+    defaultValues: formDefaults,
+    mode: "onBlur",
+  });
+
+  const requirements = useWatch({ control, name: "requirements" }) ?? [];
+  const challenges = useWatch({ control, name: "challenges" }) ?? "";
+
+  const goToStep = async (targetStep: Step) => {
+    if (targetStep <= step) {
+      setDirection(-1);
+      setStep(targetStep);
+      return;
+    }
+
+    const valid = await trigger(stepFields[step], { shouldFocus: true });
+    if (!valid) return;
+
+    setDirection(1);
+    setStep(targetStep);
+  };
+
+  const nextStep = async () => {
+    if (step === 6) return;
+    await goToStep((step + 1) as Step);
+  };
+
+  const previousStep = () => {
+    if (step === 0) return;
+    setDirection(-1);
+    setStep((step - 1) as Step);
+  };
+
+  const toggleRequirement = (requirement: (typeof requirementOptions)[number]) => {
+    const selected = requirements.includes(requirement);
+    setValue(
+      "requirements",
+      selected ? requirements.filter((item) => item !== requirement) : [...requirements, requirement],
+      { shouldDirty: true, shouldValidate: true },
+    );
+  };
+
+  const addPrompt = (prompt: string) => {
+    const nextValue = challenges.trim() ? `${challenges.trim()}\n${prompt}` : prompt;
+    setValue("challenges", nextValue, { shouldDirty: true, shouldValidate: true });
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="relative min-w-0" noValidate>
+      <input type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" {...register("website")} />
+
+      <div className="min-w-0 rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/58 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+        <div role="tablist" aria-label="Advisor steps" className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]">
+          {steps.map((label, index) => (
+            <button
+              key={label}
+              type="button"
+              role="tab"
+              aria-selected={step === index}
+              aria-controls={`advisor-step-${index}`}
+              onClick={() => goToStep(index as Step)}
+              className={cn(
+                "min-h-11 min-w-0 rounded-xl border px-3 py-2 text-sm font-semibold leading-tight transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]",
+                step === index
+                  ? stepAccentClass[index]
+                  : "border-[#d6ebff]/10 bg-[#0d2338]/62 text-[var(--text-muted)] hover:bg-[#12304b] hover:text-[var(--text-primary)]",
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="relative mt-5 min-h-[360px] min-w-0 overflow-hidden rounded-xl border border-[#d6ebff]/12 bg-[#0d2338]/74 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] sm:min-h-[430px] sm:p-6">
+        <div className="pointer-events-none absolute -right-36 -top-36 h-[26rem] w-[34rem] opacity-70 sm:-right-44 sm:-top-44 sm:h-[34rem] sm:w-[44rem]" aria-hidden="true">
+          <MagicRings
+            color="#4DA3FF"
+            colorTwo="#FF8A7A"
+            ringCount={5}
+            speed={0.48}
+            attenuation={13}
+            lineThickness={1.55}
+            baseRadius={0.2}
+            radiusStep={0.075}
+            scaleRate={0.13}
+            opacity={0.4}
+            noiseAmount={0.01}
+            rotation={-10}
+            ringGap={1.42}
+            fadeIn={0.72}
+            fadeOut={0.48}
+            parallax={0.025}
+          />
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0d2338]/20 via-[#0d2338]/60 to-[#06111f]/92" aria-hidden="true" />
+        <div className="relative">
+          <StepHeader step={step} />
+
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <motion.div
+              key={step}
+              id={`advisor-step-${step}`}
+              role="tabpanel"
+              custom={direction}
+              initial={reduceMotion ? false : { opacity: 0, x: direction > 0 ? 24 : -24 }}
+              animate={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, x: direction > 0 ? -24 : 24 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-6 min-w-0"
+            >
+            {step === 0 ? (
+              <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="advisor-project-name" className={labelClass}>
+                    Project or application name
+                  </label>
+                  <input
+                    id="advisor-project-name"
+                    className={inputClass}
+                    aria-describedby="advisor-project-name-error"
+                    {...register("projectName")}
+                  />
+                  <FieldError id="advisor-project-name-error" message={errors.projectName?.message} />
+                </div>
+                <div>
+                  <label htmlFor="advisor-application-type" className={labelClass}>
+                    Application type
+                  </label>
+                  <select id="advisor-application-type" className={inputClass} {...register("applicationType")}>
+                    {applicationTypeOptions.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                  <FieldError id="advisor-application-type-error" message={errors.applicationType?.message} />
+                </div>
+                <div>
+                  <label htmlFor="advisor-stack" className={labelClass}>
+                    Technology stack
+                  </label>
+                  <input
+                    id="advisor-stack"
+                    className={inputClass}
+                    placeholder="Next.js, Node, Laravel, Django, React Native..."
+                    aria-describedby="advisor-stack-error"
+                    {...register("technologyStack")}
+                  />
+                  <FieldError id="advisor-stack-error" message={errors.technologyStack?.message} />
+                </div>
+                <div>
+                  <label htmlFor="advisor-database" className={labelClass}>
+                    Database
+                  </label>
+                  <input
+                    id="advisor-database"
+                    className={inputClass}
+                    placeholder="PostgreSQL, MySQL, MongoDB, Redis..."
+                    aria-describedby="advisor-database-error"
+                    {...register("database")}
+                  />
+                  <FieldError id="advisor-database-error" message={errors.database?.message} />
+                </div>
+              </div>
+            ) : null}
+
+            {step === 1 ? (
+              <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="advisor-hosting" className={labelClass}>
+                    Current hosting provider
+                  </label>
+                  <input
+                    id="advisor-hosting"
+                    className={inputClass}
+                    placeholder="AWS, DigitalOcean, shared hosting, on-prem, no hosting yet..."
+                    aria-describedby="advisor-hosting-error"
+                    {...register("currentHostingProvider")}
+                  />
+                  <FieldError id="advisor-hosting-error" message={errors.currentHostingProvider?.message} />
+                </div>
+                <div>
+                  <label htmlFor="advisor-cloud" className={labelClass}>
+                    Preferred cloud platform
+                  </label>
+                  <select id="advisor-cloud" className={inputClass} {...register("preferredCloudPlatform")}>
+                    {cloudPlatformOptions.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                  <FieldError id="advisor-cloud-error" message={errors.preferredCloudPlatform?.message} />
+                </div>
+                <div className="sm:col-span-2">
+                  <label htmlFor="advisor-server" className={labelClass}>
+                    Current server configuration
+                  </label>
+                  <textarea
+                    id="advisor-server"
+                    rows={3}
+                    className={inputClass}
+                    placeholder="One Ubuntu VM, Nginx, PM2, managed database, manual deploys..."
+                    aria-describedby="advisor-server-error"
+                    {...register("currentServerConfiguration")}
+                  />
+                  <FieldError id="advisor-server-error" message={errors.currentServerConfiguration?.message} />
+                </div>
+                <div>
+                  <label htmlFor="advisor-environments" className={labelClass}>
+                    Number of environments
+                  </label>
+                  <select id="advisor-environments" className={inputClass} {...register("environments")}>
+                    {environmentOptions.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                  <FieldError id="advisor-environments-error" message={errors.environments?.message} />
+                </div>
+              </div>
+            ) : null}
+
+            {step === 2 ? (
+              <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="advisor-monthly-users" className={labelClass}>
+                    Expected monthly users
+                  </label>
+                  <input
+                    id="advisor-monthly-users"
+                    className={inputClass}
+                    placeholder="10k now, 100k in six months"
+                    aria-describedby="advisor-monthly-users-error"
+                    {...register("expectedMonthlyUsers")}
+                  />
+                  <FieldError id="advisor-monthly-users-error" message={errors.expectedMonthlyUsers?.message} />
+                </div>
+                <div>
+                  <label htmlFor="advisor-concurrent-users" className={labelClass}>
+                    Expected concurrent users
+                  </label>
+                  <input
+                    id="advisor-concurrent-users"
+                    className={inputClass}
+                    placeholder="200 peak users"
+                    aria-describedby="advisor-concurrent-users-error"
+                    {...register("expectedConcurrentUsers")}
+                  />
+                  <FieldError id="advisor-concurrent-users-error" message={errors.expectedConcurrentUsers?.message} />
+                </div>
+                <div className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/42 p-4 sm:col-span-2">
+                  <p className="font-mono text-xs font-semibold uppercase text-[#b9ddff]">Scale context</p>
+                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">
+                    Rough traffic numbers are enough. The goal is to identify whether the architecture needs simple
+                    vertical sizing, separate services, caching, managed data stores, or load distribution.
+                  </p>
+                </div>
+              </div>
+            ) : null}
+
+            {step === 3 ? (
+              <div>
+                <div className="grid min-w-0 gap-3 sm:grid-cols-2">
+                  {requirementOptions.map((requirement) => {
+                    const selected = requirements.includes(requirement);
+                    return (
+                      <button
+                        key={requirement}
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() => toggleRequirement(requirement)}
+                        className={cn(
+                          "flex min-h-12 min-w-0 items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm leading-6 transition [overflow-wrap:anywhere] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]",
+                          selected
+                            ? "border-[#4da3ff]/24 bg-[#4da3ff]/10 text-[#b9ddff] shadow-[0_14px_34px_rgba(77,163,255,0.1)]"
+                            : "border-[#d6ebff]/10 bg-[#0d2338]/62 text-[var(--text-muted)] hover:bg-[#12304b] hover:text-[var(--text-primary)]",
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "flex h-5 w-5 shrink-0 items-center justify-center rounded border",
+                            selected ? "border-[#4da3ff]/40 bg-[#4da3ff]/20 text-[#b9ddff]" : "border-[#d6ebff]/20 bg-[#06111f]",
+                          )}
+                          aria-hidden="true"
+                        >
+                          {selected ? <Check className="h-3.5 w-3.5" /> : null}
+                        </span>
+                        {requirement}
+                      </button>
+                    );
+                  })}
+                </div>
+                <FieldError id="advisor-requirements-error" message={errors.requirements?.message} />
+              </div>
+            ) : null}
+
+            {step === 4 ? (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {[
+                  "Secrets should stay out of source control and public forms.",
+                  "Production access should be scoped and auditable before implementation.",
+                  "Backups, TLS, firewalls, and dependency updates need validation.",
+                  "Final security controls require technical review against the real environment.",
+                ].map((item) => (
+                  <div key={item} className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/42 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                    {item}
+                  </div>
+                ))}
+                <div className="rounded-xl border border-[#ff8a7a]/18 bg-[#ff8a7a]/8 p-4 text-sm leading-6 text-[var(--text-secondary)] sm:col-span-2">
+                  Do not paste credentials, tokens, private IP addresses, customer data, or production secrets into this
+                  advisor.
+                </div>
+              </div>
+            ) : null}
+
+            {step === 5 ? (
+              <div className="space-y-5">
+                <div>
+                  <label htmlFor="advisor-challenges" className={labelClass}>
+                    What infrastructure or deployment problems are you trying to solve?
+                  </label>
+                  <textarea
+                    id="advisor-challenges"
+                    rows={5}
+                    className={inputClass}
+                    aria-describedby="advisor-challenges-error"
+                    {...register("challenges")}
+                  />
+                  <FieldError id="advisor-challenges-error" message={errors.challenges?.message} />
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-[var(--text-primary)]">Suggested prompts</p>
+                  <div className="mt-3 flex min-w-0 flex-wrap gap-2">
+                    {challengePromptOptions.map((prompt) => (
+                      <button
+                        key={prompt}
+                        type="button"
+                        onClick={() => addPrompt(prompt)}
+                        className="max-w-full rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 px-3 py-2 text-left text-xs leading-5 text-[var(--text-secondary)] transition [overflow-wrap:anywhere] hover:border-[#4da3ff]/30 hover:bg-[#12304b] hover:text-[var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4da3ff]"
+                      >
+                        {prompt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {step === 6 ? (
+              <div className="space-y-5">
+                <AdvisorPrivacyNotice />
+                <div className="rounded-xl border border-[#d6ebff]/12 bg-[#06111f]/42 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                  The output will include suggested architecture, deployment model, CI/CD recommendation, monitoring
+                  recommendation, security considerations, scaling strategy, and potential risks. Treat it as a
+                  preliminary blueprint for review.
+                </div>
+                <label className="flex min-w-0 gap-3 rounded-lg border border-[#d6ebff]/12 bg-[#0d2338]/72 p-4 text-sm leading-6 text-[var(--text-secondary)]">
+                  <input
+                    type="checkbox"
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-[#d6ebff]/20 bg-[#06111f] text-[#4da3ff] focus:ring-[#4da3ff]"
+                    {...register("privacyAccepted")}
+                  />
+                  <span>
+                    I understand that this tool provides preliminary recommendations and I will not submit confidential
+                    credentials or sensitive data.
+                  </span>
+                </label>
+                <FieldError id="advisor-privacy-error" message={errors.privacyAccepted?.message} />
+              </div>
+            ) : null}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      <div className="mt-5 flex min-w-0 flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <Button type="button" variant="ghost" onClick={previousStep} disabled={step === 0 || isSubmitting}>
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          Back
+        </Button>
+
+        {step < 6 ? (
+          <Button type="button" onClick={nextStep} disabled={isSubmitting}>
+            Continue
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Button>
+        ) : (
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Sparkles className="h-4 w-4" aria-hidden="true" />}
+            {isSubmitting ? "Generating Blueprint" : "Start Your Blueprint"}
+          </Button>
+        )}
+      </div>
+    </form>
+  );
+}

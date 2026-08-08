@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="CloudOpsync">
+  <rect width="256" height="256" rx="128" fill="#06111f"/>
+  <circle cx="128" cy="128" r="109" fill="none" stroke="#4da3ff" stroke-width="10"/>
+  <ellipse cx="128" cy="128" rx="84" ry="31" fill="none" stroke="#7dd3fc" stroke-width="9" transform="rotate(-28 128 128)"/>
+  <ellipse cx="128" cy="128" rx="84" ry="31" fill="none" stroke="#d6ebff" stroke-opacity=".72" stroke-width="7" transform="rotate(32 128 128)"/>
+  <circle cx="128" cy="128" r="22" fill="#4da3ff"/>
+  <circle cx="128" cy="128" r="8" fill="#06111f"/>
+  <circle cx="197" cy="88" r="13" fill="#ff8a7a"/>
+  <circle cx="60" cy="166" r="10" fill="#b8a5ff"/>
+</svg>

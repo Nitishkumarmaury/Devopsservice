@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#0d2338" />
+      <stop offset="1" stop-color="#06111f" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#g)" />
+  <g fill="#4da3ff" font-family="Inter, Arial, sans-serif" font-weight="600">
+    <text x="60" y="120" font-size="48">Image unavailable</text>
+    <text x="60" y="180" font-size="20" fill="#9fbfdc">Portfolio screenshot could not be loaded</text>
+  </g>
+</svg>
