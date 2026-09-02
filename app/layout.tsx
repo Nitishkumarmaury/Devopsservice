@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { GoogleAnalytics } from "@/components/layout/google-analytics";
 import { RouteTransition } from "@/components/layout/route-transition";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { StickyActions } from "@/components/ui/sticky-actions";
@@ -6,6 +7,7 @@ import { ClickSpark } from "@/components/ui/click-spark";
 import { CursorGlow } from "@/components/ui/cursor-glow";
 import { OrbitField } from "@/components/visuals/orbit-field";
 import { defaultMetadata, jsonLd } from "@/lib/metadata";
+import { siteConfig } from "@/lib/constants";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 
@@ -16,8 +18,10 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en" data-scroll-behavior="smooth">
       <head>
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
         <link rel="preload" as="image" href="/brand/CloudOpsync-removebg-preview.png" />
+        <GoogleAnalytics />
       </head>
       <body className="command-shell min-h-screen bg-[var(--background)] font-sans text-[var(--text-primary)] antialiased">
         <SmoothScroll />
@@ -46,6 +50,24 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           type="application/ld+json"
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: siteConfig.url,
+                },
+              ],
+            }),
+          }}
         />
       </body>
     </html>

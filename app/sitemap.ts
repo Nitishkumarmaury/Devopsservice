@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/constants";
 import { caseStudies } from "@/data/case-studies";
+import { cloudPages } from "@/data/cloud-pages";
 import { seoArticles } from "@/data/seo-articles";
-import { seoMoneyPages } from "@/data/seo-pages";
 import { services } from "@/data/services";
+import { solutionPages } from "@/data/solutions";
 
 type SitemapRoute = {
   path: "" | `/${string}`;
@@ -12,12 +13,13 @@ type SitemapRoute = {
   priority?: number;
 };
 
-const LAST_UPDATED = new Date().toISOString().split("T")[0];
+const LAST_UPDATED = "2026-09-01";
 
 const staticRoutes: SitemapRoute[] = [
   { path: "", lastModified: LAST_UPDATED, changeFrequency: "daily", priority: 1.0 },
   { path: "/services", lastModified: LAST_UPDATED, changeFrequency: "weekly", priority: 0.9 },
   { path: "/solutions", lastModified: LAST_UPDATED, changeFrequency: "weekly", priority: 0.8 },
+  { path: "/cloud", lastModified: LAST_UPDATED, changeFrequency: "weekly", priority: 0.8 },
   { path: "/process", lastModified: LAST_UPDATED, changeFrequency: "monthly", priority: 0.7 },
   { path: "/case-studies", lastModified: LAST_UPDATED, changeFrequency: "weekly", priority: 0.8 },
   { path: "/blog", lastModified: LAST_UPDATED, changeFrequency: "daily", priority: 0.8 },
@@ -46,12 +48,6 @@ function toSitemapEntry({ path, lastModified, changeFrequency, priority }: Sitem
 export default function sitemap(): MetadataRoute.Sitemap {
   const rawRoutes: SitemapRoute[] = [
     ...staticRoutes,
-    ...seoMoneyPages.map((page) => ({
-      path: `/${page.slug}` as const,
-      lastModified: LAST_UPDATED,
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })),
     ...seoArticles.map((article) => ({
       path: `/${article.slug}` as const,
       lastModified: article.updatedAt,
@@ -69,6 +65,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: LAST_UPDATED,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...cloudPages.map((page) => ({
+      path: `/cloud/${page.slug}` as const,
+      lastModified: LAST_UPDATED,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    ...solutionPages.map((page) => ({
+      path: `/solutions/${page.slug}` as const,
+      lastModified: LAST_UPDATED,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
     })),
   ];
 

@@ -107,6 +107,34 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
                   <p className="mt-3 text-base leading-8 text-[var(--text-secondary)]">{text}</p>
                 </article>
               ))}
+              {study.metrics && study.metrics.length > 0 ? (
+                <article className="rounded-[26px] border border-rose-200 bg-rose-50 p-6">
+                  <FileCheck2 className="h-5 w-5 text-[var(--rose-dark)]" aria-hidden="true" />
+                  <h2 className="mt-4 text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">Measured results</h2>
+                  <ul className="mt-4 grid gap-3 text-sm leading-6 text-[var(--text-secondary)]">
+                    {study.metrics.map((metric) => (
+                      <li key={metric} className="flex gap-3">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--rose)]" />
+                        {metric}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ) : null}
+              {study.testimonial ? (
+                <article className="rounded-[26px] border border-[var(--border)] bg-white p-6 shadow-[var(--shadow-soft)]">
+                  <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">Client testimonial</h2>
+                  <blockquote className="mt-4 text-base leading-8 text-[var(--text-secondary)]">&ldquo;{study.testimonial.quote}&rdquo;</blockquote>
+                  <p className="mt-4 text-sm font-semibold text-[var(--text-primary)]">
+                    {study.testimonial.name} — {study.testimonial.position}, {study.testimonial.company}
+                  </p>
+                  {study.testimonial.linkedinUrl ? (
+                    <ButtonLink href={study.testimonial.linkedinUrl} variant="ghost" className="mt-3 px-0 text-xs">
+                      View LinkedIn profile
+                    </ButtonLink>
+                  ) : null}
+                </article>
+              ) : null}
             </StaggerReveal>
           </div>
         </Container>

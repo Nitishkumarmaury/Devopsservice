@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { FadeIn } from "@/components/ui/fade-in";
 import { siteConfig } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/route-metadata";
@@ -14,6 +15,12 @@ export const metadata: Metadata = createPageMetadata({
 export default function PrivacyPage() {
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Privacy Policy", path: "/privacy" },
+        ]}
+      />
       <section className="mx-auto max-w-3xl px-5 py-32 sm:px-6 lg:px-8">
         <FadeIn>
         <Link href="/" className="text-sm font-semibold text-rose-700 transition hover:text-rose-900">Back to home</Link>
@@ -32,7 +39,14 @@ export default function PrivacyPage() {
             The Cloud Architecture Advisor collects technical planning inputs submitted by an authenticated user to generate preliminary infrastructure guidance. Advisor output is not a production guarantee and should be reviewed before implementation.
           </p>
           <p>
-            This website does not currently load third-party advertising trackers. If analytics are added later, they should be disclosed here with the purpose and retention approach.
+            This website uses Google Analytics 4, loaded through Google Tag Manager, to understand aggregate traffic,
+            navigation, and engagement so that content and services can be improved. Analytics collects anonymized usage
+            data such as pages visited, referrer, approximate location, and device category. This data is not used to
+            identify individual visitors and is retained according to Google&#39;s data-retention settings. You can opt
+            out through your browser&#39;s tracking-prevention settings or by disabling JavaScript.
+          </p>
+          <p>
+            This website does not currently load third-party advertising trackers.
           </p>
           <p>
             Production credentials, secrets, API keys, and private infrastructure details should only be shared through agreed secure channels after an engagement scope is confirmed.

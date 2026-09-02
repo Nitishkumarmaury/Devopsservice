@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
 import { PageHero } from "@/components/ui/page-hero";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
-import { solutionGroups } from "@/data/solutions";
+import { solutionGroups, solutionPages } from "@/data/solutions";
 import { createPageMetadata } from "@/lib/route-metadata";
+
+const solutionSlugByGroup = Object.fromEntries(
+  solutionPages.map((p) => [p.name.toLowerCase(), p.slug]),
+);
 
 export const metadata: Metadata = createPageMetadata({
   title: "DevOps and Cloud Solutions",
@@ -20,6 +25,12 @@ export const metadata: Metadata = createPageMetadata({
 export default function SolutionsPage() {
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Solutions", path: "/solutions" },
+        ]}
+      />
       <PageHero
         eyebrow="Solutions"
         title="Infrastructure support for the stage your product is in."
@@ -62,6 +73,12 @@ export default function SolutionsPage() {
                     </div>
                   </div>
                 </div>
+                {solutionSlugByGroup[solution.name.toLowerCase()] ? (
+                  <ButtonLink href={`/solutions/${solutionSlugByGroup[solution.name.toLowerCase()]}`} variant="ghost" className="mt-5 w-fit px-0 justify-start">
+                    Learn more
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </ButtonLink>
+                ) : null}
               </article>
             ))}
           </StaggerReveal>

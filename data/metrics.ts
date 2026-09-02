@@ -1,4 +1,4 @@
-export const showMetricsSection = true;
+export const showMetricsSection = false;
 
 type Metric = {
   label: string;

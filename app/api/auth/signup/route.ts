@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
 import { setSessionCookie } from "@/lib/auth/session";
 import { createUserAccount } from "@/lib/auth/users";
+import { checkRateLimit } from "@/lib/rate-limit/shared";
 
 const signupSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
@@ -16,12 +18,42 @@ const signupSchema = z.object({
   next: z.string().optional(),
 });
 
+const limiter = createMemoryRateLimiter({
+  windowMs: 60 * 60 * 1000,
+  maxRequests: 5,
+  cooldownMs: 30 * 1000,
+});
+const rateLimitOptions = {
+  namespace: "signup",
+  windowMs: 60 * 60 * 1000,
+  maxRequests: 5,
+  cooldownMs: 30 * 1000,
+};
+
+function clientKey(request: NextRequest) {
+  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  return `signup:${forwarded || realIp || "anonymous"}`;
+}
+
 function safeNextPath(value?: string) {
   if (!value || !value.startsWith("/") || value.startsWith("//")) return "/";
   return value;
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const limit = await checkRateLimit(clientKey(request), rateLimitOptions, limiter);
+
+  if (!limit.allowed) {
+    return NextResponse.json(
+      { success: false, message: "Too many signup attempts. Please try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(Math.ceil(limit.retryAfterMs / 1000)) },
+      },
+    );
+  }
+
   let payload: unknown;
 
   try {

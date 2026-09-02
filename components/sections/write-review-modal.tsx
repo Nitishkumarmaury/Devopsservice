@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, Cloud, Cpu, Layers, MessageSquarePlus, Star, X } from "lucide-react";
 import type { Testimonial } from "@/data/testimonials";
@@ -82,17 +83,19 @@ export function WriteReviewModal({ isOpen, onClose, onSuccess }: Readonly<WriteR
         setSuccessMsg("");
         onClose();
       }, 1800);
-    } catch (err: any) {
-      setErrorMsg(err.message || "An unexpected error occurred. Please try again.");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[110] grid place-items-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-[110] overflow-y-auto">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -102,14 +105,16 @@ export function WriteReviewModal({ isOpen, onClose, onSuccess }: Readonly<WriteR
             className="fixed inset-0 bg-[#06111f]/90 backdrop-blur-lg"
           />
 
-          {/* Modal Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="relative z-10 w-full max-w-xl max-h-[88vh] overflow-y-auto rounded-[28px] border border-[#d6ebff]/14 bg-[#0d2338] p-6 shadow-[0_32px_120px_rgba(0,0,0,0.7)] sm:p-8"
-          >
+          {/* Centering wrapper — scrolls when content exceeds the viewport */}
+          <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+            {/* Modal Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="relative z-10 w-full max-w-xl max-h-[88vh] overflow-y-auto rounded-[28px] border border-[#d6ebff]/14 bg-[#0d2338] p-6 shadow-[0_32px_120px_rgba(0,0,0,0.7)] sm:p-8"
+            >
             {/* Close button */}
             <button
               type="button"
@@ -149,15 +154,17 @@ export function WriteReviewModal({ isOpen, onClose, onSuccess }: Readonly<WriteR
                     Select Service Provided *
                   </label>
                   <div className="grid grid-cols-3 gap-2">
-                    {[
-                      { id: "Cloud Infrastructure", label: "Cloud Services", Icon: Cloud },
-                      { id: "Deployment Services", label: "Deployment", Icon: Cpu },
-                      { id: "Cloud & Deployment", label: "Both Services", Icon: Layers },
-                    ].map((cat) => (
+                    {(
+                      [
+                        { id: "Cloud Infrastructure", label: "Cloud Services", Icon: Cloud },
+                        { id: "Deployment Services", label: "Deployment", Icon: Cpu },
+                        { id: "Cloud & Deployment", label: "Both Services", Icon: Layers },
+                      ] as const
+                    ).map((cat) => (
                       <button
                         key={cat.id}
                         type="button"
-                        onClick={() => setServiceCategory(cat.id as any)}
+                        onClick={() => setServiceCategory(cat.id)}
                         className={[
                           "flex flex-col items-center justify-center rounded-xl border p-2.5 text-center transition-all",
                           serviceCategory === cat.id
@@ -296,9 +303,11 @@ export function WriteReviewModal({ isOpen, onClose, onSuccess }: Readonly<WriteR
                 </div>
               </form>
             )}
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

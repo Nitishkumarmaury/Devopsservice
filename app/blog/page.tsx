@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, BookOpen, CheckCircle2, Search, Target, TrendingUp, Users2 } from "lucide-react";
+import { ArrowRight, BookOpen } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
@@ -23,62 +23,21 @@ const resourceCategories = [
   "Cloud Security",
 ] as const;
 
-const authorityPlan = [
-  {
-    title: "Technical foundation",
-    description:
-      "Keep every public page fast, crawlable, canonicalized, and structured with JSON-LD before adding volume.",
-    points: ["Core Web Vitals", "Canonical URLs", "Open Graph", "Robots and sitemap", "Accessible mobile layout"],
-  },
-  {
-    title: "Topical authority",
-    description:
-      "Build deep clusters around cloud consulting, Kubernetes, Terraform, CI/CD, monitoring, security, FinOps, and AI infrastructure.",
-    points: ["Service pages", "Cluster pages", "Internal linking", "Comparison content", "Troubleshooting guides"],
-  },
-  {
-    title: "Long-tail demand",
-    description:
-      "Target problem-led phrases that convert better than broad head terms and publish content that answers them directly.",
-    points: ["Specific use cases", "Buyer-intent pages", "Implementation guides", "Pricing pages", "Troubleshooting queries"],
-  },
-  {
-    title: "Trust and signals",
-    description:
-      "Show who is behind the work with authoring, credentials, testimonials, case studies, contact details, and clear policies.",
-    points: ["Team and author bios", "Case studies", "Certifications", "Address and phone", "Security, privacy, terms"],
-  },
-] as const;
-
-const publishingPlan = [
-  { label: "Service pages", value: "20-30" },
-  { label: "In-depth blog posts", value: "100+" },
-  { label: "Case studies", value: "20" },
-  { label: "Tutorials", value: "30" },
-  { label: "Comparison articles", value: "10" },
-  { label: "Troubleshooting articles", value: "20" },
-] as const;
-
 const faqItems = [
   {
-    question: "What should CloudOpsync publish first?",
+    question: "What topics do these guides cover?",
     answer:
-      "Start with core service pages, 3 to 5 foundational articles, one or two case studies, and the contact and trust pages that support conversion.",
+      "The guides cover DevOps fundamentals, CI/CD pipelines, cloud migration, container deployment, monitoring, infrastructure automation, and production reliability.",
   },
   {
-    question: "Should the site chase broad keywords first?",
+    question: "Are these guides suitable for beginners?",
     answer:
-      "No. Long-tail, problem-led searches usually convert better and are easier to win early, so the content strategy should start there.",
+      "Yes. Each guide starts with context and practical definitions before moving into implementation details and best practices.",
   },
   {
-    question: "Why does topical authority matter?",
+    question: "How often are the guides updated?",
     answer:
-      "A site that covers a subject in depth tends to earn more trust than one with only a handful of disconnected pages.",
-  },
-  {
-    question: "What structured data matters most on a consulting site?",
-    answer:
-      "Organization, Service, FAQ, Breadcrumb, and Review structured data are the highest-value starting points when they match the page content.",
+      "Each guide includes a published and updated date. Content is reviewed to reflect current best practices, tool versions, and production-ready recommendations.",
   },
 ] as const;
 
@@ -115,8 +74,8 @@ export default function BlogPage() {
         eyebrow="Guides"
         title="DevOps and Cloud Engineering Guides"
         actions={
-          <ButtonLink href="/devops-consulting-services">
-            Explore DevOps Services
+          <ButtonLink href="/services">
+            Explore Services
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </ButtonLink>
         }
@@ -127,65 +86,9 @@ export default function BlogPage() {
 
       <section className="border-b border-[var(--border)] bg-[linear-gradient(180deg,rgba(77,163,255,0.04),rgba(77,163,255,0.01))] py-12 sm:py-16">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
-            <div className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6 shadow-[var(--shadow-soft)] sm:p-8">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">SEO strategy</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)] sm:text-4xl">
-                Build the site like a trusted engineering reference, not a thin services brochure.
-              </h2>
-              <p className="mt-4 max-w-3xl text-base leading-8 text-[var(--text-secondary)]">
-                The page structure below turns the strategy into a practical publishing system: first the technical
-                foundation, then topic clusters, then long-tail articles that answer real buyer questions.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {resourceCategories.map((category) => (
-                  <TechnologyTag key={category}>{category}</TechnologyTag>
-                ))}
-              </div>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {publishingPlan.map((item) => (
-                <div key={item.label} className="rounded-[24px] border border-[var(--border)] bg-[var(--background-soft)] p-5 shadow-[var(--shadow-soft)]">
-                  <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">Publishing target</p>
-                  <p className="mt-3 text-4xl font-semibold tracking-[-0.04em] text-[var(--text-primary)]">{item.value}</p>
-                  <p className="mt-2 text-sm leading-6 text-[var(--text-secondary)]">{item.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="py-16 sm:py-24">
-        <Container>
-          <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-4">
-            {authorityPlan.map((item) => (
-              <article
-                key={item.title}
-                className="flex h-full flex-col rounded-[26px] border border-[var(--border)] bg-[var(--background-soft)] p-6 shadow-[var(--shadow-soft)]"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[#4da3ff]/20 bg-[#4da3ff]/8 text-[#4da3ff]">
-                  {item.title === "Technical foundation" ? (
-                    <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-                  ) : item.title === "Topical authority" ? (
-                    <Target className="h-5 w-5" aria-hidden="true" />
-                  ) : item.title === "Long-tail demand" ? (
-                    <Search className="h-5 w-5" aria-hidden="true" />
-                  ) : (
-                    <Users2 className="h-5 w-5" aria-hidden="true" />
-                  )}
-                </div>
-                <h2 className="mt-5 text-2xl font-semibold tracking-[-0.03em] text-[var(--text-primary)]">{item.title}</h2>
-                <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{item.description}</p>
-                <ul className="mt-5 space-y-2 text-sm leading-6 text-[var(--text-secondary)]">
-                  {item.points.map((point) => (
-                    <li key={point} className="flex gap-2">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#4da3ff]" />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
+          <div className="flex flex-wrap gap-2">
+            {resourceCategories.map((category) => (
+              <TechnologyTag key={category}>{category}</TechnologyTag>
             ))}
           </div>
         </Container>
@@ -197,11 +100,11 @@ export default function BlogPage() {
             <div>
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">Guides</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)] sm:text-4xl">
-                High-intent content mapped to the buyer journey
+                Practical guides for production teams
               </h2>
             </div>
             <p className="hidden max-w-md text-sm leading-7 text-[var(--text-secondary)] lg:block">
-              Each guide should solve one problem, link to related implementation pages, and support the larger cloud and DevOps cluster.
+              Each guide covers one topic in depth and links to related implementation services.
             </p>
           </div>
           <StaggerReveal className="grid gap-5 lg:grid-cols-2" itemClassName="h-full">
@@ -250,40 +153,16 @@ export default function BlogPage() {
 
       <section className="py-16 sm:py-24">
         <Container>
-          <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6 shadow-[var(--shadow-soft)] sm:p-8">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">Long-tail targets</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)] sm:text-4xl">Capture demand before the broad terms are realistic.</h2>
-              <p className="mt-4 text-base leading-8 text-[var(--text-secondary)]">
-                Problem-led queries usually convert better than generic head terms. The cluster should answer specific searches directly and route visitors into the right service page.
-              </p>
-              <div className="mt-6 space-y-2 text-sm leading-7 text-[var(--text-secondary)]">
-                {[
-                  "Kubernetes deployment company in USA",
-                  "Terraform consulting services",
-                  "AWS migration experts",
-                  "CI/CD setup for startups",
-                  "Prometheus monitoring service",
-                  "Azure cost optimization consultant",
-                ].map((keyword) => (
-                  <div key={keyword} className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white/60 px-4 py-3">
-                    <TrendingUp className="h-4 w-4 shrink-0 text-[#4da3ff]" aria-hidden="true" />
-                    <span>{keyword}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-[28px] border border-[var(--border)] bg-[linear-gradient(180deg,rgba(77,163,255,0.06),rgba(255,255,255,0.6))] p-6 shadow-[var(--shadow-soft)] sm:p-8">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">FAQ</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)] sm:text-4xl">Short answers for search engines and AI assistants</h2>
-              <div className="mt-6 grid gap-4">
-                {faqItems.map((item) => (
-                  <div key={item.question} className="rounded-[22px] border border-[var(--border)] bg-white/80 p-5">
-                    <p className="text-base font-semibold tracking-[-0.02em] text-[var(--text-primary)]">{item.question}</p>
-                    <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{item.answer}</p>
-                  </div>
-                ))}
-              </div>
+          <div className="rounded-[28px] border border-[var(--border)] bg-[linear-gradient(180deg,rgba(77,163,255,0.06),rgba(255,255,255,0.6))] p-6 shadow-[var(--shadow-soft)] sm:p-8">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-[var(--rose-dark)]">FAQ</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)] sm:text-4xl">Frequently asked questions</h2>
+            <div className="mt-6 grid gap-4 lg:grid-cols-3">
+              {faqItems.map((item) => (
+                <div key={item.question} className="rounded-[22px] border border-[var(--border)] bg-white/80 p-5">
+                  <p className="text-base font-semibold tracking-[-0.02em] text-[var(--text-primary)]">{item.question}</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--text-secondary)]">{item.answer}</p>
+                </div>
+              ))}
             </div>
           </div>
         </Container>

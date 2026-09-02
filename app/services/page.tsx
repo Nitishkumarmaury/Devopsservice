@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { PageHero } from "@/components/ui/page-hero";
@@ -19,6 +20,12 @@ export const metadata: Metadata = createPageMetadata({
 export default function ServicesPage() {
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+        ]}
+      />
       <PageHero
         eyebrow="Services"
         title="Cloud and DevOps services designed around measurable production reliability."

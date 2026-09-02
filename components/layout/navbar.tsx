@@ -9,16 +9,16 @@ import { CalendarCheck, ChevronDown, Menu, X } from "lucide-react";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { AnimatedShinyButton } from "@/components/eldoraui/animated-shiny-button";
 import { ServiceIcon } from "@/components/services/service-icon";
-import { seoMoneyPages } from "@/data/seo-pages";
+import { services } from "@/data/services";
 import { consultationHref, navItems, siteConfig } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useIsTouchDevice, usePrefersReducedMotion } from "@/lib/hooks/use-interaction-capabilities";
 
-const serviceLinks = seoMoneyPages.map((page) => ({
-  title: page.shortTitle,
-  description: page.metaDescription,
-  href: `/${page.slug}`,
-  icon: page.icon,
+const serviceLinks = services.map((service) => ({
+  title: service.shortTitle,
+  description: service.description,
+  href: `/services/${service.slug}`,
+  icon: service.icon,
 }));
 
 function isActivePath(pathname: string, href: string) {
@@ -37,8 +37,6 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
   const scrollLockRef = useRef<number | null>(null);
   const isTouchDevice = useIsTouchDevice();
   const reduceMotion = usePrefersReducedMotion();
-  const loginHref = `/login?next=${encodeURIComponent(pathname || "/")}`;
-  const signupHref = `/signup?next=${encodeURIComponent(pathname || "/")}`;
   const servicesActive = isActivePath(pathname, "/services") || serviceLinks.some((service) => isActivePath(pathname, service.href));
   const closeMobileMenu = useCallback(() => {
     setOpen(false);
@@ -73,18 +71,20 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
       frame = window.requestAnimationFrame(update);
     };
 
+    const handleResize = () => {
+      calculateMaxScroll();
+      scheduleUpdate();
+    };
+
     calculateMaxScroll();
     update();
 
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", () => {
-      calculateMaxScroll();
-      scheduleUpdate();
-    });
+    window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("resize", handleResize);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -271,18 +271,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
         </nav>
 
         <div className="hidden shrink-0 items-center gap-1.5 xl:flex">
-          {isAuthenticated ? (
-            <LogoutButton />
-          ) : (
-            <>
-              <AnimatedShinyButton url={loginHref} tone="soft" showArrow={false} className="nav-header-button nav-login-button px-3">
-                Login
-              </AnimatedShinyButton>
-              <AnimatedShinyButton url={signupHref} showArrow={false} className="nav-header-button px-3.5">
-                Sign up
-              </AnimatedShinyButton>
-            </>
-          )}
+          {isAuthenticated && <LogoutButton />}
           <AnimatedShinyButton url={consultationHref} showArrow={false} className="nav-header-button shrink-0 px-3.5">
             <CalendarCheck className="h-4 w-4" aria-hidden="true" />
             Consultation
@@ -382,18 +371,7 @@ export function Navbar({ isAuthenticated = false }: Readonly<{ isAuthenticated?:
                 <CalendarCheck className="h-4 w-4" aria-hidden="true" />
                 Book a Consultation
               </AnimatedShinyButton>
-              {isAuthenticated ? (
-                <LogoutButton className="mt-2 w-full" />
-              ) : (
-                <>
-                  <AnimatedShinyButton url={signupHref} onClick={closeMobileMenu} showArrow={false} className="mt-2 w-full">
-                    Sign up
-                  </AnimatedShinyButton>
-                  <AnimatedShinyButton url={loginHref} onClick={closeMobileMenu} tone="soft" showArrow={false} className="nav-login-button mt-2 w-full">
-                    Login
-                  </AnimatedShinyButton>
-                </>
-              )}
+              {isAuthenticated && <LogoutButton className="mt-2 w-full" />}
             </div>
           </motion.nav>
         ) : null}

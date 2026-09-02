@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
@@ -42,10 +43,6 @@ export default function AboutPage() {
     url: siteConfig.url,
     logo: `${siteConfig.url}${siteConfig.logo}`,
     description: siteConfig.description,
-    founder: {
-      "@type": "Person",
-      name: siteConfig.founder,
-    },
   };
   const aboutPageJsonLd = {
     "@context": "https://schema.org",
@@ -57,10 +54,16 @@ export default function AboutPage() {
 
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+        ]}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageJsonLd) }} />
       <PageHero
-        eyebrow="About"
+        eyebrow="About CloudOpsync"
         title="Practical DevOps and cloud engineering for production systems."
         actions={
           <ButtonLink href={consultationHref}>
@@ -69,39 +72,33 @@ export default function AboutPage() {
           </ButtonLink>
         }
       >
-        CloudOpsync is a service-based DevOps and cloud engineering company focused on deploying, maintaining,
-        monitoring, and troubleshooting modern web applications and production infrastructure. Founded by{" "}
-        {siteConfig.founder}, the company is built for teams that need reliable delivery without infrastructure guesswork.
+        CloudOpsync is a service-based DevOps and cloud engineering platform focused on deploying, maintaining,
+        monitoring, and troubleshooting modern web applications and production infrastructure. The service is built for teams
+        that need reliable delivery without infrastructure guesswork.
       </PageHero>
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-            <ScrollReveal className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
-              <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)]">Company focus</h2>
-              <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
-                Our practical work includes Linux server administration, AWS and DigitalOcean deployments, CI/CD
-                automation, reverse proxy configuration, SSL, PM2, Docker, infrastructure monitoring, performance
-                investigation, and production incident resolution.
-              </p>
-              <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
-                The delivery style is direct and implementation-oriented: understand the production risk, choose a
-                practical path, validate the outcome, and leave behind clear handover notes.
-              </p>
-            </ScrollReveal>
-
-            <StaggerReveal className="grid gap-5 sm:grid-cols-2">
-              <Panel title="Working principles" items={principles} />
-              <Panel title="Clients supported" items={clients} />
-            </StaggerReveal>
-          </div>
+          <ScrollReveal className="rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6">
+            <h2 className="text-3xl font-semibold tracking-[-0.03em] text-[var(--text-primary)]">What CloudOpsync does</h2>
+            <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
+              CloudOpsync provides production-focused DevOps and cloud engineering: deploying applications,
+              automating CI/CD pipelines, hardening infrastructure, configuring monitoring and alerting,
+              and resolving production incidents across cloud environments.
+            </p>
+            <p className="mt-5 text-base leading-8 text-[var(--text-secondary)]">
+              The delivery style is direct and implementation-oriented: understand the production risk,
+              choose a practical path, validate the outcome, and leave behind clear handover notes,
+              runbooks, and dashboards the in-house team can operate.
+            </p>
+          </ScrollReveal>
         </Container>
       </section>
 
       <section className="bg-[var(--background-soft)] py-16 sm:py-24">
         <Container>
           <div className="max-w-3xl">
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[var(--rose-dark)]">Technical experience</p>
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[var(--rose-dark)]">Capabilities</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] text-[var(--text-primary)]">Hands-on infrastructure stack.</h2>
           </div>
           <StaggerReveal className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -118,6 +115,17 @@ export default function AboutPage() {
               </article>
             ))}
           </StaggerReveal>
+        </Container>
+      </section>
+
+      <section className="bg-white py-16 sm:py-24">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+            <StaggerReveal className="grid gap-5 sm:grid-cols-2">
+              <Panel title="Working principles" items={principles} />
+              <Panel title="Clients supported" items={clients} />
+            </StaggerReveal>
+          </div>
         </Container>
       </section>
 

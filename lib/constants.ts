@@ -33,6 +33,7 @@ export const siteConfig = {
   social: {
     linkedin: "",
     github: "",
+    instagram: "https://www.instagram.com/cloudopsync",
   },
   profileDocument: "/contact",
 } as const;

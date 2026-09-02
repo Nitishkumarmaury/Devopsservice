@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, CheckCircle2, CreditCard, FileCheck2, ShieldCheck } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
@@ -36,6 +37,12 @@ export default function PricingPage() {
 
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Pricing", path: "/pricing" },
+        ]}
+      />
       <PageHero
         eyebrow="Launch Pricing"
         title="Honest starter prices for focused production DevOps work."

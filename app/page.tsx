@@ -20,7 +20,6 @@ import { caseStudies } from "@/data/case-studies";
 import { services } from "@/data/services";
 import { portfolioProjects } from "@/data/portfolio";
 import { testimonials } from "@/data/testimonials";
-import { siteConfig } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/route-metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -63,43 +62,8 @@ const outcomes = [
 ] as const;
 
 export default function Page() {
-  const averageRating =
-    testimonials.reduce((total, testimonial) => total + testimonial.rating, 0) / Math.max(testimonials.length, 1);
-  const reviewJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: siteConfig.name,
-    url: siteConfig.url,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: Number(averageRating.toFixed(1)),
-      reviewCount: testimonials.length,
-      bestRating: 5,
-      worstRating: 1,
-    },
-    review: testimonials.map((testimonial) => ({
-      "@type": "Review",
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: testimonial.rating,
-        bestRating: 5,
-        worstRating: 1,
-      },
-      author: {
-        "@type": "Person",
-        name: testimonial.name,
-      },
-      itemReviewed: {
-        "@type": "Service",
-        name: testimonial.project,
-      },
-      reviewBody: testimonial.quote,
-    })),
-  };
-
   return (
     <SiteFrame>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewJsonLd) }} />
       <LandingHero />
 
       <TechnologyStrip />

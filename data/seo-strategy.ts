@@ -1,18 +1,10 @@
 export const globalMarkets = [
-  "United States",
-  "Canada",
-  "United Kingdom",
-  "Germany",
-  "France",
-  "Australia",
-  "New Zealand",
-  "Singapore",
   "India",
+  "United States",
+  "United Kingdom",
+  "Canada",
+  "Australia",
   "UAE",
-  "Saudi Arabia",
-  "Qatar",
-  "Europe",
-  "Worldwide",
 ] as const;
 
 export const enterpriseTopicClusters = [

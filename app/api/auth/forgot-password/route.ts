@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
 import { EmailProviderIpBlockedError, sendPasswordResetEmail } from "@/lib/auth/password-reset-email";
 import { clearPasswordResetToken, createPasswordResetToken } from "@/lib/auth/users";
-import { checkUpstashRateLimit } from "@/lib/rate-limit/upstash";
+import { checkRateLimit } from "@/lib/rate-limit/shared";
 
 const forgotPasswordSchema = z.object({
   email: z.string().trim().email().max(160),
@@ -56,8 +56,7 @@ function getPasswordResetOrigin(request: Request) {
 }
 
 export async function POST(request: NextRequest) {
-  let limit = await checkUpstashRateLimit(clientKey(request), rateLimitOptions);
-  limit ??= limiter.check(clientKey(request));
+  const limit = await checkRateLimit(clientKey(request), rateLimitOptions, limiter);
 
   if (!limit.allowed) {
     return NextResponse.json(

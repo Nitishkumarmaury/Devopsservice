@@ -42,6 +42,9 @@ export function ClickSpark({
   const resizeFrameRef = useRef<number | null>(null);
   const reducedMotionRef = useRef(false);
   const coarsePointerRef = useRef(false);
+  const drawFrameRef = useRef((timestamp: number) => {
+    void timestamp;
+  });
 
   const easeFunc = useCallback(
     (t: number) => {
@@ -75,14 +78,15 @@ export function ClickSpark({
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
   }, []);
 
-  function drawFrame(timestamp: number) {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
+  const drawFrame = useCallback(
+    (timestamp: number) => {
+      const canvas = canvasRef.current;
+      const context = canvas?.getContext("2d");
 
-    if (!canvas || !context) {
-      animationRef.current = null;
-      return;
-    }
+      if (!canvas || !context) {
+        animationRef.current = null;
+        return;
+      }
 
     // Pause drawing when the page is hidden to save CPU
     if (typeof document !== "undefined" && document.hidden) {
@@ -125,11 +129,17 @@ export function ClickSpark({
     context.globalAlpha = 1;
 
     if (sparksRef.current.length > 0) {
-      animationRef.current = requestAnimationFrame(drawFrame);
+      animationRef.current = requestAnimationFrame(drawFrameRef.current);
     } else {
       animationRef.current = null;
     }
-  }
+  },
+    [sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale],
+  );
+
+  useEffect(() => {
+    drawFrameRef.current = drawFrame;
+  }, [drawFrame]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -163,7 +173,7 @@ export function ClickSpark({
         // ensure canvas sizing and resume any pending animation
         resizeCanvas();
         if (sparksRef.current.length > 0 && !animationRef.current) {
-          animationRef.current = requestAnimationFrame(drawFrame);
+          animationRef.current = requestAnimationFrame(drawFrameRef.current);
         }
       }
     };

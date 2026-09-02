@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { PageHero } from "@/components/ui/page-hero";
 import { CaseStudyShowcase } from "@/components/sections/case-study-showcase";
@@ -16,6 +17,12 @@ export const metadata: Metadata = createPageMetadata({
 export default function CaseStudiesPage() {
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Case Studies", path: "/case-studies" },
+        ]}
+      />
       <PageHero eyebrow="Case studies" title="Production engineering patterns without inflated claims." dark>
         These examples describe engagement categories, constraints, engineering approach, validation, and client value
         without fabricated identities, revenue numbers, percentages, or quotes.

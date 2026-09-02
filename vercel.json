@@ -19,25 +19,46 @@
   "redirects": [
     {
       "source": "/:path(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.cloudopsync.com"
-        }
-      ],
+      "has": [{ "type": "host", "value": "www.cloudopsync.com" }],
       "destination": "https://cloudopsync.com/:path",
       "permanent": true
     },
     {
       "source": "/:path(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "devopsservice.vercel.app"
-        }
-      ],
+      "has": [{ "type": "host", "value": "devopsservice.vercel.app" }],
       "destination": "https://cloudopsync.com/:path",
       "permanent": true
-    }
+    },
+    { "source": "/devops-consulting", "destination": "/services/devops-consulting", "permanent": true },
+    { "source": "/devops-consulting-services", "destination": "/services/devops-consulting", "permanent": true },
+    { "source": "/devops-for-startups", "destination": "/services/devops-consulting", "permanent": true },
+    { "source": "/platform-engineering-services", "destination": "/services/devops-consulting", "permanent": true },
+    { "source": "/ci-cd-consulting", "destination": "/services/cicd-automation", "permanent": true },
+    { "source": "/cicd-automation-services", "destination": "/services/cicd-automation", "permanent": true },
+    { "source": "/azure-devops-consulting", "destination": "/services/cicd-automation", "permanent": true },
+    { "source": "/infrastructure-as-code-services", "destination": "/services/cicd-automation", "permanent": true },
+    { "source": "/cloud-infrastructure-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/cloud-computing-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/cloud-consulting-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/aws-consulting-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/aws-ec2-deployment", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/cloud-migration-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/cloud-architecture-design", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/multicloud-architecture-design", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/cloud-cost-optimization", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/ai-infrastructure-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/disaster-recovery-cloud-backup", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/google-cloud-consulting-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/digitalocean-consulting", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/oracle-cloud-consulting-services", "destination": "/services/cloud-infrastructure", "permanent": true },
+    { "source": "/docker-kubernetes-consulting", "destination": "/services/docker-containers", "permanent": true },
+    { "source": "/kubernetes-consulting", "destination": "/services/docker-containers", "permanent": true },
+    { "source": "/monitoring-alerting", "destination": "/services/monitoring-observability", "permanent": true },
+    { "source": "/observability-services", "destination": "/services/monitoring-observability", "permanent": true },
+    { "source": "/sre-consulting-services", "destination": "/services/monitoring-observability", "permanent": true },
+    { "source": "/managed-cloud-services", "destination": "/services/managed-devops-support", "permanent": true },
+    { "source": "/devsecops-consulting", "destination": "/services/linux-server-security", "permanent": true },
+    { "source": "/nextjs-nestjs-deployment", "destination": "/services/application-deployment", "permanent": true }
   ]
 }
+

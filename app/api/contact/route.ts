@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
-import { checkUpstashRateLimit } from "@/lib/rate-limit/upstash";
+import { checkRateLimit } from "@/lib/rate-limit/shared";
 import { siteConfig } from "@/lib/constants";
 import { contactSchema } from "@/lib/schemas";
 
@@ -245,8 +245,7 @@ function formatContactValidationErrors(parsed: ReturnType<typeof contactSchema.s
 }
 
 export async function POST(request: NextRequest) {
-  let limit = await checkUpstashRateLimit(clientKey(request), rateLimitOptions);
-  limit ??= limiter.check(clientKey(request));
+  const limit = await checkRateLimit(clientKey(request), rateLimitOptions, limiter);
 
   if (!limit.allowed) {
     return NextResponse.json(

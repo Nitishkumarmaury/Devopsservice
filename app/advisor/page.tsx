@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { CloudAdvisorSection } from "@/components/sections/cloud-advisor";
 import { PageHero } from "@/components/ui/page-hero";
 import { requirePageSession } from "@/lib/auth/session";
@@ -35,6 +36,12 @@ export default async function AdvisorPage() {
 
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Cloud Architecture Advisor", path: "/advisor" },
+        ]}
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationJsonLd) }} />
       <PageHero eyebrow="AI-assisted infrastructure planning" title="Plan cloud architecture before the consultation." dark>
         Use the Cloud Architecture Advisor to prepare a preliminary blueprint for deployment, automation, monitoring,

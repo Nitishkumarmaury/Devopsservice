@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2, ChevronLeft, ChevronRight, Cloud, Cpu, Layers, Quote, Star, X } from "lucide-react";
 import type { Testimonial } from "@/data/testimonials";
@@ -73,12 +74,12 @@ export function ViewReviewModal({
     };
   }, [isOpen]);
 
-  if (!review) return null;
+  if (!review || typeof document === "undefined") return null;
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[110] grid place-items-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-[110] overflow-y-auto">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -88,14 +89,16 @@ export function ViewReviewModal({
             className="fixed inset-0 bg-[#06111f]/90 backdrop-blur-lg"
           />
 
-          {/* Modal Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="relative z-10 w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-[28px] border border-[#d6ebff]/16 bg-[#0d2338] p-6 shadow-[0_32px_120px_rgba(0,0,0,0.7)] sm:p-8"
-          >
+          {/* Centering wrapper — scrolls when content exceeds the viewport */}
+          <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
+            {/* Modal Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="relative z-10 w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-[28px] border border-[#d6ebff]/16 bg-[#0d2338] p-6 shadow-[0_32px_120px_rgba(0,0,0,0.7)] sm:p-8"
+            >
             {/* Header controls */}
             <div className="flex items-center justify-between border-b border-[#d6ebff]/10 pb-4 mb-6">
               <div className="flex items-center gap-2">
@@ -169,9 +172,11 @@ export function ViewReviewModal({
                 </div>
               )}
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

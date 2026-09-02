@@ -5,6 +5,7 @@ import { useEffect, useRef, type CSSProperties } from "react";
 
 export interface LightfallProps {
   className?: string;
+  style?: CSSProperties;
   dpr?: number;
   paused?: boolean;
   colors?: string[];

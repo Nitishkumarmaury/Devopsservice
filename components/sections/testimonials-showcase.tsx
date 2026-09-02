@@ -76,6 +76,7 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
   const [viewingReviewIndex, setViewingReviewIndex] = useState<number | null>(null);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const listLengthRef = useRef(0);
 
   // Fetch live stored reviews from API / MongoDB
   useEffect(() => {
@@ -99,12 +100,13 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
 
   const activeList = filteredItems.length > 0 ? filteredItems : items;
 
-  const next = () => setActiveIndex((prev) => (prev + 1) % activeList.length);
-  const prev = () => setActiveIndex((prev) => (prev - 1 + activeList.length) % activeList.length);
+  const next = () => setActiveIndex((prev) => (prev + 1) % (listLengthRef.current || 1));
+  const prev = () => setActiveIndex((prev) => (prev - 1 + (listLengthRef.current || 1)) % (listLengthRef.current || 1));
 
   useEffect(() => {
+    listLengthRef.current = activeList.length;
     intervalRef.current = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % (activeList.length || 1));
+      setActiveIndex((prev) => (prev + 1) % (listLengthRef.current || 1));
     }, 6000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -114,7 +116,7 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
   const resetInterval = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % (activeList.length || 1));
+      setActiveIndex((prev) => (prev + 1) % (listLengthRef.current || 1));
     }, 6000);
   };
 
@@ -122,6 +124,7 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
     setItems(updatedList);
     setFilterCategory("All");
     setActiveIndex(0);
+    setViewingReviewIndex(null);
   };
 
   if (activeList.length === 0) return null;
@@ -351,21 +354,13 @@ export function TestimonialsShowcase({ testimonials: initialTestimonials }: Read
         currentIndex={viewingReviewIndex ?? undefined}
         totalCount={activeList.length}
         onPrev={() => {
-          setViewingReviewIndex((prev) => {
-            if (prev === null) return null;
-            const nextIndex = (prev - 1 + activeList.length) % activeList.length;
-            setActiveIndex(nextIndex);
-            return nextIndex;
-          });
+          setViewingReviewIndex((prev) => (prev === null ? null : (prev - 1 + activeList.length) % activeList.length));
+          setActiveIndex(viewingReviewIndex === null ? 0 : (viewingReviewIndex - 1 + activeList.length) % activeList.length);
           resetInterval();
         }}
         onNext={() => {
-          setViewingReviewIndex((prev) => {
-            if (prev === null) return null;
-            const nextIndex = (prev + 1) % activeList.length;
-            setActiveIndex(nextIndex);
-            return nextIndex;
-          });
+          setViewingReviewIndex((prev) => (prev === null ? null : (prev + 1) % activeList.length));
+          setActiveIndex(viewingReviewIndex === null ? 0 : (viewingReviewIndex + 1) % activeList.length);
           resetInterval();
         }}
       />

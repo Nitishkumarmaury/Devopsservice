@@ -1,4 +1,26 @@
-export const caseStudies = [
+export type CaseStudy = {
+  slug: string;
+  category: string;
+  problem: string;
+  approach: string;
+  technologies: string[];
+  outcome: string;
+  constraints: readonly string[];
+  investigation: readonly string[];
+  validation: readonly string[];
+  lessons: readonly string[];
+  relatedServiceSlug: string;
+  metrics?: readonly string[];
+  testimonial?: {
+    quote: string;
+    name: string;
+    position: string;
+    company: string;
+    linkedinUrl?: string;
+  };
+};
+
+export const caseStudies: CaseStudy[] = [
   {
     slug: "multi-application-production-deployment",
     category: "Multi-Application Production Deployment",
@@ -55,7 +77,7 @@ export const caseStudies = [
     lessons: ["Automation works best when every step is documented, repeatable, and easy to validate after release."],
     relatedServiceSlug: "cicd-automation",
   },
-] as const;
+];
 
 export const caseStudyCategories = [
   "Production Deployment",

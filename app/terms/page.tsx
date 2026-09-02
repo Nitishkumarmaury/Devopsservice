@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { FadeIn } from "@/components/ui/fade-in";
 import { siteConfig } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/route-metadata";
@@ -14,6 +15,12 @@ export const metadata: Metadata = createPageMetadata({
 export default function TermsPage() {
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Terms", path: "/terms" },
+        ]}
+      />
       <section className="mx-auto max-w-3xl px-5 py-32 sm:px-6 lg:px-8">
         <FadeIn>
         <Link href="/" className="text-sm font-semibold text-rose-700 transition hover:text-rose-900">Back to home</Link>

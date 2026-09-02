@@ -8,7 +8,7 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data:",
@@ -29,6 +29,7 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {
@@ -59,6 +60,40 @@ const nextConfig = {
     ];
   },
   async redirects() {
+    /** SEO duplicate-URL elimination: 301 redirect old slugs → canonical /services/ paths */
+    const seoRedirects = [
+      { source: "/devops-consulting", destination: "/services/devops-consulting" },
+      { source: "/devops-consulting-services", destination: "/services/devops-consulting" },
+      { source: "/devops-for-startups", destination: "/services/devops-consulting" },
+      { source: "/platform-engineering-services", destination: "/services/devops-consulting" },
+      { source: "/ci-cd-consulting", destination: "/services/cicd-automation" },
+      { source: "/cicd-automation-services", destination: "/services/cicd-automation" },
+      { source: "/azure-devops-consulting", destination: "/services/cicd-automation" },
+      { source: "/infrastructure-as-code-services", destination: "/services/cicd-automation" },
+      { source: "/cloud-infrastructure-services", destination: "/services/cloud-infrastructure" },
+      { source: "/cloud-computing-services", destination: "/services/cloud-infrastructure" },
+      { source: "/cloud-consulting-services", destination: "/services/cloud-infrastructure" },
+      { source: "/aws-consulting-services", destination: "/services/cloud-infrastructure" },
+      { source: "/aws-ec2-deployment", destination: "/services/cloud-infrastructure" },
+      { source: "/cloud-migration-services", destination: "/services/cloud-infrastructure" },
+      { source: "/cloud-architecture-design", destination: "/services/cloud-infrastructure" },
+      { source: "/multicloud-architecture-design", destination: "/services/cloud-infrastructure" },
+      { source: "/cloud-cost-optimization", destination: "/services/cloud-infrastructure" },
+      { source: "/ai-infrastructure-services", destination: "/services/cloud-infrastructure" },
+      { source: "/disaster-recovery-cloud-backup", destination: "/services/cloud-infrastructure" },
+      { source: "/google-cloud-consulting-services", destination: "/services/cloud-infrastructure" },
+      { source: "/digitalocean-consulting", destination: "/services/cloud-infrastructure" },
+      { source: "/oracle-cloud-consulting-services", destination: "/services/cloud-infrastructure" },
+      { source: "/docker-kubernetes-consulting", destination: "/services/docker-containers" },
+      { source: "/kubernetes-consulting", destination: "/services/docker-containers" },
+      { source: "/monitoring-alerting", destination: "/services/monitoring-observability" },
+      { source: "/observability-services", destination: "/services/monitoring-observability" },
+      { source: "/sre-consulting-services", destination: "/services/monitoring-observability" },
+      { source: "/managed-cloud-services", destination: "/services/managed-devops-support" },
+      { source: "/devsecops-consulting", destination: "/services/linux-server-security" },
+      { source: "/nextjs-nestjs-deployment", destination: "/services/application-deployment" },
+    ].map((r) => ({ ...r, permanent: true }));
+
     return [
       {
         source: "/:path*",
@@ -72,6 +107,7 @@ const nextConfig = {
         destination: "https://cloudopsync.com/:path*",
         permanent: true,
       },
+      ...seoRedirects,
     ];
   },
   outputFileTracingRoot: projectRoot,

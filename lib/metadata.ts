@@ -1,10 +1,25 @@
 import type { Metadata } from "next";
 import { services } from "@/data/services";
-import { enterpriseTopicClusters, globalMarkets } from "@/data/seo-strategy";
+import { globalMarkets } from "@/data/seo-strategy";
 import { siteConfig } from "./constants";
 
-const sameAs = Object.values(siteConfig.social).filter((url) => url.startsWith("https://"));
-const knowsAbout = Array.from(new Set(enterpriseTopicClusters.flatMap((cluster) => [cluster.title, ...cluster.entities])));
+const knowsAbout = [
+  "Cloud consulting and migration",
+  "DevOps and platform engineering",
+  "Kubernetes and cloud native",
+  "Infrastructure automation",
+  "Observability and SRE",
+  "Cloud security and compliance readiness",
+  "FinOps and resilience",
+  "AI infrastructure and MLOps",
+  "CI/CD automation",
+  "Docker",
+  "Kubernetes",
+  "Terraform",
+  "Grafana",
+  "Prometheus",
+  "DevSecOps",
+];
 const areaServed = globalMarkets.map((market) => ({
   "@type": "Place",
   name: market,
@@ -75,6 +90,12 @@ export const defaultMetadata: Metadata = {
   },
 };
 
+const socialProfiles: string[] = [
+  siteConfig.social.linkedin,
+  siteConfig.social.github,
+  siteConfig.social.instagram,
+].filter(Boolean);
+
 export const jsonLd = [
   {
     "@context": "https://schema.org",
@@ -98,11 +119,7 @@ export const jsonLd = [
     contactPoint,
     areaServed,
     knowsAbout,
-    founder: {
-      "@type": "Person",
-      name: siteConfig.founder,
-    },
-    sameAs,
+    sameAs: socialProfiles,
   },
   {
     "@context": "https://schema.org",
@@ -129,11 +146,6 @@ export const jsonLd = [
         },
       })),
     },
-    founder: {
-      "@type": "Person",
-      name: siteConfig.founder,
-    },
     priceRange: "$$",
-    sameAs,
   },
 ];

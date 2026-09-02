@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowRight, CheckCircle2, HelpCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
 import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { Container } from "@/components/ui/container";
+import { FaqSection, BulletCardGrid, BuildFaqJsonLd } from "@/components/ui/faq-section";
 import { PageHero } from "@/components/ui/page-hero";
 import { StaggerReveal } from "@/components/ui/stagger-reveal";
 import { TechnologyTag } from "@/components/ui/technology-tag";
@@ -14,6 +15,7 @@ import { getCaseStudyBySlug } from "@/data/case-studies";
 import { getServiceBySlug, services } from "@/data/services";
 import { siteConfig } from "@/lib/constants";
 import { createPageMetadata } from "@/lib/route-metadata";
+import { buildServiceJsonLd } from "@/lib/schema-utils";
 
 type ServicePageProps = {
   params: Promise<{ slug: string }>;
@@ -44,33 +46,13 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   const contactHref = `/contact?requestType=Book%20Consultation&projectType=${encodeURIComponent(service.title)}&currentInfrastructure=${encodeURIComponent(
     `Interested in ${service.title}.`,
   )}`;
-  const serviceJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
+  const serviceJsonLd = buildServiceJsonLd({
     name: service.title,
     description: service.description,
-    provider: {
-      "@type": "ProfessionalService",
-      name: siteConfig.name,
-      url: siteConfig.url,
-    },
-    areaServed: "International",
     serviceType: service.shortTitle,
     url: `${siteConfig.url}/services/${service.slug}`,
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: service.faq.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
+    itemList: service.includes,
+  });
 
   return (
     <SiteFrame>
@@ -82,7 +64,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         ]}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(BuildFaqJsonLd(service.faq)) }} />
 
       <PageHero
         eyebrow="Service category"
@@ -119,7 +101,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
       <section className="bg-white py-16 sm:py-24">
         <Container>
-          <StaggerReveal className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+          <StaggerReveal className="grid gap-8 lg:grid-cols-2">
             <InfoPanel title="Client problems" items={service.problems} />
             <InfoPanel title="What this service includes" items={service.includes} featured />
           </StaggerReveal>
@@ -156,6 +138,12 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         </Container>
       </section>
 
+      <BulletCardGrid
+        eyebrow="In depth"
+        title="What this service covers in practice."
+        items={service.sections}
+      />
+
       <section className="bg-white py-16 sm:py-24">
         <Container>
           <StaggerReveal className="grid gap-8 lg:grid-cols-2">
@@ -189,23 +177,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         </Container>
       </section>
 
-      <section className="bg-[var(--background-soft)] py-16 sm:py-24">
-        <Container>
-          <div className="max-w-3xl">
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.22em] text-[var(--rose-dark)]">FAQ</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] text-[var(--text-primary)]">Common questions.</h2>
-          </div>
-          <StaggerReveal className="mt-8 grid gap-4 lg:grid-cols-2">
-            {service.faq.map((item) => (
-              <article key={item.question} className="rounded-[22px] border border-[var(--border)] bg-white p-6">
-                <HelpCircle className="h-5 w-5 text-[var(--rose-dark)]" aria-hidden="true" />
-                <h3 className="mt-4 font-semibold text-[var(--text-primary)]">{item.question}</h3>
-                <p className="mt-3 text-sm leading-6 text-[var(--text-secondary)]">{item.answer}</p>
-              </article>
-            ))}
-          </StaggerReveal>
-        </Container>
-      </section>
+      <FaqSection title="Common questions." items={service.faq} />
 
       <ContactCta title={`Discuss ${service.shortTitle.toLowerCase()} for your production system.`} />
     </SiteFrame>
@@ -214,13 +186,18 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
 function InfoPanel({ title, items, featured = false }: Readonly<{ title: string; items: readonly string[]; featured?: boolean }>) {
   return (
-    <div className={featured ? "rounded-[28px] border border-rose-200 bg-rose-50 p-6" : "rounded-[28px] border border-[var(--border)] bg-[var(--background-soft)] p-6"}>
+    <div
+      className={[
+        "flex h-full flex-col rounded-[28px] border p-6",
+        featured ? "border-rose-200 bg-rose-50" : "border-[var(--border)] bg-[var(--background-soft)]",
+      ].join(" ")}
+    >
       <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--text-primary)]">{title}</h2>
-      <ul className="mt-5 grid gap-3 text-sm leading-6 text-[var(--text-secondary)]">
+      <ul className="mt-5 grid content-start gap-3 text-sm leading-6 text-[var(--text-secondary)]">
         {items.map((item) => (
           <li key={item} className="flex gap-3">
             <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--rose)]" />
-            {item}
+            <span className="min-w-0">{item}</span>
           </li>
         ))}
       </ul>

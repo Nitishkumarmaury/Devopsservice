@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { SiteFrame } from "@/components/layout/site-frame";
+import { BreadcrumbJsonLd } from "@/components/ui/breadcrumb-json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { ContactCta } from "@/components/ui/contact-cta";
 import { PageHero } from "@/components/ui/page-hero";
@@ -62,6 +63,12 @@ export default function ProcessPage() {
 
   return (
     <SiteFrame>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Process", path: "/process" },
+        ]}
+      />
       <PageHero
         eyebrow="Process"
         title="A production-first workflow from discovery to support."

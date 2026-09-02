@@ -21,7 +21,9 @@ const companyLinks = [
 ];
 
 const resourceLinks = [
+  { label: "Cloud Providers", href: "/cloud" },
   { label: "Guides", href: "/blog" },
+  { label: "Solutions", href: "/solutions" },
   { label: "FAQ", href: "/faq" },
   { label: "Architecture Advisor", href: "/advisor" },
   { label: "Pricing", href: "/pricing" },
@@ -37,6 +39,7 @@ export function Footer() {
   const socialLinks = [
     siteConfig.social.linkedin ? { label: "LinkedIn", href: siteConfig.social.linkedin } : null,
     siteConfig.social.github ? { label: "GitHub", href: siteConfig.social.github } : null,
+    siteConfig.social.instagram ? { label: "Instagram", href: siteConfig.social.instagram } : null,
   ].filter(Boolean) as Array<{ label: string; href: string }>;
 
   return (

@@ -1,11 +1,31 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { createMemoryRateLimiter } from "@/lib/ai/rate-limit";
 import { addReview, getAllReviews } from "@/lib/db/reviews-store";
+import { checkRateLimit } from "@/lib/rate-limit/shared";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const responseHeaders = { "Cache-Control": "no-store, max-age=0" };
 const serviceCategories = ["Cloud Infrastructure", "Deployment Services", "Cloud & Deployment"] as const;
+
+const limiter = createMemoryRateLimiter({
+  windowMs: 60 * 60 * 1000,
+  maxRequests: 3,
+  cooldownMs: 30 * 1000,
+});
+const rateLimitOptions = {
+  namespace: "reviews",
+  windowMs: 60 * 60 * 1000,
+  maxRequests: 3,
+  cooldownMs: 30 * 1000,
+};
+
+function clientKey(request: NextRequest) {
+  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  return `reviews:${forwarded || realIp || "anonymous"}`;
+}
 
 function asTrimmedText(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
@@ -29,7 +49,13 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const limit = await checkRateLimit(clientKey(request), rateLimitOptions, limiter);
+
+  if (!limit.allowed) {
+    return errorResponse("Too many reviews. Please try again later.", 429);
+  }
+
   try {
     const body: unknown = await request.json();
     if (!body || typeof body !== "object" || Array.isArray(body)) {

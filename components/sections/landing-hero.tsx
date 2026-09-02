@@ -19,6 +19,7 @@ const heroSignals = [
   "SLO-aware releases",
   "Rollback paths documented",
   "Signals before handover",
+  "Handover runbooks included",
 ] as const;
 
 const pipelineNodes = [
@@ -55,15 +56,16 @@ export function LandingHero() {
               Cloud and DevOps Engineering
             </p>
             <h1 className="mt-6 max-w-5xl break-normal text-4xl font-semibold leading-[1.04] tracking-normal text-[#f4f7fb] [overflow-wrap:normal] sm:text-6xl lg:text-[64px] xl:text-[68px]">
-              Reliable Cloud Infrastructure.{" "}
-              <span className="text-[#4da3ff]">Safer Production Deployments.</span>
+              Hand production back to your team,{" "}
+              <span className="text-[#4da3ff]">not just to a dashboard.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-[#c7d5e6] sm:text-lg">
-              CloudOpsync helps engineering teams design, deploy, automate, and monitor production infrastructure
-              across AWS and modern cloud environments without replacing operational detail with empty promises.
+              CloudOpsync deploys, automates, and monitors AWS and containerized stacks — then signs over runbooks,
+              rollback paths, and alert routes your engineers can operate without a call back. Scoped DevOps for
+              startups, SaaS teams, and agencies, with clear handover from day one.
             </p>
             <div className="mt-8 flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <AnimatedShinyButton url={consultationHref}>Book a Consultation</AnimatedShinyButton>
+              <AnimatedShinyButton url={consultationHref}>Book a 15-Minute Scoping Call</AnimatedShinyButton>
               <ButtonLink href="/services" variant="secondary" className="border-[#d6ebff]/14 bg-[#0d2338]/82 text-white shadow-[0_16px_44px_rgba(0,0,0,0.2)] hover:border-[#4da3ff]/36 hover:bg-[#12304b] hover:text-white">
                 Explore Services
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
