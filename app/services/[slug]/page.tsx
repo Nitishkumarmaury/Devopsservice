@@ -34,6 +34,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
     title: service.title,
     description: service.description,
     path: `/services/${service.slug}`,
+    keywords: [service.shortTitle, ...service.technologies],
   });
 }
 

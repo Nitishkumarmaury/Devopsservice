@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { globalSeoKeywords } from "@/data/seo-strategy";
 import { siteConfig } from "@/lib/constants";
 
 export function createPageMetadata({
@@ -6,6 +7,7 @@ export function createPageMetadata({
   description,
   path,
   noIndex = false,
+  keywords = [],
   openGraphType = "website",
   publishedTime,
   modifiedTime,
@@ -16,6 +18,7 @@ export function createPageMetadata({
   description: string;
   path: string;
   noIndex?: boolean;
+  keywords?: readonly string[];
   openGraphType?: "website" | "article" | "profile";
   publishedTime?: string;
   modifiedTime?: string;
@@ -29,6 +32,12 @@ export function createPageMetadata({
     metadataBase: new URL(siteConfig.url),
     title,
     description,
+    keywords: Array.from(
+      new Set([
+        ...globalSeoKeywords,
+        ...keywords,
+      ]),
+    ),
     alternates: {
       canonical: url,
       languages: {

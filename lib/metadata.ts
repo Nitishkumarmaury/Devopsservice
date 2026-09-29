@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { services } from "@/data/services";
-import { globalMarkets } from "@/data/seo-strategy";
+import { globalMarkets, globalSeoKeywords } from "@/data/seo-strategy";
 import { siteConfig } from "./constants";
 
 const knowsAbout = [
@@ -54,6 +54,7 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  keywords: globalSeoKeywords,
   alternates: {
     canonical: siteConfig.url,
     languages: {

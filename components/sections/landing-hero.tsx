@@ -56,8 +56,8 @@ export function LandingHero() {
               Cloud and DevOps Engineering
             </p>
             <h1 className="mt-6 max-w-5xl break-normal text-4xl font-semibold leading-[1.04] tracking-normal text-[#f4f7fb] [overflow-wrap:normal] sm:text-6xl lg:text-[64px] xl:text-[68px]">
-              Hand production back to your team,{" "}
-              <span className="text-[#4da3ff]">not just to a dashboard.</span>
+              DevOps consulting and cloud infrastructure{" "}
+              <span className="text-[#4da3ff]">your team can operate.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-[#c7d5e6] sm:text-lg">
               CloudOpsync deploys, automates, and monitors AWS and containerized stacks — then signs over runbooks,

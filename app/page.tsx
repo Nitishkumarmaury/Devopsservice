@@ -27,6 +27,16 @@ export const metadata: Metadata = createPageMetadata({
   description:
     "CloudOpsync delivers enterprise-grade DevOps consulting, cloud infrastructure, CI/CD pipelines, Docker & Kubernetes deployment, monitoring, and production support for startups, SaaS teams, and agencies worldwide.",
   path: "/",
+  keywords: [
+    "DevOps consulting services",
+    "DevOps engineering services",
+    "cloud engineering services",
+    "cloud migration services",
+    "Docker consulting",
+    "Terraform consulting",
+    "cloud monitoring services",
+    "cloud security consulting",
+  ],
 });
 
 const processFlow = [

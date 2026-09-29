@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, CalendarCheck, Mail, MapPin, RadioTower } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { consultationHref, siteConfig } from "@/lib/constants";
+import { globalMarkets } from "@/data/seo-strategy";
 
 const serviceLinks = [
   { label: "DevOps Consulting", href: "/services/devops-consulting" },
@@ -63,6 +64,9 @@ export function Footer() {
           <p className="mt-5 max-w-md text-sm leading-6 text-white/68">
             Cloud and DevOps engineering practice for production infrastructure, deployment automation, monitoring,
             and operational reliability.
+          </p>
+          <p className="mt-3 max-w-md text-xs leading-5 text-white/52">
+            Remote DevOps consulting for teams in {globalMarkets.join(", ")}.
           </p>
           <div className="mt-5 flex flex-col gap-3 text-sm text-white/68">
             <span className="inline-flex items-center gap-2">

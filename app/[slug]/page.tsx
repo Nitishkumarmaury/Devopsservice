@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: SeoPageProps): Promise<Metada
       title: article.title,
       description: article.metaDescription,
       path: `/${article.slug}`,
+      keywords: article.primaryKeywords as string[],
       openGraphType: "article",
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,

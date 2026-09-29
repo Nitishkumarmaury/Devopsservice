@@ -9,14 +9,22 @@ export const siteConfig = {
   logoFull: "/brand/CloudOpsync-removebg-preview.png",
   logoWidth: 612,
   logoHeight: 408,
-  // Normalize site URL: prefer NEXT_PUBLIC_SITE_URL but avoid showing Vercel preview host in sitemaps.
-  // If NEXT_PUBLIC_SITE_URL points to a preview domain (devopsservice.vercel.app), fall back to the canonical domain.
+  // Normalize site URL and keep unknown preview or staging hosts out of SEO metadata.
   url: (() => {
-    let envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-    if (!envUrl || envUrl.includes("devopsservice.vercel.app")) return "https://cloudopsync.com";
-    if (envUrl.startsWith("http://")) {
-      envUrl = envUrl.replace(/^http:\/\//, "https://");
+    const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+    if (!envUrl) return "https://cloudopsync.com";
+
+    try {
+      const parsedUrl = new URL(envUrl);
+      const isCanonicalHost = parsedUrl.hostname === "cloudopsync.com";
+      const isSecure = parsedUrl.protocol === "https:";
+      if (!isCanonicalHost || !isSecure || parsedUrl.pathname !== "/") {
+        return "https://cloudopsync.com";
+      }
+    } catch {
+      return "https://cloudopsync.com";
     }
+
     return envUrl;
   })(),
   email: "support@cloudopsync.com",

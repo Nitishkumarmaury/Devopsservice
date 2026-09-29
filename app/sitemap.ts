@@ -8,7 +8,7 @@ import { solutionPages } from "@/data/solutions";
 
 type SitemapRoute = {
   path: "" | `/${string}`;
-  lastModified?: string;
+  lastModified?: string | Date;
   changeFrequency?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: number;
 };
@@ -39,7 +39,10 @@ function toSitemapEntry({ path, lastModified, changeFrequency, priority }: Sitem
   };
 
   if (lastModified) {
-    entry.lastModified = lastModified;
+    const date = lastModified instanceof Date ? lastModified : new Date(lastModified);
+    if (!Number.isNaN(date.getTime())) {
+      entry.lastModified = date;
+    }
   }
 
   return entry;
