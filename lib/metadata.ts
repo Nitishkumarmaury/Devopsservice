@@ -54,7 +54,7 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: globalSeoKeywords,
+  keywords: [...globalSeoKeywords],
   alternates: {
     canonical: siteConfig.url,
     languages: {
